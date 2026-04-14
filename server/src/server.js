@@ -12,7 +12,7 @@ console.log(__dirname);
 
 //other imports
 import authRouter from './routes/authRoutes.js'
-
+import connectDB from './DB/connect.js';
 
 //routes
 app.use('/api/v1/auth',authRouter)
@@ -33,6 +33,18 @@ app.get('/', (req, res) => {
 });
 const port = process.env.PORT || 4200;
 
-app.listen(port, () => {
-  console.log(`server is running on port ${port}`);
-});
+
+const startApp = async () => {
+  try {
+    await connectDB(process.env.MONGO_URL)
+    app.listen(port, () => {
+      console.log(`server is running on port ${port}`);
+    });
+
+  } catch (error) {
+    process.exit(1)
+  }
+}
+
+startApp()
+
