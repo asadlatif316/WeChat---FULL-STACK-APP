@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
 
 
 app.get('/', (req, res) => {
-  res.send('hello world');
+  res.send('working on backend');
 });
 const port = process.env.PORT || 4200;
 
