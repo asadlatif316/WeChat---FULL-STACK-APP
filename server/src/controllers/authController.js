@@ -1,6 +1,6 @@
 import StatusCodes from 'http-status-codes';
 import User from '../models/userModel.js';
-import { hashPassword } from '../utils/password.js';
+import { hashPassword, comparePassword } from '../utils/password.js';
 
 const register = async (req, res) => {
   const hashedPassword = await hashPassword(req.body.password);
@@ -11,7 +11,20 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  res.send('login');
+  const { email } = req.body
+  const user = await User.findOne({ email })
+  if (!user) {
+    res.status(StatusCodes.UNAUTHORIZED).json({ msg: 'invalid credentials' })
+    return
+  }
+  console.log(user.password);
+  
+  const isMatchPassword = await comparePassword(req.body.password, user.password)
+  if (!isMatchPassword) {
+    res.status(StatusCodes.UNAUTHORIZED).json({ msg: 'invalid password' });
+    return
+  }
+  res.status(StatusCodes.OK).json({msg:'user logged in'});
 };
 
 export { login, register };
