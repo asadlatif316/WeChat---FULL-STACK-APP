@@ -13,9 +13,12 @@ console.log(__dirname);
 //other imports
 import authRouter from './routes/authRoutes.js'
 import connectDB from './DB/connect.js';
+//middlewares
+app.use(express.json())
 
 //routes
 app.use('/api/v1/auth',authRouter)
+
 
 
 
