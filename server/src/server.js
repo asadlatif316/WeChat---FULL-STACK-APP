@@ -14,11 +14,13 @@ const app = express();
 //other imports
 import authRouter from './routes/authRoutes.js';
 import connectDB from './DB/connect.js';
-import { log } from 'console';
 import { StatusCodes } from 'http-status-codes';
+import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
+
 //middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(errorHandlerMiddleware);
 //routes
 app.use('/api/v1/auth', authRouter);
 
