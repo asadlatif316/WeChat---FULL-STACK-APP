@@ -1,20 +1,19 @@
 import { body, validationResult } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
-import User from '../models/userModel.js'
+import User from '../models/userModel.js';
 const withValidationError = (validationValues) => {
-    return [
-        validationValues,
-        (req, res, next) => {
-            const errors = validationResult(req)
-            if (!errors.isEmpty()) {
-                const errorMessage = errors.array().map(error => error.msg)
-                res.status(StatusCodes.BAD_REQUEST).json({error: errorMessage})
-            }
-            next()
-        }
-    ]
-}
-
+  return [
+    validationValues,
+    (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        const errorMessage = errors.array().map((error) => error.msg);
+        res.status(StatusCodes.BAD_REQUEST).json({ error: errorMessage });
+      }
+      next();
+    },
+  ];
+};
 
 export const validateRegisterInput = withValidationError([
   body('name')
@@ -31,12 +30,21 @@ export const validateRegisterInput = withValidationError([
     .custom(async (email) => {
       const user = await User.findOne({ email });
       if (user) {
-        throw new Error('email already exist')
+        throw new Error('email already exist');
       }
     }),
   body('password')
     .notEmpty()
     .withMessage('password is required')
     .isLength({ min: 8 })
-    .withMessage('password must be at least 8 characters long')
+    .withMessage('password must be at least 8 characters long'),
+]);
+
+export const loginInputValidation = withValidationError([
+  body('email')
+    .notEmpty()
+    .withMessage(' email is required')
+    .isEmail()
+    .withMessage('invalid email format'),
+  body('password').notEmpty().withMessage('password is required'),
 ]);
