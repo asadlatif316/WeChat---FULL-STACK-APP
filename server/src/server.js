@@ -20,7 +20,7 @@ import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
 //middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(errorHandlerMiddleware);
+
 //routes
 app.use('/api/v1/auth', authRouter);
 
@@ -52,6 +52,9 @@ app.post(
     res.json({ msg: `hello ${name}` });
   },
 );
+
+// error handler 
+app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 4200;
 
 const startApp = async () => {

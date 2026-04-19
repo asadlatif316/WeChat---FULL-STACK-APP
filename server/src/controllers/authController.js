@@ -6,6 +6,7 @@ import StatusCodes from 'http-status-codes';
 import User from '../models/userModel.js';
 import { hashPassword, comparePassword } from '../utils/password.js';
 import { generateToken, verifyToken } from '../utils/tokensUtils.js';
+import { UnauthenticatedError } from '../errors/customError.js';
 const register = async (req, res) => {
   const hashedPassword = await hashPassword(req.body.password);
   req.body.password = hashedPassword;
@@ -47,7 +48,7 @@ const login = async (req, res) => {
 const refreshToken = async (req,res) => {
   const { token } = req.cookies
   if (!token) {
-    return res.status(StatusCodes.UNAUTHORIZED).json({msg:'authentication invalid'})
+    throw new UnauthenticatedError('authentication invalid')
   }
 
   const decode = verifyToken(token)

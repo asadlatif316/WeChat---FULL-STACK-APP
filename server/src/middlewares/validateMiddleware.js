@@ -1,5 +1,6 @@
 import { body, validationResult } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
+import {BadRequestError} from '../errors/customError.js'
 import User from '../models/userModel.js';
 const withValidationError = (validationValues) => {
   return [
@@ -8,7 +9,7 @@ const withValidationError = (validationValues) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         const errorMessage = errors.array().map((error) => error.msg);
-        res.status(StatusCodes.BAD_REQUEST).json({ error: errorMessage });
+        throw new BadRequestError(errorMessage)
       }
       next();
     },
@@ -30,7 +31,7 @@ export const validateRegisterInput = withValidationError([
     .custom(async (email) => {
       const user = await User.findOne({ email });
       if (user) {
-        throw new Error('email already exist');
+        throw new BadRequestError('email already exist')
       }
     }),
   body('password')
