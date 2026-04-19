@@ -3,11 +3,11 @@ import dotenv from 'dotenv';
 dotenv.config({ quiet: true });
 import express from 'express';
 const app = express();
+import cookieParser from 'cookie-parser'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import { dirname } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url))
-console.log(__dirname);
 
 
 //other imports
@@ -15,7 +15,7 @@ import authRouter from './routes/authRoutes.js'
 import connectDB from './DB/connect.js';
 //middlewares
 app.use(express.json())
-
+app.use(cookieParser())
 //routes
 app.use('/api/v1/auth',authRouter)
 

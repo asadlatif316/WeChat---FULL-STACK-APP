@@ -1,3 +1,7 @@
+
+import dotenv from 'dotenv'
+dotenv.config()
+
 import StatusCodes from 'http-status-codes';
 import User from '../models/userModel.js';
 import { hashPassword, comparePassword } from '../utils/password.js';
@@ -27,10 +31,17 @@ const login = async (req, res) => {
     return;
   }
 
-  const accessToken = await generateToken({userId: user._id},'15m') 
-  const refreshToken = await generateToken({userId: user._id},'7d') 
+  const accessToken = await generateToken({ userId: user._id }, '15m');
+  const refreshToken = await generateToken({ userId: user._id }, '7d');
 
-  res.status(StatusCodes.OK).json({  accessToken, refreshToken});
+  const sevenDays = 7 * 1000 * 60 * 60 * 24;
+  res.cookie('token', refreshToken, {
+    httpOnly: true,
+    maxAge: sevenDays,
+    sameSite: 'strict',
+    secure: process.env.NODE_ENV === 'development' ? false : true
+  });
+  res.status(StatusCodes.OK).json({ accessToken, refreshToken });
 };
 
 export { login, register };
