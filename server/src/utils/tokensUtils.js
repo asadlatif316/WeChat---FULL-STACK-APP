@@ -8,3 +8,8 @@ export const generateToken = async (payload, expire) => {
   });
   return token;
 };
+
+export const verifyToken = (token) => {
+  const decode = jwt.verify(token, process.env.JWT_SECRET)
+  return decode
+}

@@ -5,7 +5,7 @@ dotenv.config()
 import StatusCodes from 'http-status-codes';
 import User from '../models/userModel.js';
 import { hashPassword, comparePassword } from '../utils/password.js';
-import { generateToken } from '../utils/tokensUtils.js';
+import { generateToken, verifyToken } from '../utils/tokensUtils.js';
 const register = async (req, res) => {
   const hashedPassword = await hashPassword(req.body.password);
   req.body.password = hashedPassword;
@@ -41,7 +41,25 @@ const login = async (req, res) => {
     sameSite: 'strict',
     secure: process.env.NODE_ENV === 'development' ? false : true
   });
-  res.status(StatusCodes.OK).json({ accessToken, refreshToken });
+  res.status(StatusCodes.OK).json({msg: 'user Logged In'});
 };
 
-export { login, register };
+const refreshToken = async (req,res) => {
+  const { token } = req.cookies
+  if (!token) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({msg:'authentication invalid'})
+  }
+
+  const decode = verifyToken(token)
+  const accessToken =await generateToken({ userId: decode.userId }, '15m')
+  const refreshToken = await generateToken({ userId: decode.userId }, '7d')
+  res.cookie('token', refreshToken, {
+    httpOnly: true,
+    maxAge: sevenDays,
+    sameSite: 'strict',
+    secure: process.env.NODE_ENV === 'development' ? false : true,
+  });
+  res.status(StatusCodes.OK).json({accessToken})
+}
+
+export { login, register, refreshToken };
