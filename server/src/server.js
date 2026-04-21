@@ -12,17 +12,17 @@ const app = express();
 
 //other imports
 import authRouter from './routes/authRoutes.js';
-import userRouter from './routes/userRoutes.js'
+import userRouter from './routes/userRoutes.js';
 import connectDB from './DB/connect.js';
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
 import protectUser from './middlewares/authMiddleware.js';
-
+import protectLimit from './middlewares/arcJetMiddlware.js';
 //middlewares
 app.use(express.json());
 app.use(cookieParser());
 
 //routes
-app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/auth', protectLimit, authRouter);
 app.use('/api/v1/user', userRouter);
 
 // //to ready for development
@@ -37,9 +37,8 @@ app.get('/', (req, res) => {
   res.send('working on backend');
 });
 
-app.get('/api/v1/test', protectUser,(req, res) => {
-  console.log(req.user)
-  res.json('working')
+app.get('/api/v1/test', protectLimit, (req, res) => {
+  res.json('working');
 });
 
 // error handler
