@@ -25,7 +25,7 @@ const aj = arcjet({
       // See https://docs.arcjet.com/fingerprints
       //characteristics: ["ip.src"],
       interval: 60, // 60 second sliding window
-      max: 3, // allow a maximum of 100 requests
+      max: 100, // allow a maximum of 100 requests
     }),
   ],
 });
