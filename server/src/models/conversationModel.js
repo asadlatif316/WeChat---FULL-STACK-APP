@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import User from './userModel';
+import User from './userModel.js';
+import Messages from './messageModel.js';
 const conversationSchema = mongoose.Schema(
   {
     participants: {
@@ -15,3 +16,5 @@ const conversationSchema = mongoose.Schema(
   },
   { timeStamp: true },
 );
+
+export default mongoose.Model('Conversation', conversationSchema)
