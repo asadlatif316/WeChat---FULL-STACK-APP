@@ -1,4 +1,6 @@
 import User from '../models/userModel.js';
+import { StatusCodes } from 'http-status-codes';
+
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -14,7 +16,8 @@ const getAllUsers = async (req, res, next) => {
 };
 
 const getUser = async (req, res) => {
-  res.json('update user');
+  const user = await User.findOne({_id: req.user.userId}).select('-password')
+  res.status(StatusCodes.OK).json({user});
 };
 
 const updateUser = async (req, res) => {
