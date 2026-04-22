@@ -1,8 +1,12 @@
 import express from 'express';
 const router = express.Router();
-import { getUser, updateUser } from '../controllers/userController.js';
+import { getUser, updateUser, getAllUsers } from '../controllers/userController.js';
+import protectUser from '../middlewares/authMiddleware.js';
 
-router.route('/get-user').get(getUser);
+
+
+router.route('/conversations').get(protectUser, getAllUsers);
+router.route('/get-user').get(protectUser,getUser);
 router.route('/update-user').get(updateUser);
 
 export default router
