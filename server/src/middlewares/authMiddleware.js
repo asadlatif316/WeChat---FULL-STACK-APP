@@ -8,7 +8,7 @@ const protectUser = async (req, res, next) => {
   }
   try {
       const {userId} = verifyToken(token);
-      req.user = userId
+      req.user = {userId}
     next();
   } catch (error) {
     throw new UnauthenticatedError('authentication invalid');
