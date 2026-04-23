@@ -8,4 +8,4 @@ const UserSchema = mongoose.Schema({
     avatarPublicId: String
 }, { timeStamp: true })
 
-export default mongoose.Model('User',UserSchema)
+export default mongoose.model('User',UserSchema)
