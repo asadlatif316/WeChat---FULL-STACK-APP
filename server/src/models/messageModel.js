@@ -8,12 +8,12 @@ const MessageSchema = mongoose.Schema({
   },
   conversationId: {
     type: mongoose.Types.ObjectId,
-    ref: Conversation,
+    ref: 'Conversation',
     required: true,
   },
   content: String,
   image: String,
 });
 
-const Messages = mongoose.Model('Message', MessageSchema)
+const Messages = mongoose.model('Message', MessageSchema)
 export default Messages
