@@ -1,20 +1,18 @@
 import mongoose from 'mongoose';
-import User from './userModel.js';
-import Messages from './messageModel.js';
 const conversationSchema = mongoose.Schema(
   {
-    participants: {
-      type: mongoose.Types.ObjectId,
-      ref: User,
-      required: true,
-    },
+    participants: [
+      {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     latestMessage: {
       type: mongoose.Types.ObjectId,
-      ref: Messages,
-      required: true,
+      ref: 'Message',
     },
   },
-  { timeStamp: true },
+  { timestamps: true },
 );
 
-export default mongoose.Model('Conversation', conversationSchema)
+export default mongoose.model('Conversation', conversationSchema)
