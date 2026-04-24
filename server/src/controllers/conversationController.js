@@ -3,13 +3,24 @@ import Conversation from '../models/conversationModel.js';
 import { StatusCodes } from 'http-status-codes';
 
 const findChatPartners = async (req, res) => {
-  res.json({ msg: 'get conversations' });
+  const conversation = await Conversation.find({
+    participants: { $in: req.user.userId },
+  })
+    .populate({
+      path: 'participants',
+      select: 'name email avatar',
+    })
+    .populate({
+      path: 'latestMessage',
+    })
+    .sort({ updatedAt: -1 });
+
+  res.status(StatusCodes.OK).json({ conversation });
 };
 
 const createOrFindConversation = async (req, res) => {
   const { participantsId } = req.params;
   const myId = req.user.userId
-  console.log(myId,participantsId);
   
   const conversation = await Conversation.findOne({
     participants: { $all: [req.user.userId, participantsId] },
