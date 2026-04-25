@@ -14,6 +14,7 @@ const app = express();
 import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import conversationRouter from './routes/conversationRoutes.js';
+import messageRouter from './routes/messageRoutes.js'
 import connectDB from './DB/connect.js';
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
 import protectUser from './middlewares/authMiddleware.js';
@@ -26,6 +27,7 @@ app.use(cookieParser());
 app.use('/api/v1/auth', protectLimit, authRouter);
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/conversations', conversationRouter);
+app.use('/api/v1/message', messageRouter);
 
 // //to ready for development
 if (process.env.NODE_ENV === 'production') {
