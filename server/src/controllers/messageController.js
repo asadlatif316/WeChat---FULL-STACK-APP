@@ -33,7 +33,16 @@ const sendMessage = async (req, res) => {
 };
 
 const getMessageById = async (req, res) => {
-  res.json('get message');
+  const { conversationId } = req.params;
+
+  const messages = await Messages.find({ conversationId })
+    .populate({
+      path: 'sender',
+      select: 'name email avatar',
+    })
+    .sort({ createdAt: 1 });
+
+  res.status(StatusCodes.OK).json(messages);
 };
 
 export { sendMessage, getMessageById };
