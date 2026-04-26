@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-
+import cors from 'cors';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 
@@ -14,12 +14,18 @@ const app = express();
 import authRouter from './routes/authRoutes.js';
 import userRouter from './routes/userRoutes.js';
 import conversationRouter from './routes/conversationRoutes.js';
-import messageRouter from './routes/messageRoutes.js'
+import messageRouter from './routes/messageRoutes.js';
 import connectDB from './DB/connect.js';
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
 import protectUser from './middlewares/authMiddleware.js';
 import protectLimit from './middlewares/arcJetMiddlware.js';
 //middlewares
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  }),
+);
 app.use(express.json());
 app.use(cookieParser());
 
@@ -42,7 +48,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/v1/test', protectLimit, (req, res) => {
-  res.json('working');
+  res.json({ msg: 'working' });
 });
 
 // error handler
