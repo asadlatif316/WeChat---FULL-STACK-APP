@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/store/useAuthStore';
-import { Input, Button, FormRow } from '@/components/ui';
+import { Input, Button, FormRow, Spinner } from '@/components/ui';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
@@ -71,7 +71,13 @@ const Register = () => {
                 size='lg'
                 className='p-5 font-bold'
               >
-                Register
+                {isSigningUp ? (
+                  <>
+                    <Spinner /> Signing Up...
+                  </>
+                ) : (
+                  'Register'
+                )}
               </Button>
             </form>
             <div className='text-center'>
