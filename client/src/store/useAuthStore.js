@@ -7,10 +7,12 @@ export const useAuthStore = create((set) => ({
     signup: async (data) => {
         set({ isSigningUp: true })
         try {
-            const res = await customFetch.post('/register',data)
+            const res = await customFetch.post('/auth/register',data)
             set({ user: res.data })
             toast.success('Account created successfully')
         } catch (error) {
+            console.log(error.response.data.msg);
+            
             toast.error(error.response.data.msg)
         } finally {
             set({isSigningUp: false})

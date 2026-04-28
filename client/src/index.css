@@ -3,6 +3,12 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/inter";
 
+@layer components{
+  .authBg {
+    background-image: url('./assets/authBg.png');
+  }
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
