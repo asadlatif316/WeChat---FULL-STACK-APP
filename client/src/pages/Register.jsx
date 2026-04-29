@@ -5,6 +5,11 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import signupImg from '../assets/signup.png';
 import { FormRow } from '@/components/ui';
+import { Button,Spinner } from '@/components/ui';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import logo from '../assets/logo.png';
+import { FormRow } from '@/components';
 
 const Register = () => {
   const { signup, isSigningUp } = useAuthStore();
@@ -108,6 +113,24 @@ const Register = () => {
                 <span>Easy setup</span>
                 <span>Private</span>
               </div>
+            </div>
+          </div>
+        </div>
+        {/* Right Side */}
+        <div className='hidden md:w-1/2 md:flex items-center justify-center p-6'>
+          <div>
+            <img
+              src={loginImg}
+              className='w-full h-auto object-contain'
+              alt=''
+            />
+            <div className='mt-6 text-center'>
+              <h3 className='text-xl text-muted-background font-semibold'>Connect anytime, anywhere</h3>
+            </div>
+            <div className='mt-4 flex justify-center gap-4'>
+              <span>Free</span>
+              <span>Easy setup</span>
+              <span>Private</span>
             </div>
           </div>
         </div>

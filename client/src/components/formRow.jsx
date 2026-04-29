@@ -1,4 +1,4 @@
-import { Input } from ".";
+import { Input } from "./ui";
 
 const formRow = ({ label, name, value, onChange, placeholder, type }) => {
   return (
