@@ -1,5 +1,6 @@
 import { useAuthStore } from '@/store/useAuthStore';
-import { Input, Button, FormRow, Spinner } from '@/components/ui';
+import { Button, Spinner } from '@/components/ui';
+import { FormRow } from '@/components';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
@@ -22,14 +23,14 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signup(formData);
-    navigate('/login');
+    navigate('/auth/login');
   };
 
   return (
     <section className='p-5 authBg h-screen flex items-center justify-center text-foreground'>
       <div className='w-full max-w-6xl h-[550px] md:h-[650px] bg-background rounded-2xl shadow-2xs'>
         {/* left side */}
-        <div className=' p-8 w-1/2 h-full flex flex-col items-center justify-center md:border-r border-b-emerald-400-600/30'>
+        <div className=' p-8 md:w-1/2 h-full flex flex-col items-center justify-center md:border-r border-b-emerald-400-600/30'>
           <div className='w-full max-w-md'>
             <div className=' flex flex-col items-center'>
               <img src={logo} alt='' className='h-10 mb-4' />
