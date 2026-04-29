@@ -87,6 +87,26 @@ const Register = () => {
             </div>
           </div>
         </div>
+        {/* Right Side */}
+        <div className='hidden md:w-1/2 md:flex items-center justify-center p-6'>
+          <div>
+            <img
+              src={loginImg}
+              className='w-full h-auto object-contain'
+              alt=''
+            />
+            <div className='mt-6 text-center'>
+              <h3 className='text-xl text-muted-background font-semibold'>
+                Start Your Journey Today
+              </h3>
+            </div>
+            <div className='mt-4 flex justify-center gap-4'>
+              <span>Free</span>
+              <span>Easy setup</span>
+              <span>Private</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
