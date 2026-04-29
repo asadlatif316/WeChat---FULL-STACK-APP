@@ -5,11 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import signupImg from '../assets/signup.png';
 import { FormRow } from '@/components/ui';
-import { Button,Spinner } from '@/components/ui';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.png';
-import { FormRow } from '@/components';
 
 const Register = () => {
   const { signup, isSigningUp } = useAuthStore();
