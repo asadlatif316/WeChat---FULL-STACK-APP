@@ -1,31 +1,32 @@
 import { useState } from 'react';
-import logo from '../assets/logo.png'
+import logo from '../assets/logo.png';
+import loginImg from '../assets/login.png';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useNavigate, Link } from 'react-router-dom';
 import { FormRow } from '@/components';
 import { Button, Spinner } from '@/components/ui';
 const Login = () => {
-  const { login, isLoggingIn } = useAuthStore()
+  const { login, isLoggingIn } = useAuthStore();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData((prev)=>({...prev,[name]:value}))
-  }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    await login(formData)
-    navigate('/home')
-  }
+    e.preventDefault();
+    await login(formData);
+    navigate('/home');
+  };
 
   return (
     <section className='p-5 authBg h-screen flex items-center justify-center text-foreground'>
-      <div className='w-full max-w-6xl h-[550px] md:h-[650px] bg-background rounded-2xl shadow-2xs'>
+      <div className='w-full max-w-6xl h-[550px] md:h-[650px] bg-background flex items-center justify-center rounded-2xl shadow-2xs'>
         {/* left side */}
         <div className=' p-8 md:w-1/2 h-full flex flex-col items-center justify-center md:border-r border-b-emerald-400-600/30'>
           <div className='w-full max-w-md'>
@@ -78,9 +79,27 @@ const Login = () => {
             </div>
           </div>
         </div>
+        {/* Right Side */}
+        <div className='hidden md:w-1/2 md:flex items-center justify-center p-6'>
+          <div>
+            <img
+              src={loginImg}
+              className='w-full h-auto object-contain'
+              alt=''
+            />
+            <div className='mt-6 text-center'>
+              <h3 className='text-xl text-muted-background font-semibold'>Connect anytime, anywhere</h3>
+            </div>
+            <div className='mt-4 flex justify-center gap-4'>
+              <span>Free</span>
+              <span>Easy setup</span>
+              <span>Private</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
-}
+};
 
-export default Login
+export default Login;
