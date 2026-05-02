@@ -1,6 +1,6 @@
 //libraries
 import dotenv from 'dotenv';
-dotenv.config({ quiet: true });
+dotenv.config();
 import express from 'express';
 import cookieParser from 'cookie-parser';
 import path from 'path';
@@ -39,7 +39,7 @@ app.use('/api/v1/message', messageRouter);
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve(__dirname, '../../client/dist')));
   app.get('*splat', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'));
+    res.sendFile(path.resolve(__dirname, '../../client', 'dist', 'index.html'));
   });
 }
 
