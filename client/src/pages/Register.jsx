@@ -23,7 +23,6 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signup(formData);
-    navigate('/login');
   };
 
   return (

@@ -5,6 +5,19 @@ export const useAuthStore = create((set) => ({
   user: null,
   isSigningUp: false,
   isLoggingIn: false,
+  isCheckingAuth: true,
+  checkAuth: async () => {
+    try {
+      const res = await customFetch.get('/auth/check')
+      set({user:res.data})
+    } catch (error) {
+      console.log('Error in checking Auth', error);
+      set({user:null})
+    } finally {
+      set({isCheckingAuth:null})
+    }
+  },
+
   signup: async (data) => {
     set({ isSigningUp: true });
     try {
