@@ -101,10 +101,16 @@ const Register = () => {
                   Start Your Journey Today
                 </h3>
               </div>
-              <div className='mt-4 text-primary flex justify-center gap-4'>
-                <span>Free</span>
-                <span>Easy setup</span>
-                <span>Private</span>
+              <div className='mt-2 flex text-primary justify-center gap-3'>
+                <span className='py-2 px-4 text-xs font-semibold bg-secondary rounded-2xl'>
+                  Free
+                </span>
+                <span className='py-2 px-4 text-xs font-semibold bg-secondary rounded-2xl'>
+                  Easy setup
+                </span>
+                <span className='py-2 px-4 text-xs font-semibold bg-secondary rounded-2xl'>
+                  Private
+                </span>
               </div>
             </div>
           </div>
