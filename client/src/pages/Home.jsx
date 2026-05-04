@@ -23,7 +23,7 @@ const Home = () => {
                 <IoSearch className='absolute left-2 top-2'/>
                 <Input placeholder='search chat' className='py-4 pl-7'/>
               </div>
-              <ActiveTabSwitch />
+              < ActiveTabSwitch/>
             </div>
             <div className='flex-1 overflow-y-auto space-y-2'>
               {activeTab === 'chats' ? <ChatList /> : <ContactList />}
