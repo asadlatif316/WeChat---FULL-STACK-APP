@@ -13,10 +13,10 @@ import { IoSearch } from 'react-icons/io5';
 const Home = () => {
   const { activeTab, selectedUser } = useChatStore();
   return (
-    <section className='h-screen flex justify-center items-center bg- text-card-foreground'>
+    <section className='h-screen flex justify-center items-center text-card-foreground'>
       <div className='h-[700px] border-2 border-slate-500 w-full max-w-6xl mx-auto '>
         <div className='h-full w-full flex overflow-hidden'>
-          <div className='w-80 flex flex-col p-5'>
+          <div className='w-80 flex flex-col space-y-10 p-4'>
             <div>
               <h2 className='text-2xl mb-3'>Messages</h2>
               <div className='relative mb-4'>
