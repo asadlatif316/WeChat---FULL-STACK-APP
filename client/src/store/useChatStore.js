@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-export const useChatStore = ((set) => ({
+export const useChatStore =create((set) => ({
     chats: [],
     messages: [],
     activeTab: 'chats',
@@ -8,6 +8,6 @@ export const useChatStore = ((set) => ({
     isUserLoading: null,
     isMessagesLoading: null,
 
-    setActiveTab: (tab) => { set({ activeTab: tab }) },
+    setActiveTab: (tab) =>  set({ activeTab: tab }) ,
     setSelectedUser: (selectedUser) => {set({selectedUser})}
 }))
