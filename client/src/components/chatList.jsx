@@ -23,7 +23,7 @@ const ChatList = () => {
             onClick={() => setSelectedUser(chat)}
           >
             <div className='relative h-12 w-12 bg-accent rounded-full'>
-              <div className='w-3 h-3 rounded-full bg-primary absolute bottom-0.5 right-0.5'></div>
+              <div className='w-3 h-3 border-2 border-white rounded-full bg-primary absolute bottom-0.5 right-0.5'></div>
             </div>
             <div className='flex-1'>
               <div className='flex items-center justify-between'>
