@@ -3,7 +3,7 @@ import { Button } from './ui';
 import { useChatStore } from '@/store/useChatStore';
 
 const NoChatFound = () => {
-   const {setActiveTab} = useChatStore()
+  const { setActiveTab } = useChatStore();
   return (
     <div className='flex flex-col items-center justify-center text-center py-10 space-y-2 text-muted-foreground'>
       <div className='bg-accent w-16 h-16 rounded-full flex items-center justify-center'>
@@ -11,9 +11,11 @@ const NoChatFound = () => {
       </div>
       <div>
         <h4 className='font-bold mb-1'>No chats yet</h4>
-        <p className='px-6'>Start a new chat by selecting a contact from contact tab</p>
+        <p className='px-6'>
+          Start a new chat by selecting a contact from contact tab
+        </p>
       </div>
-      <Button onClick={() => setActiveTab('contact')} size='lg'>
+      <Button onClick={() => setActiveTab('contacts')} size='lg'>
         find contact
       </Button>
     </div>

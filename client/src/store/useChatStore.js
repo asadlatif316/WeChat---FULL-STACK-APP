@@ -13,11 +13,13 @@ export const useChatStore =create((set) => ({
     setActiveTab: (tab) =>  set({ activeTab: tab }) ,
     setSelectedUser: (selectedUser) => { set({ selectedUser }) },
     
-    getChartPartners: async () => {
+    getChatPartners: async () => {
         set({ isUserLoading: true })
         try {
             const res = await customFetch.get('/conversations');
-            set({chats:res.data})
+            console.log(res.data);
+            
+            set({chats:res.data.conversation})
         } catch (error) {
             toast.error(error.response.data.msg)
         } finally {
