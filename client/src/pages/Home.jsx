@@ -30,7 +30,6 @@ const Home = () => {
             </div>
           </div>
           <div className='flex-1 flex flex-col backdrop-blur-sm'>
-            <ProfileHeader />
             {selectedUser ? <ChatContainer /> : <NoChatPlaceholder />}
           </div>
         </div>
