@@ -1,5 +1,11 @@
+import { useChatStore } from "@/store/useChatStore";
+import { ProfileHeader } from ".";
+
 const ChatContainer = () => {
-  return <h2>chatContainer</h2>;
+  const {messages} = useChatStore()
+  return <div className="p-4 bg-white h-full">
+    <ProfileHeader />
+  </div>;
 };
 
 export default ChatContainer;
