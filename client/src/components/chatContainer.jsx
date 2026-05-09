@@ -1,5 +1,5 @@
 import { useChatStore } from '@/store/useChatStore';
-import { MessageLoadingSkeleton, NoChatHistoryPlaceHolder, ProfileHeader } from '.';
+import { MessageInput, MessageLoadingSkeleton, NoChatHistoryPlaceHolder, ProfileHeader } from '.';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useEffect } from 'react';
 const ChatContainer = () => {
@@ -36,6 +36,7 @@ const ChatContainer = () => {
           <NoChatHistoryPlaceHolder user={person} />
         )}
       </div>
+      <MessageInput/>
     </div>
   );
 };

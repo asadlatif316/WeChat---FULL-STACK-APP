@@ -49,7 +49,19 @@ export const useChatStore = create((set, get) => ({
       toast.error(error.response.data.msg);
     } finally {
       set({ isMessagesLoading: false });
-  
+    }
+  },
+
+  sendMessage: async (data) => {
+    const { selectedUser, messages } = get();
+    try {
+      const res = await customFetch.post(`/message/${selectedUser._id}`, data);
+      console.log(res);
+
+      set({ messages: messages.concat(res.data) });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.msg);
     }
   },
 }));
