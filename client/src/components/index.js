@@ -7,4 +7,7 @@ export { default as NoChatPlaceholder } from './noChatPlaceholder';
 export { default as ProfileHeader } from './profileHeader';
 export { default as NoChatFound } from './noChatFound';
 export { default as UserLoadingSkeleton } from './userLoadingSkeleton';
+export { default as NoChatHistoryPlaceHolder } from './noChatHistoryPlaceHolder';
+export { default as MessageLoadingSkeleton } from './messageLoadingSkeleton';
+export { default as MessageInput } from './MessageInput';
 

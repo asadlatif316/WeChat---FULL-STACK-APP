@@ -2,7 +2,7 @@ import customFetch from '@/lib/customFetch';
 import toast from 'react-hot-toast';
 import { create } from 'zustand';
 
-export const useChatStore = create((set) => ({
+export const useChatStore = create((set, get) => ({
   allContacts: [],
   chats: [],
   messages: [],
@@ -24,19 +24,44 @@ export const useChatStore = create((set) => ({
     } catch (error) {
       toast.error(error.response.data.msg);
     } finally {
-        set({ isUserLoading: false });
+      set({ isUserLoading: false });
     }
-},
+  },
 
-getContacts: async () => {
+  getContacts: async () => {
     try {
-        const res = await customFetch.get('/user/contacts');
-        set({ allContacts: res.data.filteredUsers });
+      const res = await customFetch.get('/user/contacts');
+      set({ allContacts: res.data.filteredUsers });
     } catch (error) {
-        toast.error(error.response.data.msg);
+      toast.error(error.response.data.msg);
     } finally {
-        set({ isUserLoading: false});
-        
+      set({ isUserLoading: false });
+    }
+  },
+
+  getMessagesByUserId: async () => {
+    const { selectedUser } = get();
+    set({ isMessagesLoading: true });
+    try {
+      const res = await customFetch.get(`/message/${selectedUser._id}`);
+      set({ messages: res.data });
+    } catch (error) {
+      toast.error(error.response.data.msg);
+    } finally {
+      set({ isMessagesLoading: false });
+    }
+  },
+
+  sendMessage: async (data) => {
+    const { selectedUser, messages } = get();
+    try {
+      const res = await customFetch.post(`/message/${selectedUser._id}`, data);
+      console.log(res);
+
+      set({ messages: messages.concat(res.data) });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.msg);
     }
   },
 }));

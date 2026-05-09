@@ -18,6 +18,17 @@ export const useAuthStore = create((set) => ({
     }
   },
 
+  logout: async () => {
+    try {
+      await customFetch.post('/auth/logout')
+      set({user:null})
+      toast.success('User logged out successfully');
+    } catch (error) {
+      toast.error('Error in Logging out');
+      console.log('Logged out error: ',error);
+    }
+  },
+
   signup: async (data) => {
     set({ isSigningUp: true });
     try {
