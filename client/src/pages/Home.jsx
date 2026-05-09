@@ -6,11 +6,13 @@ import {
   NoChatPlaceholder,
   ProfileHeader,
 } from '@/components';
-import { Input } from '@/components/ui';
+import { Input,Button } from '@/components/ui';
+import { useAuthStore } from '@/store/useAuthStore';
 import { useChatStore } from '@/store/useChatStore';
 import { IoSearch } from 'react-icons/io5';
 
 const Home = () => {
+  const { logout } = useAuthStore()
   const { activeTab, selectedUser } = useChatStore();
   return (
     <section className='h-screen flex justify-center items-center text-card-foreground'>
@@ -19,6 +21,7 @@ const Home = () => {
           <div className='w-80 flex flex-col space-y-10 p-4'>
             <div>
               <h2 className='text-2xl mb-3'>Messages</h2>
+              <Button onClick={logout}>logout</Button>
               <div className='relative mb-4'>
                 <IoSearch className='absolute left-2 top-2'/>
                 <Input placeholder='search chat' className='py-4 pl-7'/>
