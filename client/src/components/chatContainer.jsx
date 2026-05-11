@@ -8,9 +8,9 @@ const ChatContainer = () => {
   useEffect(() => {
     getMessagesByUserId();
   }, [selectedUser._id]);
-  console.log(messages);
-
-  const person = selectedUser.participants.find((p) => p._id !== user);
+  const person = selectedUser?.participants
+    ? selectedUser.participants.find((p) => p._id !== user?.userId)
+    : selectedUser;
 
   return (
     <div className='flex flex-col flex-1 overflow-hidden h-full p-4 bg-white'>
