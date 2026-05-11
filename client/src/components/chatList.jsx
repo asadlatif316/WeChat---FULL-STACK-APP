@@ -15,7 +15,7 @@ const ChatList = () => {
   return (
     <>
       {chats.map((chat) => {
-        const partner = chat.participants.find((p) => p._id !== user);
+        const partner = chat.participants.find((p) => p._id !== user.userId);
         return (
           <div
             key={chat._id}

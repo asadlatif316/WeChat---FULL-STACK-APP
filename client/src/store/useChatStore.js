@@ -20,6 +20,8 @@ export const useChatStore = create((set, get) => ({
     set({ isUserLoading: true });
     try {
       const res = await customFetch.get('/conversations');
+      console.log(res.data.conversation);
+      
       set({ chats: res.data.conversation });
     } catch (error) {
       toast.error(error.response.data.msg);
