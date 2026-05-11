@@ -10,8 +10,17 @@ import { UnauthenticatedError } from '../errors/customError.js';
 const register = async (req, res) => {
   const hashedPassword = await hashPassword(req.body.password);
   req.body.password = hashedPassword;
-
   const user = await User.create(req.body);
+   const accessToken = await generateToken({ userId: user._id }, '15m');
+   const refreshToken = await generateToken({ userId: user._id }, '7d');
+
+   const sevenDays = 7 * 1000 * 60 * 60 * 24;
+   res.cookie('token', refreshToken, {
+     httpOnly: true,
+     maxAge: sevenDays,
+     sameSite: 'strict',
+     secure: process.env.NODE_ENV === 'development' ? false : true,
+   });
   res.status(StatusCodes.CREATED).json({ user });
 };
 
