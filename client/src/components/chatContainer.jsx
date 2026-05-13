@@ -1,16 +1,29 @@
 import { useChatStore } from '@/store/useChatStore';
-import { MessageInput, MessageLoadingSkeleton, NoChatHistoryPlaceHolder, ProfileHeader } from '.';
+import {
+  MessageInput,
+  MessageLoadingSkeleton,
+  NoChatHistoryPlaceHolder,
+  ProfileHeader,
+} from '.';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useEffect } from 'react';
 const ChatContainer = () => {
-  const { messages, selectedUser, getMessagesByUserId, isMessagesLoading } = useChatStore();
+  const {
+    messages,
+    selectedConversation,
+    getMessagesByUserId,
+    isMessagesLoading,
+    selectedUser,
+  } = useChatStore();
   const { user } = useAuthStore();
   useEffect(() => {
-    getMessagesByUserId();
-  }, [selectedUser._id]);
-  console.log(messages);
-
-  const person = selectedUser.participants.find((p) => p._id !== user);
+    if (selectedConversation?._id) {
+      getMessagesByUserId();
+    }
+  }, [selectedConversation?._id, selectedUser?._id]);
+  const person = selectedConversation
+    ? selectedConversation.participants.find((p) => p._id !== user?.userId)
+    : selectedUser;
 
   return (
     <div className='flex flex-col flex-1 overflow-hidden h-full p-4 bg-white'>
@@ -27,16 +40,21 @@ const ChatContainer = () => {
                   className={`max-w-xs px-3 py-3 rounded-lg text-sm  ${msg.sender._id === user.userId ? 'bg-primary text-white' : 'bg-muted text-foreground'}`}
                 >
                   {msg.content && <p>{msg.content}</p>}
-                  <p className='text-xs mt-1'>{msg.createdAt && new Date(msg.createdAt).toISOString().slice(11,16) }</p>
+                  <p className='text-xs mt-1'>
+                    {msg.createdAt &&
+                      new Date(msg.createdAt).toISOString().slice(11, 16)}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
-        ) : isMessagesLoading ? <MessageLoadingSkeleton/> : (
+        ) : isMessagesLoading ? (
+          <MessageLoadingSkeleton />
+        ) : (
           <NoChatHistoryPlaceHolder user={person} />
         )}
       </div>
-      <MessageInput/>
+      <MessageInput />
     </div>
   );
 };

@@ -4,16 +4,18 @@ import {
   ChatList,
   ContactList,
   NoChatPlaceholder,
-  ProfileHeader,
 } from '@/components';
-import { Input,Button } from '@/components/ui';
+import { Input, Button } from '@/components/ui';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useChatStore } from '@/store/useChatStore';
 import { IoSearch } from 'react-icons/io5';
 
 const Home = () => {
-  const { logout } = useAuthStore()
-  const { activeTab, selectedUser } = useChatStore();
+  const { logout } = useAuthStore();
+  const { activeTab, selectedConversation, selectedUser } = useChatStore();
+  console.log(selectedConversation);
+  console.log(selectedUser);
+
   return (
     <section className='h-screen flex justify-center items-center text-card-foreground'>
       <div className='h-[700px] border-2 border-slate-500 w-full max-w-6xl mx-auto '>
@@ -23,17 +25,21 @@ const Home = () => {
               <h2 className='text-2xl mb-3'>Messages</h2>
               <Button onClick={logout}>logout</Button>
               <div className='relative mb-4'>
-                <IoSearch className='absolute left-2 top-2'/>
-                <Input placeholder='search chat' className='py-4 pl-7'/>
+                <IoSearch className='absolute left-2 top-2' />
+                <Input placeholder='search chat' className='py-4 pl-7' />
               </div>
-              < ActiveTabSwitch/>
+              <ActiveTabSwitch />
             </div>
             <div className='flex-1 overflow-y-auto space-y-3'>
               {activeTab === 'chats' ? <ChatList /> : <ContactList />}
             </div>
           </div>
           <div className='flex-1 flex flex-col backdrop-blur-sm'>
-            {selectedUser ? <ChatContainer /> : <NoChatPlaceholder />}
+            {selectedConversation || selectedUser ? (
+              <ChatContainer />
+            ) : (
+              <NoChatPlaceholder />
+            )}
           </div>
         </div>
       </div>

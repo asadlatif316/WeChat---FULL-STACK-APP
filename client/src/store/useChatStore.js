@@ -8,12 +8,16 @@ export const useChatStore = create((set, get) => ({
   messages: [],
   activeTab: 'chats',
   selectedUser: null,
+  selectedConversation: null,
   isUserLoading: null,
   isMessagesLoading: null,
 
   setActiveTab: (tab) => set({ activeTab: tab }),
   setSelectedUser: (selectedUser) => {
-    set({ selectedUser });
+    set({ selectedUser, conversation: null, messages: [] });
+  },
+  setSelectedConversation: (selectedConversation) => {
+    set({ selectedConversation, selectedUser: null, messages: [] });
   },
 
   getChatPartners: async () => {
@@ -28,6 +32,14 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
+  resetChat: () =>
+    set({
+      chat: [],
+      messages: [],
+      selectedUser: null,
+      selectedConversation: null,
+    }),
+
   getContacts: async () => {
     try {
       const res = await customFetch.get('/user/contacts');
@@ -40,22 +52,35 @@ export const useChatStore = create((set, get) => ({
   },
 
   getMessagesByUserId: async () => {
-    const { selectedUser } = get();
+    const { selectedConversation } = get();
     set({ isMessagesLoading: true });
     try {
-      const res = await customFetch.get(`/message/${selectedUser._id}`);
+      const res = await customFetch.get(`/message/${selectedConversation._id}`);
       set({ messages: res.data });
     } catch (error) {
-      toast.error(error.response.data.msg);
+      console.log(error);
+
+      toast.error(error.response?.data?.msg);
     } finally {
       set({ isMessagesLoading: false });
     }
   },
 
   sendMessage: async (data) => {
-    const { selectedUser, messages } = get();
+    const { selectedUser, messages, selectedConversation } = get();
+    let conversationId;
     try {
-      const res = await customFetch.post(`/message/${selectedUser._id}`, data);
+      if (selectedConversation) {
+        conversationId = selectedUser._id;
+      } else if (selectedUser) {
+        const res = await customFetch.post(
+          `/conversations/${selectedUser._id}`,
+        );
+
+        conversationId = res.data._id;
+      }
+
+      const res = await customFetch.post(`/message/${conversationId}`, data);
       console.log(res);
 
       set({ messages: messages.concat(res.data) });

@@ -1,23 +1,29 @@
-import { useAuthStore } from "@/store/useAuthStore";
-import { useChatStore } from "@/store/useChatStore";
-import { useEffect } from "react";
+import { useAuthStore } from '@/store/useAuthStore';
+import { useChatStore } from '@/store/useChatStore';
+import { useEffect } from 'react';
 
 const ProfileHeader = () => {
-  const { selectedUser, setSelectedUser } = useChatStore()
-  const { user } = useAuthStore()
-  const person = selectedUser.participants.find(p => p._id !== user)
+  const { selectedConversation, setSelectedConversation, selectedUser,setSelectedUser } = useChatStore();
+  const { user } = useAuthStore();
+  const person = selectedConversation
+    ? selectedConversation.participants.find((p) => p._id !== user.userId)
+    : selectedUser;
+  selectedUser
+  console.log(person);
+  
 
   useEffect(() => {
     const handleESCKey = (event) => {
-      if (event.key === 'Escape') setSelectedUser(null)
-    }
-    
-    window.addEventListener('keydown', handleESCKey)
-    
-  
+      if (event.key === 'Escape') {
+        setSelectedConversation(null);
+      };
+    };
+
+    window.addEventListener('keydown', handleESCKey);
+
     return () => window.removeEventListener('keydown', handleESCKey);
-  },[setSelectedUser])
-  
+  }, [setSelectedConversation]);
+
   return (
     <div className='flex items-center space-x-4 pb-4'>
       <div className='h-12 w-12 rounded-full bg-accent'></div>
