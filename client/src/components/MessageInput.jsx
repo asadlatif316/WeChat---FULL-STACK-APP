@@ -25,7 +25,7 @@ const MessageInput = () => {
           }}
         />
         <IoIosAddCircle className='absolute top-4.5 left-2 w-6 h-6 text-gray-500' />
-        <Button className='absolute top-2.5 right-4 flex justify-center items-center shadow-2xl h-10 w-10'>
+        <Button disabled={!text.trim()} className='absolute top-2.5 right-4 flex justify-center items-center shadow-2xl h-10 w-10'>
           <IoSend className='w-6 h-6 text-white' />
         </Button>
       </form>

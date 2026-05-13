@@ -9,8 +9,6 @@ const ProfileHeader = () => {
     ? selectedConversation.participants.find((p) => p._id !== user.userId)
     : selectedUser;
   selectedUser
-  console.log(person);
-  
 
   useEffect(() => {
     const handleESCKey = (event) => {

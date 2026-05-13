@@ -13,9 +13,6 @@ import { IoSearch } from 'react-icons/io5';
 const Home = () => {
   const { logout } = useAuthStore();
   const { activeTab, selectedConversation, selectedUser } = useChatStore();
-  console.log(selectedConversation);
-  console.log(selectedUser);
-
   return (
     <section className='h-screen flex justify-center items-center text-card-foreground'>
       <div className='h-[700px] border-2 border-slate-500 w-full max-w-6xl mx-auto '>

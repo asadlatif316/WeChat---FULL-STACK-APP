@@ -9,7 +9,7 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: true,
   checkAuth: async () => {
     try {
-      const res = await customFetch.get('/auth/check');
+      const res = await customFetch.get('/user/get-user');
       set({ user: res.data });
     } catch (error) {
       console.log('Error in checking Auth', error);
@@ -32,7 +32,7 @@ export const useAuthStore = create((set) => ({
       console.log('Logged out error: ', error);
     }
   },
-
+  
   signup: async (data) => {
     set({ isSigningUp: true });
     try {
@@ -45,9 +45,10 @@ export const useAuthStore = create((set) => ({
       set({ isSigningUp: false });
     }
   },
-
+  
   login: async (data) => {
     set({ isLoggingIn: true });
+    useChatStore.getState().resetChat();
     try {
       const res = await customFetch.post('/auth/login', data);
       set({ user: res.data });

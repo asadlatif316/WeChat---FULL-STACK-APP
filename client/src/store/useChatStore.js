@@ -71,7 +71,7 @@ export const useChatStore = create((set, get) => ({
     let conversationId;
     try {
       if (selectedConversation) {
-        conversationId = selectedUser._id;
+        conversationId = selectedConversation._id;
       } else if (selectedUser) {
         const res = await customFetch.post(
           `/conversations/${selectedUser._id}`,
@@ -86,7 +86,7 @@ export const useChatStore = create((set, get) => ({
       set({ messages: messages.concat(res.data) });
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.msg);
+      toast.error(error.response?.data?.msg || 'something went wrong');
     }
   },
 }));

@@ -1,7 +1,3 @@
-
-import dotenv from 'dotenv'
-dotenv.config()
-
 import StatusCodes from 'http-status-codes';
 import User from '../models/userModel.js';
 import { hashPassword, comparePassword } from '../utils/password.js';
@@ -51,7 +47,7 @@ const login = async (req, res) => {
     sameSite: 'strict',
     secure: process.env.NODE_ENV === 'development' ? false : true
   });
-  res.status(StatusCodes.OK).json({msg: 'user Logged In'});
+  res.status(StatusCodes.OK).json({userId: user._id,name:user.name,email:user.email});
 };
 
 const refreshToken = async (req,res) => {
