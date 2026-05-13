@@ -5,13 +5,19 @@ import { useAuthStore } from '@/store/useAuthStore';
 
 const ChatList = () => {
   const { user } = useAuthStore();
-  const { chats, isUserLoading, getChatPartners, setSelectedUser, selectedUser } =
-    useChatStore();
+  const {
+    chats,
+    isUserLoading,
+    getChatPartners,
+    setSelectedConversation,
+    selectedConversation,
+  } = useChatStore();
   useEffect(() => {
     getChatPartners();
   }, [getChatPartners]);
   if (isUserLoading) return <UserLoadingSkeleton />;
   if (chats.length === 0) return <NoChatFound />;
+
   return (
     <>
       {chats.map((chat) => {
@@ -19,8 +25,8 @@ const ChatList = () => {
         return (
           <div
             key={chat._id}
-            className={`flex items-center ${selectedUser?._id === chat._id && 'bg-white border-r-4'} rounded-lg p-4 space-x-3   border-primary`}
-            onClick={() => setSelectedUser(chat)}
+            className={`flex items-center ${selectedConversation?._id === chat._id && 'bg-white border-r-4'} rounded-lg p-4 space-x-3   border-primary`}
+            onClick={() => setSelectedConversation(chat)}
           >
             <div className='relative h-12 w-12 bg-accent rounded-full'>
               <div className='w-3 h-3 border-2 border-white rounded-full bg-primary absolute bottom-0.5 right-0.5'></div>

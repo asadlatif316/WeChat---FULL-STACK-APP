@@ -3,21 +3,26 @@ import { useChatStore } from '@/store/useChatStore';
 import { useEffect } from 'react';
 
 const ProfileHeader = () => {
-  const { selectedUser, setSelectedUser } = useChatStore();
+  const { selectedConversation, setSelectedConversation, selectedUser,setSelectedUser } = useChatStore();
   const { user } = useAuthStore();
-  const person = selectedUser?.participants
-    ? selectedUser.participants.find((p) => p._id !== user)
+  const person = selectedConversation
+    ? selectedConversation.participants.find((p) => p._id !== user.userId)
     : selectedUser;
+  selectedUser
+  console.log(person);
+  
 
   useEffect(() => {
     const handleESCKey = (event) => {
-      if (event.key === 'Escape') setSelectedUser(null);
+      if (event.key === 'Escape') {
+        setSelectedConversation(null);
+      };
     };
 
     window.addEventListener('keydown', handleESCKey);
 
     return () => window.removeEventListener('keydown', handleESCKey);
-  }, [setSelectedUser]);
+  }, [setSelectedConversation]);
 
   return (
     <div className='flex items-center space-x-4 pb-4'>
