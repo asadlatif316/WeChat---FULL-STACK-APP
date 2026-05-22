@@ -25,7 +25,8 @@ const ChatContainer = () => {
     ? selectedConversation.participants.find((p) => p._id !== user?.userId)
     : selectedUser;
 console.log(messages);
-
+  console.log(user);
+  
   return (
     <div className='flex flex-col flex-1 overflow-hidden h-full p-4 bg-white'>
       <ProfileHeader />
@@ -35,10 +36,10 @@ console.log(messages);
             {messages.map((msg) => (
               <div
                 key={msg._id}
-                className={`flex ${msg.sender._id === user.userId ? 'justify-end' : 'justify-start'} `}
+                className={`flex ${msg.sender._id === user._id ? 'justify-end' : 'justify-start'} `}
               >
                 <div
-                  className={`max-w-xs px-3 py-3 rounded-lg text-sm  ${msg.sender._id === user.userId ? 'bg-primary text-white' : 'bg-muted text-foreground'}`}
+                  className={`max-w-xs px-3 py-3 rounded-lg text-sm  ${msg.sender._id === user._id ? 'bg-primary text-white' : 'bg-muted text-foreground'}`}
                 >
                   {msg.content && <p>{msg.content}</p>}
                   <p className='text-xs mt-1'>
