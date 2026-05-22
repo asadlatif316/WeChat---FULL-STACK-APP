@@ -6,8 +6,10 @@ import {
   ProfileHeader,
 } from '.';
 import { useAuthStore } from '@/store/useAuthStore';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
+
 const ChatContainer = () => {
+  const messageEndRef = useRef(null)
   const {
     messages,
     selectedConversation,
@@ -21,6 +23,13 @@ const ChatContainer = () => {
       getMessagesByUserId();
     }
   }, [selectedConversation?._id, selectedUser?._id]);
+
+  useEffect(() => {
+    if (messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({behavior:'smooth'})
+    }
+  },[messages])
+
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user?.userId)
     : selectedUser;
@@ -49,6 +58,7 @@ console.log(messages);
                 </div>
               </div>
             ))}
+            <div ref={messageEndRef}></div>
           </div>
         ) : isMessagesLoading ? (
           <MessageLoadingSkeleton />
