@@ -74,8 +74,6 @@ export const useChatStore = create((set, get) => ({
 
     //optimistic message
     const tempId = `temp-${Date.now()}`
-    console.log(user);
-    
     const optimisticMessage = {
       _id: tempId,
       sender: {

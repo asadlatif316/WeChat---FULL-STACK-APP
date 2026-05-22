@@ -33,8 +33,6 @@ const ChatContainer = () => {
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user?.userId)
     : selectedUser;
-console.log(messages);
-  console.log(user);
   
   return (
     <div className='flex flex-col flex-1 overflow-hidden h-full p-4 bg-white'>
@@ -53,7 +51,10 @@ console.log(messages);
                   {msg.content && <p>{msg.content}</p>}
                   <p className='text-xs mt-1'>
                     {msg.createdAt &&
-                      new Date(msg.createdAt).toISOString().slice(11, 16)}
+                      new Date(msg.createdAt).toLocaleTimeString(undefined, {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
                   </p>
                 </div>
               </div>
