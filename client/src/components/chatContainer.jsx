@@ -24,6 +24,7 @@ const ChatContainer = () => {
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user?.userId)
     : selectedUser;
+console.log(messages);
 
   return (
     <div className='flex flex-col flex-1 overflow-hidden h-full p-4 bg-white'>

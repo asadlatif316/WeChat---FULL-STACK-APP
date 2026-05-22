@@ -1,6 +1,7 @@
 import customFetch from '@/lib/customFetch';
 import toast from 'react-hot-toast';
 import { create } from 'zustand';
+import { useAuthStore } from './useAuthStore';
 
 export const useChatStore = create((set, get) => ({
   allContacts: [],
@@ -14,10 +15,10 @@ export const useChatStore = create((set, get) => ({
 
   setActiveTab: (tab) => set({ activeTab: tab }),
   setSelectedUser: (selectedUser) => {
-    set({ selectedUser, conversation: null, messages: [] });
+    set({ selectedUser, conversation: null });
   },
   setSelectedConversation: (selectedConversation) => {
-    set({ selectedConversation, selectedUser: null, messages: [] });
+    set({ selectedConversation, selectedUser: null });
   },
 
   getChatPartners: async () => {
@@ -68,7 +69,25 @@ export const useChatStore = create((set, get) => ({
 
   sendMessage: async (data) => {
     const { selectedUser, messages, selectedConversation } = get();
+    const {user} = useAuthStore.getState()
     let conversationId;
+
+    //optimistic message
+    const tempId = `temp-${Date.now()}`
+    console.log(user);
+    
+    const optimisticMessage = {
+      _id: tempId,
+      sender: {
+        _id: user._id,
+        name: user.name,
+        email: user.email
+      },
+      conversationId: selectedUser._id,
+      content: data.content,
+      createdAt: new Date().toISOString()
+    }
+    set({messages:[...messages,optimisticMessage]})
     try {
       if (selectedConversation) {
         conversationId = selectedConversation._id;
@@ -79,13 +98,11 @@ export const useChatStore = create((set, get) => ({
 
         conversationId = res.data._id;
       }
-
       const res = await customFetch.post(`/message/${conversationId}`, data);
-      console.log(res);
-
       set({ messages: messages.concat(res.data) });
     } catch (error) {
       console.log(error);
+      set({messages:messages})
       toast.error(error.response?.data?.msg || 'something went wrong');
     }
   },

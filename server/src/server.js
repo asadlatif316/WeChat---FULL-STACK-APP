@@ -55,13 +55,24 @@ app.get('/api/v1/test', protectLimit, (req, res) => {
 app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 4200;
 
+let MONGO_URL;
+
+if (process.env.NODE_ENV === 'production') {
+  MONGO_URL = process.env.MONGO_URL_PRO;
+} else {
+  MONGO_URL = process.env.MONGO_URL_DEV;
+}
+console.log('NODE_ENV is:', process.env.NODE_ENV);
+console.log('Using MONGO_URL:', MONGO_URL);
 const startApp = async () => {
   try {
-    await connectDB(process.env.MONGO_URL);
+    await connectDB(MONGO_URL);
     app.listen(port, () => {
       console.log(`server is running on port ${port}`);
     });
   } catch (error) {
+    console.log(error.message);
+
     process.exit(1);
   }
 };
