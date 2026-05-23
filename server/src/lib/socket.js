@@ -13,6 +13,10 @@ const io = new Server(server, {
     credentials: true,
   },
 });
+io.use((socket, next) => {
+  console.log('connection attempt - cookies:', socket.handshake.headers.cookie);
+  next();
+});
 
 io.use(socketMiddleware);
 
@@ -25,7 +29,7 @@ io.on('connection', (socket) => {
 
   io.emit('getOnlineUser', Object.keys(onlineMap));
 
-  io.on('disconnect', () => {
+  socket.on('disconnect', () => {
     console.log('User disconnected', socket.user.name);
     delete onlineMap[userId];
     io.emit('getOnlineUser', Object.keys(onlineMap));

@@ -6,7 +6,7 @@ export const socketMiddleware = async (socket, next) => {
   try {
     const token = socket.handshake.headers.cookie
       ?.split('; ')
-      .find((row) => row.startsWith('jwt='))
+      .find((row) => row.startsWith('token='))
       ?.split('=')[1];
     if (!token) {
       console.log('Socket Connection rejected: No token provided');
