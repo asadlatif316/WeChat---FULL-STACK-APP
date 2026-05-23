@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 const ProfileHeader = () => {
   const { selectedConversation, setSelectedConversation, selectedUser,setSelectedUser } = useChatStore();
-  const { user } = useAuthStore();
+  const { user,onlineUsers } = useAuthStore();
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user.userId)
     : selectedUser;
@@ -29,7 +29,7 @@ const ProfileHeader = () => {
         <h3 className='capitalize font-semibold text-foreground'>
           {person.name}
         </h3>
-        <p className='text-primary text-sm'>online</p>
+        <p className='text-primary text-xs'>{ onlineUsers.includes(person._id) ? 'online':'offline' }</p>
       </div>
     </div>
   );

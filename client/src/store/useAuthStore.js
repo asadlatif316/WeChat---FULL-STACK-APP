@@ -70,7 +70,6 @@ export const useAuthStore = create((set,get) => ({
   },
 
   socketConnection: async () => {
-    console.log('connectSocket called')
     const { user } = get()
     if (!user || get().socket?.connected) return
     const socket = io(BASE_URL, {
@@ -78,9 +77,9 @@ export const useAuthStore = create((set,get) => ({
     })
     set({ socket })
     
-    socket.on('getOnlineUser', (usersId) => {
-      set({onlineUser:usersId})
-    })
+    socket.on('getOnlineUsers', (usersId) => {
+      set({ onlineUsers: usersId });
+    });
   },
 
   socketDisconnect: () => {

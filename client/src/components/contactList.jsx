@@ -1,7 +1,10 @@
 import { useChatStore } from '@/store/useChatStore';
 import { useEffect } from 'react';
 import UserLoadingSkeleton from './userLoadingSkeleton';
+import { Avatar, AvatarFallback, AvatarBadge } from './ui';
+import { useAuthStore } from '@/store/useAuthStore';
 const ContactList = () => {
+  const {onlineUsers} = useAuthStore()
   const {
     allContacts,
     isUserLoading,
@@ -22,9 +25,14 @@ const ContactList = () => {
             className={`flex items-center ${selectedUser?._id === contact._id && 'bg-white border-r-4'} rounded-lg p-4 space-x-3   border-primary`}
             onClick={() => setSelectedUser(contact)}
           >
-            <div className='relative h-12 w-12 bg-accent rounded-full'>
-              <div className='w-3 h-3 border-2 border-white rounded-full bg-primary absolute bottom-0.5 right-0.5'></div>
-            </div>
+            <Avatar size='lg'>
+              <AvatarFallback className='capitalize'>
+                {contact.name.charAt()}
+              </AvatarFallback>
+              <AvatarBadge
+                className={`${onlineUsers.includes(contact._id) ? 'bg-primary' : 'bg-gray-600'}`}
+              />
+            </Avatar>
             <div className='flex-1'>
               <h4 className='capitalize font-semibold text-foreground'>
                 {contact.name}
