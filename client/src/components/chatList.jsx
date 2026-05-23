@@ -2,9 +2,11 @@ import { useChatStore } from '@/store/useChatStore';
 import { NoChatFound, UserLoadingSkeleton } from '.';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
+import { Avatar,AvatarFallback,AvatarBadge } from './ui';
 
 const ChatList = () => {
-  const { user } = useAuthStore();
+  const { user,onlineUsers } = useAuthStore(); 
+
   const {
     chats,
     isUserLoading,
@@ -29,9 +31,15 @@ const ChatList = () => {
             className={`flex items-center ${selectedConversation?._id === chat._id && 'bg-white border-r-4'} rounded-lg p-4 space-x-3   border-primary`}
             onClick={() => setSelectedConversation(chat)}
           >
-            <div className='relative h-12 w-12 bg-accent rounded-full'>
+            <Avatar size='lg'>
+              <AvatarFallback className='capitalize'>
+                {partner.name.charAt()}
+              </AvatarFallback>
+              <AvatarBadge className={`${onlineUsers.includes(partner._id) ? 'bg-primary' : 'bg-gray-600'}`} />
+            </Avatar>
+            {/* <div className='relative h-12 w-12 bg-accent rounded-full'>
               <div className='w-3 h-3 border-2 border-white rounded-full bg-primary absolute bottom-0.5 right-0.5'></div>
-            </div>
+            </div> */}
             <div className='flex-1'>
               <div className='flex items-center justify-between'>
                 <h4 className='capitalize font-semibold text-foreground'>

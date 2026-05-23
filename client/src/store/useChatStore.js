@@ -74,8 +74,6 @@ export const useChatStore = create((set, get) => ({
 
     //optimistic message
     const tempId = `temp-${Date.now()}`
-    console.log(user);
-    
     const optimisticMessage = {
       _id: tempId,
       sender: {
@@ -83,7 +81,7 @@ export const useChatStore = create((set, get) => ({
         name: user.name,
         email: user.email
       },
-      conversationId: selectedUser._id,
+      conversationId: selectedConversation?._id || selectedUser._id,
       content: data.content,
       createdAt: new Date().toISOString()
     }
