@@ -12,6 +12,7 @@ export const useChatStore = create((set, get) => ({
   selectedConversation: null,
   isUserLoading: null,
   isMessagesLoading: null,
+  isTyping: false,
 
   setActiveTab: (tab) => set({ activeTab: tab }),
   setSelectedUser: (selectedUser) => {
@@ -69,23 +70,23 @@ export const useChatStore = create((set, get) => ({
 
   sendMessage: async (data) => {
     const { selectedUser, messages, selectedConversation } = get();
-    const {user} = useAuthStore.getState()
+    const { user } = useAuthStore.getState();
     let conversationId;
 
     //optimistic message
-    const tempId = `temp-${Date.now()}`
+    const tempId = `temp-${Date.now()}`;
     const optimisticMessage = {
       _id: tempId,
       sender: {
         _id: user._id,
         name: user.name,
-        email: user.email
+        email: user.email,
       },
       conversationId: selectedConversation?._id || selectedUser._id,
       content: data.content,
-      createdAt: new Date().toISOString()
-    }
-    set({messages:[...messages,optimisticMessage]})
+      createdAt: new Date().toISOString(),
+    };
+    set({ messages: [...messages, optimisticMessage] });
     try {
       if (selectedConversation) {
         conversationId = selectedConversation._id;
@@ -100,8 +101,49 @@ export const useChatStore = create((set, get) => ({
       set({ messages: messages.concat(res.data) });
     } catch (error) {
       console.log(error);
-      set({messages:messages})
+      set({ messages: messages });
       toast.error(error.response?.data?.msg || 'something went wrong');
     }
   },
+  subscribeToMessage: () => {
+    const { selectedConversation, selectedUser } = get();
+    const user = useAuthStore.getState().user
+    if (!selectedConversation) return;
+    const socket = useAuthStore.getState().socket;
+    
+    socket.on('showTyping', (senderId) => {
+      set({ isTyping: true });
+    }); 
+    socket.on('stopTyping', (senderId) => {
+      console.log('stop');
+      
+      set({ isTyping: false });
+    }); 
+
+
+    socket.on('newMessage', (newMessage) => {
+      if (selectedConversation._id !== newMessage.conversationId) return
+      const currentMessages = get().messages
+      set({messages: [...currentMessages,newMessage]})
+    });
+
+  },
+
+  unSubscribeToMessage: () => {
+    const socket = useAuthStore.getState().socket;
+    socket?.off('newMessage');
+    socket?.off('showTyping');
+    socket?.off('stopTyping');
+    console.log('unSubscribeToMessage called');
+  },
+
+  showTyping: (receiverId)=>{
+    const  socket  = useAuthStore.getState().socket
+    socket?.emit('showTyping',receiverId)
+  },
+
+  stopTyping: (receiverId)=>{
+    const  socket  = useAuthStore.getState().socket
+    socket?.emit('stopTyping',receiverId)
+  }
 }));

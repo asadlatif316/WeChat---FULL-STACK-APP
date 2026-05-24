@@ -3,12 +3,14 @@ import { useChatStore } from '@/store/useChatStore';
 import { useEffect } from 'react';
 
 const ProfileHeader = () => {
-  const { selectedConversation, setSelectedConversation, selectedUser,setSelectedUser } = useChatStore();
+  const { selectedConversation, setSelectedConversation, selectedUser,isTyping } = useChatStore();
   const { user,onlineUsers } = useAuthStore();
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user.userId)
     : selectedUser;
   selectedUser
+  console.log(isTyping);
+  
 
   useEffect(() => {
     const handleESCKey = (event) => {
@@ -29,7 +31,13 @@ const ProfileHeader = () => {
         <h3 className='capitalize font-semibold text-foreground'>
           {person.name}
         </h3>
-        <p className='text-primary text-xs'>{ onlineUsers.includes(person._id) ? 'online':'offline' }</p>
+        {isTyping ? (
+          <p className='text-primary text-xs'>Typing</p>
+        ) : (
+          <p className='text-primary text-xs'>
+            {onlineUsers.includes(person._id) ? 'online' : 'offline'}
+          </p>
+        )}
       </div>
     </div>
   );

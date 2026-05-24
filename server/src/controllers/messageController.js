@@ -2,11 +2,19 @@ import cloudinary from '../lib/cloudinary.js';
 import Messages from '../models/messageModel.js';
 import Conversation from '../models/conversationModel.js';
 import { StatusCodes } from 'http-status-codes';
+import { getReceiverSocketId, io } from '../lib/socket.js';
 
 const sendMessage = async (req, res) => {
   const { content, image } = req.body;
   const { conversationId } = req.params;
   const sender = req.user.userId;
+
+  const conversation =
+    await Conversation.findById(conversationId).populate('participants');
+  const receiverId = conversation.participants
+    .find((p) => p._id.toString() !== sender)
+    ._id.toString();
+console.log(receiverId);
 
   let ImageUrl;
   if (image) {
@@ -28,7 +36,10 @@ const sendMessage = async (req, res) => {
   });
 
   await newMessage.populate('sender', 'name email avatar');
-
+  const receiverSocketId = getReceiverSocketId(receiverId);
+  if (receiverSocketId) {
+    io.to(receiverSocketId).emit('newMessage', newMessage);
+  }
   res.status(StatusCodes.OK).json(newMessage);
 };
 
