@@ -20,7 +20,14 @@ io.use((socket, next) => {
 
 io.use(socketMiddleware);
 
+
+
 const onlineMap = {};
+
+console.log('onlineMap:', onlineMap) // add in controller
+export function getReceiverSocketId(userId) {
+  return onlineMap[userId];
+}
 
 io.on('connection', (socket) => {
   console.log('User connected', socket.user.name);

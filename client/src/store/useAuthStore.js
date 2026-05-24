@@ -17,11 +17,12 @@ export const useAuthStore = create((set,get) => ({
     try {
       const res = await customFetch.get('/user/get-user');
       set({ user: res.data.user });
+      get().socketConnection()
     } catch (error) {
       console.log('Error in checking Auth', error);
       set({ user: null });
     } finally {
-      set({ isCheckingAuth: null });
+      set({ isCheckingAuth: false });
     }
   },
 
@@ -70,14 +71,16 @@ export const useAuthStore = create((set,get) => ({
   },
 
   socketConnection: async () => {
-    const { user } = get()
-    if (!user || get().socket?.connected) return
-    const socket = io(BASE_URL, {
+    const { user,socket } = get()
+    if (!user || socket?.connected) return
+    console.log('connectSocket called, connected:', socket?.connected);
+    const newSocket = io(BASE_URL, {
       withCredentials:true
     })
-    set({ socket })
+    newSocket.connect()
+    set({ socket:newSocket })
     
-    socket.on('getOnlineUsers', (usersId) => {
+    newSocket.on('getOnlineUsers', (usersId) => {
       set({ onlineUsers: usersId });
     });
   },

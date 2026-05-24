@@ -37,9 +37,6 @@ const ChatList = () => {
               </AvatarFallback>
               <AvatarBadge className={`${onlineUsers.includes(partner._id) ? 'bg-primary' : 'bg-gray-600'}`} />
             </Avatar>
-            {/* <div className='relative h-12 w-12 bg-accent rounded-full'>
-              <div className='w-3 h-3 border-2 border-white rounded-full bg-primary absolute bottom-0.5 right-0.5'></div>
-            </div> */}
             <div className='flex-1'>
               <div className='flex items-center justify-between'>
                 <h4 className='capitalize font-semibold text-foreground'>

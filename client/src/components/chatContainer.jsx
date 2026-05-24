@@ -16,13 +16,20 @@ const ChatContainer = () => {
     getMessagesByUserId,
     isMessagesLoading,
     selectedUser,
+    subscribeToMessage,
+    unSubscribeToMessage,
   } = useChatStore();
   const { user } = useAuthStore();
   useEffect(() => {
+     console.log('useEffect running, selectedConversation:', selectedConversation?._id)
     if (selectedConversation?._id) {
       getMessagesByUserId();
+      
     }
-  }, [selectedConversation?._id, selectedUser?._id]);
+unSubscribeToMessage();
+subscribeToMessage();
+    return () => unSubscribeToMessage();
+  }, [selectedConversation?._id, selectedUser?._id,getMessagesByUserId,subscribeToMessage,unSubscribeToMessage]);
 
   useEffect(() => {
     if (messageEndRef.current) {
@@ -43,10 +50,10 @@ const ChatContainer = () => {
             {messages.map((msg) => (
               <div
                 key={msg._id}
-                className={`flex ${msg.sender._id === user._id ? 'justify-end' : 'justify-start'} `}
+                className={`flex ${msg.sender._id === user.userId ? 'justify-end' : 'justify-start'} `}
               >
                 <div
-                  className={`max-w-xs px-3 py-3 rounded-lg text-sm  ${msg.sender._id === user._id ? 'bg-primary text-white' : 'bg-muted text-foreground'}`}
+                  className={`max-w-xs px-3 py-3 rounded-lg text-sm  ${msg.sender._id === user.userId ? 'bg-primary text-white' : 'bg-muted text-foreground'}`}
                 >
                   {msg.content && <p>{msg.content}</p>}
                   <p className='text-xs mt-1'>
