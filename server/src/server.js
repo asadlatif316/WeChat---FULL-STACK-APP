@@ -43,17 +43,16 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, '../../client', 'dist', 'index.html'));
   });
 }
-
-app.get('/', (req, res) => {
-  res.send('working on backend');
-});
-
-app.get('/api/v1/test', protectLimit, (req, res) => {
-  res.json({ msg: 'working' });
-});
-
 // error handler
 app.use(errorHandlerMiddleware);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, '../../client/dist')));
+  app.get('*splat', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../client', 'dist', 'index.html'));
+  });
+}
+
 const port = process.env.PORT || 4200;
 
 let MONGO_URL;
