@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "setup-production-app": "npm i --prefix server && npm i --prefix client && npm run build --prefix client",
+    "setup-production-app": "npm i --prefix server && npm i --include=dev --prefix client && npm run build --prefix client",
     "start": "npm run dev --prefix server",
     "client": "cd client && npm run dev",
     "server": "cd server && npm run dev",
