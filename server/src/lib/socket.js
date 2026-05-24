@@ -30,11 +30,24 @@ export function getReceiverSocketId(userId) {
 }
 
 io.on('connection', (socket) => {
-  console.log('User connected', socket.user.name);
+  
   const userId = socket.userId;
   onlineMap[userId] = socket.id;
-
   io.emit('getOnlineUsers', Object.keys(onlineMap));
+
+  socket.on('showTyping', (receiverId) => {
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit('showTyping', socket.userId);
+    }
+  });
+
+  socket.on('stopTyping', (receiverId) => {
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit('stopTyping', socket.userId);
+    }
+  });
 
   socket.on('disconnect', () => {
     console.log('User disconnected', socket.user.name);

@@ -53,7 +53,7 @@ subscribeToMessage();
                 className={`flex ${msg.sender._id === user.userId ? 'justify-end' : 'justify-start'} `}
               >
                 <div
-                  className={`max-w-xs px-3 py-3 rounded-lg text-sm  ${msg.sender._id === user.userId ? 'bg-primary text-white' : 'bg-muted text-foreground'}`}
+                  className={`max-w-xs px-3 py-3 rounded-lg text-sm wrap-break-word  ${msg.sender._id === user.userId ? 'bg-primary text-white' : 'bg-muted text-foreground'}`}
                 >
                   {msg.content && <p>{msg.content}</p>}
                   <p className='text-xs mt-1'>

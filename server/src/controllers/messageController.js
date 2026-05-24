@@ -37,9 +37,7 @@ console.log(receiverId);
 
   await newMessage.populate('sender', 'name email avatar');
   const receiverSocketId = getReceiverSocketId(receiverId);
-  console.log('receiverSocketId:', receiverSocketId) // add in controller
   if (receiverSocketId) {
-     console.log('emitting newMessage to:', receiverSocketId); 
     io.to(receiverSocketId).emit('newMessage', newMessage);
   }
   res.status(StatusCodes.OK).json(newMessage);

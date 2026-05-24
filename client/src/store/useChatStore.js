@@ -12,6 +12,7 @@ export const useChatStore = create((set, get) => ({
   selectedConversation: null,
   isUserLoading: null,
   isMessagesLoading: null,
+  isTyping: false,
 
   setActiveTab: (tab) => set({ activeTab: tab }),
   setSelectedUser: (selectedUser) => {
@@ -106,23 +107,43 @@ export const useChatStore = create((set, get) => ({
   },
   subscribeToMessage: () => {
     const { selectedConversation, selectedUser } = get();
-    console.log('called');
-
+    const user = useAuthStore.getState().user
     if (!selectedConversation) return;
     const socket = useAuthStore.getState().socket;
-    console.log('Asad socket id:', socket.id);
-    console.log(selectedConversation);
+    
+    socket.on('showTyping', (senderId) => {
+      set({ isTyping: true });
+    }); 
+    socket.on('stopTyping', (senderId) => {
+      console.log('stop');
+      
+      set({ isTyping: false });
+    }); 
+
 
     socket.on('newMessage', (newMessage) => {
       if (selectedConversation._id !== newMessage.conversationId) return
       const currentMessages = get().messages
       set({messages: [...currentMessages,newMessage]})
     });
+
   },
 
   unSubscribeToMessage: () => {
     const socket = useAuthStore.getState().socket;
     socket?.off('newMessage');
+    socket?.off('showTyping');
+    socket?.off('stopTyping');
     console.log('unSubscribeToMessage called');
   },
+
+  showTyping: (receiverId)=>{
+    const  socket  = useAuthStore.getState().socket
+    socket?.emit('showTyping',receiverId)
+  },
+
+  stopTyping: (receiverId)=>{
+    const  socket  = useAuthStore.getState().socket
+    socket?.emit('stopTyping',receiverId)
+  }
 }));

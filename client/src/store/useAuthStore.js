@@ -73,7 +73,6 @@ export const useAuthStore = create((set,get) => ({
   socketConnection: async () => {
     const { user,socket } = get()
     if (!user || socket?.connected) return
-    console.log('connectSocket called, connected:', socket?.connected);
     const newSocket = io(BASE_URL, {
       withCredentials:true
     })
