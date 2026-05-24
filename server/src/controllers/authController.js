@@ -1,7 +1,3 @@
-
-import dotenv from 'dotenv'
-dotenv.config()
-
 import StatusCodes from 'http-status-codes';
 import User from '../models/userModel.js';
 import { hashPassword, comparePassword } from '../utils/password.js';
@@ -10,8 +6,17 @@ import { UnauthenticatedError } from '../errors/customError.js';
 const register = async (req, res) => {
   const hashedPassword = await hashPassword(req.body.password);
   req.body.password = hashedPassword;
-
   const user = await User.create(req.body);
+   const accessToken = await generateToken({ userId: user._id }, '15m');
+   const refreshToken = await generateToken({ userId: user._id }, '7d');
+
+   const sevenDays = 7 * 1000 * 60 * 60 * 24;
+   res.cookie('token', refreshToken, {
+     httpOnly: true,
+     maxAge: sevenDays,
+     sameSite: 'strict',
+     secure: process.env.NODE_ENV === 'development' ? false : true,
+   });
   res.status(StatusCodes.CREATED).json({ user });
 };
 
@@ -42,7 +47,7 @@ const login = async (req, res) => {
     sameSite: 'strict',
     secure: process.env.NODE_ENV === 'development' ? false : true
   });
-  res.status(StatusCodes.OK).json({msg: 'user Logged In'});
+  res.status(StatusCodes.OK).json({userId: user._id,name:user.name,email:user.email});
 };
 
 const refreshToken = async (req,res) => {
@@ -63,4 +68,12 @@ const refreshToken = async (req,res) => {
   res.status(StatusCodes.OK).json({accessToken})
 }
 
-export { login, register, refreshToken };
+const logout = async (req, res) => {
+  res.cookie('token', 'logout', {
+    httpOnly: true,
+    expires: new Date(Date.now())
+  })
+  res.status(StatusCodes.OK).json({msg: 'user logged out!!!'})
+}
+
+export { login, register, refreshToken, logout };

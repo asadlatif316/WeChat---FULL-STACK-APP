@@ -8,7 +8,6 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import cors from 'cors';
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const app = express();
 
 //other imports
 import authRouter from './routes/authRoutes.js';
@@ -19,6 +18,8 @@ import connectDB from './DB/connect.js';
 import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
 import protectUser from './middlewares/authMiddleware.js';
 import protectLimit from './middlewares/arcJetMiddlware.js';
+import { app, server } from './lib/socket.js';
+
 //middlewares
 app.use(
   cors({
@@ -55,13 +56,23 @@ app.get('/api/v1/test', protectLimit, (req, res) => {
 app.use(errorHandlerMiddleware);
 const port = process.env.PORT || 4200;
 
+let MONGO_URL;
+
+if (process.env.NODE_ENV === 'production') {
+  MONGO_URL = process.env.MONGO_URL_PRO;
+} else {
+  MONGO_URL = process.env.MONGO_URL_DEV;
+}
+
 const startApp = async () => {
   try {
-    await connectDB(process.env.MONGO_URL);
-    app.listen(port, () => {
+    await connectDB(MONGO_URL);
+    server.listen(port, () => {
       console.log(`server is running on port ${port}`);
     });
   } catch (error) {
+    console.log(error.message);
+
     process.exit(1);
   }
 };

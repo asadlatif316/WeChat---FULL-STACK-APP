@@ -3,11 +3,13 @@ import { Toaster } from 'react-hot-toast';
 import { Home, Login, Register } from './pages';
 import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
+import { PageLoader } from './components';
 function App() {
   const { checkAuth, user, isCheckingAuth } = useAuthStore();
   useEffect(() => {
     checkAuth()
-  },[checkAuth])
+  }, [checkAuth])
+  if(isCheckingAuth) return <PageLoader/>
   return (
     <>
       <Routes>
