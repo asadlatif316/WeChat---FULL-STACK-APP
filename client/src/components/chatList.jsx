@@ -2,10 +2,10 @@ import { useChatStore } from '@/store/useChatStore';
 import { NoChatFound, UserLoadingSkeleton } from '.';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
-import { Avatar,AvatarFallback,AvatarBadge } from './ui';
+import { Avatar, AvatarFallback, AvatarBadge } from './ui';
 
 const ChatList = () => {
-  const { user,onlineUsers } = useAuthStore(); 
+  const { user, onlineUsers } = useAuthStore();
 
   const {
     chats,
@@ -14,17 +14,20 @@ const ChatList = () => {
     setSelectedConversation,
     selectedConversation,
   } = useChatStore();
+
   useEffect(() => {
     getChatPartners();
   }, [getChatPartners]);
+
   if (isUserLoading) return <UserLoadingSkeleton />;
+
   if (chats.length === 0) return <NoChatFound />;
 
   return (
     <>
       {chats.map((chat) => {
-        const partner = chat.participants.find((p) => p._id !== user.userId);
-        
+        const partner = chat.participants.find((p) => p._id !== user._id);
+
         return (
           <div
             key={chat._id}
@@ -35,7 +38,9 @@ const ChatList = () => {
               <AvatarFallback className='capitalize'>
                 {partner.name.charAt()}
               </AvatarFallback>
-              <AvatarBadge className={`${onlineUsers.includes(partner._id) ? 'bg-primary' : 'bg-gray-600'}`} />
+              <AvatarBadge
+                className={`${onlineUsers.includes(partner._id) ? 'bg-primary' : 'bg-gray-600'}`}
+              />
             </Avatar>
             <div className='flex-1'>
               <div className='flex items-center justify-between'>
