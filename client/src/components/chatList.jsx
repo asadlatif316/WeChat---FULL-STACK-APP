@@ -23,7 +23,7 @@ const ChatList = () => {
   return (
     <>
       {chats.map((chat) => {
-        const partner = chat.participants.find((p) => p._id !== user.userId);
+        const partner = chat.participants.find((p) => p._id !== user._id);
         
         return (
           <div
