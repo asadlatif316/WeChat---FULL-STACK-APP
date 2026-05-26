@@ -51,7 +51,7 @@ const ChatContainer = () => {
       <ProfileHeader />
       <div className='flex-1 overflow-y-auto py-8 border border-gray-400/40 bg-gray-100 rounded-lg '>
         {messages.length > 0 && !isMessagesLoading ? (
-          <div className='max-w-3xl mx-auto space-y-6'>
+          <div className='max-w-3xl mx-auto space-y-6 px-4'>
             {messages.map((msg) => (
               <div
                 key={msg._id}
