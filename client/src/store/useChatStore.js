@@ -55,9 +55,6 @@ export const useChatStore = create((set, get) => ({
 
   getMessagesByUserId: async () => {
     const { selectedConversation, chats, selectedUser } = get();
-    console.log(selectedUser);
-    console.log(selectedConversation);
-    
     let conversation;
     if (selectedConversation) {
       conversation = selectedConversation;
@@ -67,7 +64,6 @@ export const useChatStore = create((set, get) => ({
       );
       
     }
-    console.log(conversation);
     if (!conversation) {
       set({ messages: [] });
       return;
@@ -126,24 +122,40 @@ export const useChatStore = create((set, get) => ({
       toast.error(error.response?.data?.msg || 'something went wrong');
     }
   },
+
+  updatedConversationList: (conversation) => {
+    console.log('updated conversation is called');
+    
+    const chats = get().chats
+    const isChatExist = chats.find(c => c._id === conversation._id)
+    
+    if (isChatExist) {
+      const filteredConversation = chats.filter(c => c._id !== conversation._id)
+      set({chats:[conversation,...filteredConversation]})
+    } else {
+      set({chats: [conversation,...chats]})
+    }
+  },
+
   subscribeToMessage: () => {
-    const { selectedConversation, selectedUser } = get();
-    if (!selectedConversation) return;
+    const { selectedConversation, updatedConversationList } = get();
     const socket = useAuthStore.getState().socket;
 
     socket.on('showTyping', (senderId) => {
       set({ isTyping: true });
     });
     socket.on('stopTyping', (senderId) => {
-      console.log('stop');
-
       set({ isTyping: false });
     });
 
-    socket.on('newMessage', (newMessage) => {
-      if (selectedConversation._id !== newMessage.conversationId) return;
+    socket.on('newMessage', ({message,conversation}) => {
+      updatedConversationList(conversation)
+      if (selectedConversation._id !== message.conversationId) return;
       const currentMessages = get().messages;
-      set({ messages: [...currentMessages, newMessage] });
+      set({ messages: [...currentMessages, message] });
+     
+      
+      
     });
   },
 
