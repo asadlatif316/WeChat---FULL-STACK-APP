@@ -22,11 +22,7 @@ const ChatContainer = () => {
   const { user } = useAuthStore();
 
   useEffect(() => {
-    console.log(
-      'useEffect running, selectedConversation:',
-      selectedConversation?._id,
-    );
-    if (selectedConversation?._id) {
+    if (selectedConversation?._id || selectedUser?._id) {
       getMessagesByUserId();
     }
     unSubscribeToMessage();
@@ -49,7 +45,7 @@ const ChatContainer = () => {
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user?._id)
     : selectedUser;
-
+  
   return (
     <div className='flex flex-col flex-1 overflow-hidden h-full p-4 bg-white'>
       <ProfileHeader />

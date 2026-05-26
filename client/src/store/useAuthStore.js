@@ -18,7 +18,6 @@ export const useAuthStore = create((set, get) => ({
     try {
       const res = await customFetch.get('/user/get-user');
       set({ user: res.data.user });
-      console.log('calling socketConnection from checkAuth');
       const { socket } = get();
       if (!socket) {
         get().socketConnection();

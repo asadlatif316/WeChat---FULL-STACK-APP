@@ -16,7 +16,7 @@ export const useChatStore = create((set, get) => ({
 
   setActiveTab: (tab) => set({ activeTab: tab }),
   setSelectedUser: (selectedUser) => {
-    set({ selectedUser, conversation: null });
+    set({ selectedUser, selectedConversation: null });
   },
   setSelectedConversation: (selectedConversation) => {
     set({ selectedConversation, selectedUser: null });
@@ -54,10 +54,28 @@ export const useChatStore = create((set, get) => ({
   },
 
   getMessagesByUserId: async () => {
-    const { selectedConversation } = get();
+    const { selectedConversation, chats, selectedUser } = get();
+    console.log(selectedUser);
+    console.log(selectedConversation);
+    
+    let conversation;
+    if (selectedConversation) {
+      conversation = selectedConversation;
+    } else{
+      conversation = chats.find((chat) =>
+        chat.participants.some((p) => p._id === selectedUser?._id),
+      );
+      
+    }
+    console.log(conversation);
+    if (!conversation) {
+      set({ messages: [] });
+      return;
+    }
+
     set({ isMessagesLoading: true });
     try {
-      const res = await customFetch.get(`/message/${selectedConversation._id}`);
+      const res = await customFetch.get(`/message/${conversation._id}`);
       set({ messages: res.data });
     } catch (error) {
       console.log(error);
@@ -69,7 +87,7 @@ export const useChatStore = create((set, get) => ({
   },
 
   sendMessage: async (data) => {
-    const { selectedUser, messages, selectedConversation } = get();
+    const { selectedUser, messages, chats, selectedConversation } = get();
     const { user } = useAuthStore.getState();
     let conversationId;
 
@@ -87,16 +105,19 @@ export const useChatStore = create((set, get) => ({
       createdAt: new Date().toISOString(),
     };
     set({ messages: [...messages, optimisticMessage] });
+
     try {
+      //checks if it conversation ot selectedUser
       if (selectedConversation) {
         conversationId = selectedConversation._id;
       } else if (selectedUser) {
         const res = await customFetch.post(
           `/conversations/${selectedUser._id}`,
         );
-
         conversationId = res.data._id;
       }
+
+      // send messages
       const res = await customFetch.post(`/message/${conversationId}`, data);
       set({ messages: messages.concat(res.data) });
     } catch (error) {
@@ -107,26 +128,23 @@ export const useChatStore = create((set, get) => ({
   },
   subscribeToMessage: () => {
     const { selectedConversation, selectedUser } = get();
-    const user = useAuthStore.getState().user
     if (!selectedConversation) return;
     const socket = useAuthStore.getState().socket;
-    
+
     socket.on('showTyping', (senderId) => {
       set({ isTyping: true });
-    }); 
+    });
     socket.on('stopTyping', (senderId) => {
       console.log('stop');
-      
+
       set({ isTyping: false });
-    }); 
-
-
-    socket.on('newMessage', (newMessage) => {
-      if (selectedConversation._id !== newMessage.conversationId) return
-      const currentMessages = get().messages
-      set({messages: [...currentMessages,newMessage]})
     });
 
+    socket.on('newMessage', (newMessage) => {
+      if (selectedConversation._id !== newMessage.conversationId) return;
+      const currentMessages = get().messages;
+      set({ messages: [...currentMessages, newMessage] });
+    });
   },
 
   unSubscribeToMessage: () => {
@@ -137,13 +155,13 @@ export const useChatStore = create((set, get) => ({
     console.log('unSubscribeToMessage called');
   },
 
-  showTyping: (receiverId)=>{
-    const  socket  = useAuthStore.getState().socket
-    socket?.emit('showTyping',receiverId)
+  showTyping: (receiverId) => {
+    const socket = useAuthStore.getState().socket;
+    socket?.emit('showTyping', receiverId);
   },
 
-  stopTyping: (receiverId)=>{
-    const  socket  = useAuthStore.getState().socket
-    socket?.emit('stopTyping',receiverId)
-  }
+  stopTyping: (receiverId) => {
+    const socket = useAuthStore.getState().socket;
+    socket?.emit('stopTyping', receiverId);
+  },
 }));
