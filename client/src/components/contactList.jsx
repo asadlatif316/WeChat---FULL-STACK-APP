@@ -14,8 +14,6 @@ const ContactList = () => {
     chats, setSelectedConversation,
     setActiveTab
   } = useChatStore();
-  console.log(chats);
-  
   useEffect(() => {
     getContacts();
   }, [getContacts]);
