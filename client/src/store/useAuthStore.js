@@ -2,22 +2,27 @@ import customFetch from '@/lib/customFetch';
 import { create } from 'zustand';
 import toast from 'react-hot-toast';
 import { useChatStore } from './useChatStore';
-import {io} from 'socket.io-client'
+import { io } from 'socket.io-client';
 
-const BASE_URL = import.meta.env.MODE === 'development' ? 'http://localhost:4200' : '/'
+const BASE_URL =
+  import.meta.env.MODE === 'development' ? 'http://localhost:4200' : '/';
 
-export const useAuthStore = create((set,get) => ({
+export const useAuthStore = create((set, get) => ({
   user: null,
   isSigningUp: false,
   isLoggingIn: false,
   isCheckingAuth: true,
   socket: null,
-  onlineUsers: [] ,
+  onlineUsers: [],
   checkAuth: async () => {
     try {
       const res = await customFetch.get('/user/get-user');
       set({ user: res.data.user });
-      get().socketConnection()
+      console.log('calling socketConnection from checkAuth');
+      const { socket } = get();
+      if (!socket) {
+        get().socketConnection();
+      }
     } catch (error) {
       console.log('Error in checking Auth', error);
       set({ user: null });
@@ -34,13 +39,13 @@ export const useAuthStore = create((set,get) => ({
       });
       useChatStore.getState().resetChat();
       toast.success('User logged out successfully');
-      get().socketDisconnect()
+      get().socketDisconnect();
     } catch (error) {
       toast.error('Error in Logging out');
       console.log('Logged out error: ', error);
     }
   },
-  
+
   signup: async (data) => {
     set({ isSigningUp: true });
     try {
@@ -54,7 +59,7 @@ export const useAuthStore = create((set,get) => ({
       set({ isSigningUp: false });
     }
   },
-  
+
   login: async (data) => {
     set({ isLoggingIn: true });
     useChatStore.getState().resetChat();
@@ -62,7 +67,7 @@ export const useAuthStore = create((set,get) => ({
       const res = await customFetch.post('/auth/login', data);
       set({ user: res.data });
       toast.success('logged in successfully');
-      get().socketConnection()
+      get().socketConnection();
     } catch (error) {
       toast.error(error.response.data.msg);
     } finally {
@@ -71,21 +76,20 @@ export const useAuthStore = create((set,get) => ({
   },
 
   socketConnection: async () => {
-    const { user,socket } = get()
-    if (!user || socket?.connected) return
+    const { user, socket } = get();
+    if (!user || socket?.connected) return;
     const newSocket = io(BASE_URL, {
-      withCredentials:true
-    })
-    newSocket.connect()
-    set({ socket:newSocket })
-    
+      withCredentials: true,
+    });
+    set({ socket: newSocket });
+
     newSocket.on('getOnlineUsers', (usersId) => {
       set({ onlineUsers: usersId });
     });
   },
 
   socketDisconnect: () => {
-    const { socket } = get()
-    if (socket?.connected) socket.disconnect()
-  }
+    const { socket } = get();
+    if (socket?.connected) socket.disconnect();
+  },
 }));

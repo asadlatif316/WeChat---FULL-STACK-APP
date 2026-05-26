@@ -33,6 +33,7 @@ io.on('connection', (socket) => {
   
   const userId = socket.userId;
   onlineMap[userId] = socket.id;
+  console.log('emitting onlineUsers:', Object.keys(onlineMap));
   io.emit('getOnlineUsers', Object.keys(onlineMap));
 
   socket.on('showTyping', (receiverId) => {
