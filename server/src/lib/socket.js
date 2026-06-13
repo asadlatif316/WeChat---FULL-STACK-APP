@@ -2,7 +2,7 @@ import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import { socketMiddleware } from '../middlewares/socketAuthMiddleware.js';
-
+import Message from '../models/messageModel.js';
 const app = express();
 
 const server = http.createServer(app);
@@ -20,17 +20,14 @@ io.use((socket, next) => {
 
 io.use(socketMiddleware);
 
-
-
 const onlineMap = {};
 
-console.log('onlineMap:', onlineMap) // add in controller
+console.log('onlineMap:', onlineMap); // add in controller
 export function getReceiverSocketId(userId) {
   return onlineMap[userId];
 }
 
 io.on('connection', (socket) => {
-  
   const userId = socket.userId;
   onlineMap[userId] = socket.id;
   console.log('emitting onlineUsers:', Object.keys(onlineMap));
@@ -47,6 +44,21 @@ io.on('connection', (socket) => {
     const receiverSocketId = getReceiverSocketId(receiverId);
     if (receiverSocketId) {
       io.to(receiverSocketId).emit('stopTyping', socket.userId);
+    }
+  });
+
+  socket.on('messageDelivered', async ({ messageId, senderId }) => {
+    const message = await Message.findById(
+      messageId,
+      { status: 'delivered' },
+      { new: true },
+    );
+    const receiverSocketId = getReceiverSocketId(senderId);
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit('messageStatusUpdated', {
+        messageId,
+        messageStatus: 'delivered',
+      });
     }
   });
 

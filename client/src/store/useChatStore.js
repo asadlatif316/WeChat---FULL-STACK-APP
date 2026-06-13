@@ -58,11 +58,10 @@ export const useChatStore = create((set, get) => ({
     let conversation;
     if (selectedConversation) {
       conversation = selectedConversation;
-    } else{
+    } else {
       conversation = chats.find((chat) =>
         chat.participants.some((p) => p._id === selectedUser?._id),
       );
-      
     }
     if (!conversation) {
       set({ messages: [] });
@@ -125,15 +124,17 @@ export const useChatStore = create((set, get) => ({
 
   updatedConversationList: (conversation) => {
     console.log('updated conversation is called');
-    
-    const chats = get().chats
-    const isChatExist = chats.find(c => c._id === conversation._id)
-    
+
+    const chats = get().chats;
+    const isChatExist = chats.find((c) => c._id === conversation._id);
+
     if (isChatExist) {
-      const filteredConversation = chats.filter(c => c._id !== conversation._id)
-      set({chats:[conversation,...filteredConversation]})
+      const filteredConversation = chats.filter(
+        (c) => c._id !== conversation._id,
+      );
+      set({ chats: [conversation, ...filteredConversation] });
     } else {
-      set({chats: [conversation,...chats]})
+      set({ chats: [conversation, ...chats] });
     }
   },
 
@@ -148,14 +149,24 @@ export const useChatStore = create((set, get) => ({
       set({ isTyping: false });
     });
 
-    socket.on('newMessage', ({message,conversation}) => {
-      updatedConversationList(conversation)
+    socket.on('newMessage', ({ message, conversation }) => {
+      updatedConversationList(conversation);
       if (selectedConversation._id !== message.conversationId) return;
       const currentMessages = get().messages;
       set({ messages: [...currentMessages, message] });
-     
-      
-      
+
+      socket.emit('messageDelivered', {
+        messageId: message._id,
+        senderId: message.sender._id,
+      });
+    });
+    socket.on('messageStatusUpdated', ({ messageId, messageStatus }) => {
+      const currentMessages = get().messages;
+      set({
+        messages: currentMessages.map((msg) =>
+          msg._id == messageId ? { ...msg, status: messageStatus } : { msg },
+        ),
+      });
     });
   },
 

@@ -7,7 +7,7 @@ import {
 } from '.';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useEffect, useRef } from 'react';
-import { IoCheckmark,IoCheckmarkDoneOutline } from 'react-icons/io5';
+import { IoCheckmark, IoCheckmarkDoneOutline } from 'react-icons/io5';
 
 const ChatContainer = () => {
   const messageEndRef = useRef(null);
@@ -42,6 +42,7 @@ const ChatContainer = () => {
       messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
+console.log(messages);
 
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user?._id)
@@ -69,16 +70,18 @@ const ChatContainer = () => {
                           minute: '2-digit',
                         })}
                     </p>
-                    <div>{msg.status === 'sent' ? (
-                      <IoCheckmark className='h-4 w-4' />
-                    ) : msg.status === 'delivered' ? (
-                      <IoCheckmarkDoneOutline className='h-4 w-4 ' />
-                    ) : (
-                      <IoCheckmarkDoneOutline
-                        className='h-4 w-4'
-                        color='blue'
-                      />
-                    )}</div>
+                    <div>
+                      {msg.status === 'sent' ? (
+                        <IoCheckmark className='h-4 w-4' />
+                      ) : msg.status === 'delivered' ? (
+                        <IoCheckmarkDoneOutline className='h-4 w-4 ' />
+                      ) : (
+                        <IoCheckmarkDoneOutline
+                          className='h-4 w-4'
+                          color='blue'
+                        />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
