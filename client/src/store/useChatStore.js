@@ -168,8 +168,6 @@ export const useChatStore = create((set, get) => ({
     });
 
     socket.on('messageReadUpdate', ({ messageIds, messageStatus }) => {
-      console.log('readUpdate');
-      
       const currentMessages = get().messages;
       set({
         messages: currentMessages.map((msg) => {
