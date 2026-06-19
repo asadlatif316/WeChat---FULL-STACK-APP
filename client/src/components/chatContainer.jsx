@@ -19,12 +19,14 @@ const ChatContainer = () => {
     selectedUser,
     subscribeToMessage,
     unSubscribeToMessage,
+    emitMessageRead
   } = useChatStore();
   const { user } = useAuthStore();
 
   useEffect(() => {
     if (selectedConversation?._id || selectedUser?._id) {
       getMessagesByUserId();
+      emitMessageRead()
     }
     unSubscribeToMessage();
     subscribeToMessage();
@@ -42,8 +44,6 @@ const ChatContainer = () => {
       messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
-console.log(messages);
-
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user?._id)
     : selectedUser;

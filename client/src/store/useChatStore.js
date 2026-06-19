@@ -123,8 +123,6 @@ export const useChatStore = create((set, get) => ({
   },
 
   updatedConversationList: (conversation) => {
-    console.log('updated conversation is called');
-
     const chats = get().chats;
     const isChatExist = chats.find((c) => c._id === conversation._id);
 
@@ -164,8 +162,22 @@ export const useChatStore = create((set, get) => ({
       const currentMessages = get().messages;
       set({
         messages: currentMessages.map((msg) =>
-          msg._id == messageId ? { ...msg, status: messageStatus } : { msg },
+          msg._id == messageId ? { ...msg, status: messageStatus } :  msg ,
         ),
+      });
+    });
+
+    socket.on('messageReadUpdate', ({ messageIds, messageStatus }) => {
+      console.log('readUpdate');
+      
+      const currentMessages = get().messages;
+      set({
+        messages: currentMessages.map((msg) => {
+          if (messageIds && messageIds.includes(msg._id)) {
+            return { ...msg, status: messageStatus };
+          }
+          return msg;
+        }),
       });
     });
   },
@@ -186,5 +198,20 @@ export const useChatStore = create((set, get) => ({
   stopTyping: (receiverId) => {
     const socket = useAuthStore.getState().socket;
     socket?.emit('stopTyping', receiverId);
+  },
+  emitMessageRead: () => {
+    const { selectedConversation } = get();
+    if (!selectedConversation) return;
+    const socket = useAuthStore.getState().socket;
+
+    const user = useAuthStore.getState().user._id;
+    const sender = selectedConversation.participants.find(
+      (p) => p._id !== user,
+    );
+
+    socket.emit('readMessage', {
+      conversationId: selectedConversation._id,
+      senderId: sender._id,
+    });
   },
 }));

@@ -62,6 +62,22 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('readMessage', async ({ conversationId, senderId }) => {
+    const messages = await Message.find({
+      conversationId,
+      status:{$ne:'read'}
+    },{status: 'read'})
+    const messageIds = messages.map(msg => msg._id)
+
+    const senderSocketId = onlineMap[senderId]
+    if (senderSocketId) {
+      io.to(senderSocketId).emit('messageReadUpdate',{
+        messageIds,
+        messageStatus: 'read'
+      })
+    }
+  })
+
   socket.on('disconnect', () => {
     console.log('User disconnected', socket.user.name);
     delete onlineMap[userId];
