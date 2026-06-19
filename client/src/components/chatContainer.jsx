@@ -71,7 +71,7 @@ const ChatContainer = () => {
                         })}
                     </p>
                     <div>
-                      {msg.status === 'sent' ? (
+                      {msg.sender._id === user._id &&( msg.status === 'sent' ? (
                         <IoCheckmark className='h-4 w-4' />
                       ) : msg.status === 'delivered' ? (
                         <IoCheckmarkDoneOutline className='h-4 w-4 ' />
@@ -80,7 +80,7 @@ const ChatContainer = () => {
                           className='h-4 w-4'
                           color='blue'
                         />
-                      )}
+                      ))}
                     </div>
                   </div>
                 </div>
