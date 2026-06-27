@@ -11,6 +11,8 @@ const ContactList = () => {
     getContacts,
     setSelectedUser,
     selectedUser,
+    chats, setSelectedConversation,
+    setActiveTab
   } = useChatStore();
   useEffect(() => {
     getContacts();
@@ -23,7 +25,17 @@ const ContactList = () => {
           <div
             key={contact._id}
             className={`flex items-center ${selectedUser?._id === contact._id && 'bg-white border-r-4'} rounded-lg p-4 space-x-3   border-primary`}
-            onClick={() => setSelectedUser(contact)}
+            onClick={() => {
+              const found = chats.find((chat) =>
+                chat.participants.some((c) => c._id === contact._id),
+              );
+              if (found) {
+                setSelectedConversation(found)
+                setActiveTab('chats')
+              } else {
+                setSelectedUser(contact)
+              }
+            }}
           >
             <Avatar size='lg'>
               <AvatarFallback className='capitalize'>

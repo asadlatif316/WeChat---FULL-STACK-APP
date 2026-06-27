@@ -14,7 +14,6 @@ const sendMessage = async (req, res) => {
   const receiverId = conversation.participants
     .find((p) => p._id.toString() !== sender)
     ._id.toString();
-console.log(receiverId);
 
   let ImageUrl;
   if (image) {
@@ -31,14 +30,33 @@ console.log(receiverId);
 
   await newMessage.save();
 
-  await Conversation.findByIdAndUpdate(conversationId, {
-    latestMessage: newMessage._id,
-  });
-
+  const updatedConversation = await Conversation.findByIdAndUpdate(
+    conversationId,
+    {
+      latestMessage: newMessage._id,
+    },
+    { new: true },
+  )
+    .populate('participants', 'name email avatar')
+    .populate('latestMessage');
   await newMessage.populate('sender', 'name email avatar');
   const receiverSocketId = getReceiverSocketId(receiverId);
+  console.log('sender:', sender);
+  console.log('receiverId:', receiverId);
+  console.log('receiverSocketId:', getReceiverSocketId(receiverId));
   if (receiverSocketId) {
-    io.to(receiverSocketId).emit('newMessage', newMessage);
+    io.to(receiverSocketId).emit('newMessage', {
+      message: newMessage,
+      conversation: updatedConversation,
+    });
+  }
+
+  const senderSocketId = getReceiverSocketId(sender);
+  if (senderSocketId) {
+    io.to(senderSocketId).emit('newMessage', {
+      message: newMessage,
+      conversation: updatedConversation,
+    });
   }
   res.status(StatusCodes.OK).json(newMessage);
 };

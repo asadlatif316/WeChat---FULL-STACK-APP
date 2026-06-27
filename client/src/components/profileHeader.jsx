@@ -1,12 +1,13 @@
 import { useAuthStore } from '@/store/useAuthStore';
 import { useChatStore } from '@/store/useChatStore';
+import { Avatar,AvatarFallback } from './ui';
 import { useEffect } from 'react';
 
 const ProfileHeader = () => {
   const { selectedConversation, setSelectedConversation, selectedUser,isTyping } = useChatStore();
   const { user,onlineUsers } = useAuthStore();
   const person = selectedConversation
-    ? selectedConversation.participants.find((p) => p._id !== user.userId)
+    ? selectedConversation.participants.find((p) => p._id !== user._id)
     : selectedUser;
   selectedUser
 
@@ -24,7 +25,11 @@ const ProfileHeader = () => {
 
   return (
     <div className='flex items-center space-x-4 pb-4'>
-      <div className='h-12 w-12 rounded-full bg-accent'></div>
+      <Avatar className='h-12 w-12'>
+        <AvatarFallback className='capitalize'>
+          {person.name.charAt()}
+        </AvatarFallback>
+      </Avatar>
       <div className=''>
         <h3 className='capitalize font-semibold text-foreground'>
           {person.name}
