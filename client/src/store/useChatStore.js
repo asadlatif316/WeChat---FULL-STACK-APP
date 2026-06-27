@@ -173,30 +173,24 @@ export const useChatStore = create((set, get) => ({
 
       get().emitMessageRead();
     });
-    socket.on('messageStatusUpdated', ({ messageId, messageStatus, messageIds }) => {
-      const ids = (messageIds || [messageId]).flat(Infinity).map(String);
-
-       console.log('ids type:', ids, typeof ids[0]);
-       console.log(
-         'sample my id:',
-         get().messages[0]?._id,
-         typeof get().messages[0]?._id,
-       );
-       console.log(
-         'any match:',
-         get().messages.some((m) => ids.includes(m._id)),
-       );
-      const currentMessages = get().messages;
-      set({
-        messages: get().messages.map((msg) =>
-          ids.includes(String(msg._id))
-            ? { ...msg, status: messageStatus }
-            : msg,
-        ),
-      });
-        console.log('AFTER STATUS SET:', get().messages.find(m => ids.includes(m._id))?.status);
-
-    });
+    socket.on(
+      'messageStatusUpdated',
+      ({ messageId, messageStatus, messageIds }) => {
+        const ids = (messageIds || [messageId]).flat(Infinity).map(String);
+        const currentMessages = get().messages;
+        set({
+          messages: currentMessages.map((msg) =>
+            ids.includes(String(msg._id))
+              ? { ...msg, status: messageStatus }
+              : msg,
+          ),
+        });
+        console.log(
+          'AFTER STATUS SET:',
+          get().messages.find((m) => ids.includes(m._id))?.status,
+        );
+      },
+    );
 
     socket.on('messageReadUpdate', ({ messageIds, messageStatus }) => {
       const currentMessages = get().messages;

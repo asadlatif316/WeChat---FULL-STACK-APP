@@ -17,29 +17,22 @@ const ChatContainer = () => {
     getMessagesByUserId,
     isMessagesLoading,
     selectedUser,
-    subscribeToMessage,
-    unSubscribeToMessage,
     emitMessageRead,
   } = useChatStore();
   const { user } = useAuthStore();
-console.log('RENDER', messages.length, messages[messages.length - 1]?.status);
   useEffect(() => {
     if (selectedConversation?._id || selectedUser?._id) {
-      getMessagesByUserId(); 
+      getMessagesByUserId();
       emitMessageRead();
     }
-  }, [
-    selectedConversation?._id,
-    selectedUser?._id,
-    getMessagesByUserId,
-  ]);
+  }, [selectedConversation?._id, selectedUser?._id, getMessagesByUserId]);
 
   useEffect(() => {
     if (messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [messages]);
-  
+
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user?._id)
     : selectedUser;
