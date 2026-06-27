@@ -41,6 +41,9 @@ const sendMessage = async (req, res) => {
     .populate('latestMessage');
   await newMessage.populate('sender', 'name email avatar');
   const receiverSocketId = getReceiverSocketId(receiverId);
+  console.log('sender:', sender);
+  console.log('receiverId:', receiverId);
+  console.log('receiverSocketId:', getReceiverSocketId(receiverId));
   if (receiverSocketId) {
     io.to(receiverSocketId).emit('newMessage', {
       message: newMessage,

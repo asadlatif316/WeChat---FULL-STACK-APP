@@ -9,8 +9,14 @@ import { Input, Button } from '@/components/ui';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useChatStore } from '@/store/useChatStore';
 import { IoSearch } from 'react-icons/io5';
+import { useEffect } from 'react';
 
 const Home = () => {
+  const { subscribeToMessage, unSubscribeToMessage } = useChatStore() 
+  useEffect(() => {
+    subscribeToMessage();
+    return () => unSubscribeToMessage();
+  }, []);
   const { logout } = useAuthStore();
   const { activeTab, selectedConversation, selectedUser } = useChatStore();
   return (

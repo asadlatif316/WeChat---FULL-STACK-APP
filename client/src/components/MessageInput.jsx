@@ -12,8 +12,9 @@ const MessageInput = () => {
   const { sendMessage, showTyping } = useChatStore();
 
   const person = selectedConversation
-    ? selectedConversation.participants.find((p) => p._id !== user?.userId)
+    ? selectedConversation.participants.find((p) => p._id !== user?._id)
     : selectedUser;
+console.log(person);
 
   const handleSendMessage = (e) => {
     e.preventDefault();

@@ -24,8 +24,6 @@ const ChatList = () => {
     <>
       {chats.map((chat) => {
         const partner = chat.participants.find((p) => p._id !== user._id);
-        console.log(partner);
-        
         return (
           <div
             key={chat._id}
