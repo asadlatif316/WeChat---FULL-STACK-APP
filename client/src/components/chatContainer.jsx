@@ -28,15 +28,10 @@ const ChatContainer = () => {
       getMessagesByUserId(); 
       emitMessageRead();
     }
-    unSubscribeToMessage();
-    subscribeToMessage();
-    return () => unSubscribeToMessage();
   }, [
     selectedConversation?._id,
     selectedUser?._id,
     getMessagesByUserId,
-    subscribeToMessage,
-    unSubscribeToMessage,
   ]);
 
   useEffect(() => {
