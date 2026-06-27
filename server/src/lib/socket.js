@@ -3,6 +3,7 @@ import http from 'http';
 import { Server } from 'socket.io';
 import { socketMiddleware } from '../middlewares/socketAuthMiddleware.js';
 import Message from '../models/messageModel.js';
+import Conversation from '../models/conversationModel.js';
 const app = express();
 
 const server = http.createServer(app);
@@ -27,11 +28,54 @@ export function getReceiverSocketId(userId) {
   return onlineMap[userId];
 }
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
   const userId = socket.userId;
   onlineMap[userId] = socket.id;
   console.log('emitting onlineUsers:', Object.keys(onlineMap));
   io.emit('getOnlineUsers', Object.keys(onlineMap));
+
+  const conversations = await Conversation.find({ participants: userId });
+
+  const conversationIds = conversations.map((c) => c._id);
+
+  const pending = await Message.find({
+    conversationId: { $in: conversationIds },
+    sender: { $ne: userId },
+    status: 'sent',
+  });
+
+  if (pending.length > 0) {
+    const messageIds = pending.map((m) => m._id);
+    await Message.updateMany(
+      { _id: { $in: messageIds } },
+      { status: 'delivered' },
+    );
+
+    const bySender = {};
+    for (const msg of pending) {
+      const sId = msg.sender._id.toString();
+      if (!bySender[sId]) bySender[sId] = [];
+      bySender[sId].push(msg._id);
+    }
+
+    for (const senderId in bySender) {
+      const senderSocketId = onlineMap[senderId];
+      console.log(
+        'OFFLINE DELIVERED → sender:',
+        senderId,
+        'socket:',
+        senderSocketId,
+        'ids:',
+        bySender[senderId],
+      );
+      if (senderSocketId) {
+        io.to(senderSocketId).emit('messageStatusUpdated', {
+          messageIds: bySender[senderId],
+          messageStatus: 'delivered',
+        });
+      }
+    }
+  }
 
   socket.on('showTyping', (receiverId) => {
     const receiverSocketId = getReceiverSocketId(receiverId);
@@ -72,10 +116,10 @@ io.on('connection', (socket) => {
     );
     console.log('unread found:', messages.length);
     const messageIds = messages.map((msg) => msg._id);
-     if (messageIds.length === 0) {
-       console.log('nothing to update, return');
-       return;
-     }
+    if (messageIds.length === 0) {
+      console.log('nothing to update, return');
+      return;
+    }
     await Message.updateMany({ _id: { $in: messageIds } }, { status: 'read' });
     const senderSocketId = onlineMap[senderId];
     console.log('emitting to:', senderId, 'socket:', senderSocketId);

@@ -139,7 +139,6 @@ export const useChatStore = create((set, get) => ({
   subscribeToMessage: () => {
     const { selectedConversation, updatedConversationList } = get();
     const socket = useAuthStore.getState().socket;
-    console.log('SUBSCRIBE RAN, socket:', socket?.id);
     socket.on('showTyping', (senderId) => {
       set({ isTyping: true });
     });
@@ -149,8 +148,6 @@ export const useChatStore = create((set, get) => ({
 
     socket.on('newMessage', ({ message, conversation }) => {
       updatedConversationList(conversation);
-      console.log('PETER GOT newMessage');
-console.log('my socket id:', useAuthStore.getState().socket?.id);
       const { selectedConversation } = get(); // ← fresh, not from top of subscribe
       const myId = useAuthStore.getState().user._id;
       if (message.sender._id === myId) return;
@@ -176,13 +173,29 @@ console.log('my socket id:', useAuthStore.getState().socket?.id);
 
       get().emitMessageRead();
     });
-    socket.on('messageStatusUpdated', ({ messageId, messageStatus }) => {
+    socket.on('messageStatusUpdated', ({ messageId, messageStatus, messageIds }) => {
+      const ids = (messageIds || [messageId]).flat(Infinity).map(String);
+
+       console.log('ids type:', ids, typeof ids[0]);
+       console.log(
+         'sample my id:',
+         get().messages[0]?._id,
+         typeof get().messages[0]?._id,
+       );
+       console.log(
+         'any match:',
+         get().messages.some((m) => ids.includes(m._id)),
+       );
       const currentMessages = get().messages;
       set({
-        messages: currentMessages.map((msg) =>
-          msg._id == messageId ? { ...msg, status: messageStatus } : msg,
+        messages: get().messages.map((msg) =>
+          ids.includes(String(msg._id))
+            ? { ...msg, status: messageStatus }
+            : msg,
         ),
       });
+        console.log('AFTER STATUS SET:', get().messages.find(m => ids.includes(m._id))?.status);
+
     });
 
     socket.on('messageReadUpdate', ({ messageIds, messageStatus }) => {
@@ -237,8 +250,6 @@ console.log('my socket id:', useAuthStore.getState().socket?.id);
     const sender = selectedConversation.participants.find(
       (p) => p._id !== user,
     );
-    console.log(sender);
-
     socket.emit('readMessage', {
       conversationId: selectedConversation._id,
       senderId: sender._id,

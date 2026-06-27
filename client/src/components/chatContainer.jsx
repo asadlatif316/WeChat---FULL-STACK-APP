@@ -22,7 +22,7 @@ const ChatContainer = () => {
     emitMessageRead,
   } = useChatStore();
   const { user } = useAuthStore();
-
+console.log('RENDER', messages.length, messages[messages.length - 1]?.status);
   useEffect(() => {
     if (selectedConversation?._id || selectedUser?._id) {
       getMessagesByUserId(); 
