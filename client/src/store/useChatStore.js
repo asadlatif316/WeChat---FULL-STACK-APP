@@ -139,7 +139,6 @@ export const useChatStore = create((set, get) => ({
   subscribeToMessage: () => {
     const { selectedConversation, updatedConversationList } = get();
     const socket = useAuthStore.getState().socket;
-
     socket.on('showTyping', (senderId) => {
       set({ isTyping: true });
     });
@@ -149,7 +148,31 @@ export const useChatStore = create((set, get) => ({
 
     socket.on('newMessage', ({ message, conversation }) => {
       updatedConversationList(conversation);
-      if (selectedConversation._id !== message.conversationId) return;
+
+      const { selectedConversation } = get(); // ← fresh, not from top of subscribe
+      const myId = useAuthStore.getState().user._id;
+      if (message.sender._id === myId) return;
+      // chat NOT open → just delivered, do NOT mark read
+      if (
+        !selectedConversation ||
+        selectedConversation._id !== message.conversationId
+      ) {
+        socket.emit('messageDelivered', {
+          messageId: message._id,
+          senderId: message.sender._id,
+        });
+        return;
+      }
+      console.log(
+        'PETER newMessage:',
+        'selected:',
+        selectedConversation?._id,
+        'incoming:',
+        message.conversationId,
+        'match:',
+        selectedConversation?._id === message.conversationId,
+      );
+      // chat IS open → append + delivered + read
       const currentMessages = get().messages;
       set({ messages: [...currentMessages, message] });
 
@@ -157,18 +180,21 @@ export const useChatStore = create((set, get) => ({
         messageId: message._id,
         senderId: message.sender._id,
       });
+
+      get().emitMessageRead();
     });
     socket.on('messageStatusUpdated', ({ messageId, messageStatus }) => {
       const currentMessages = get().messages;
       set({
         messages: currentMessages.map((msg) =>
-          msg._id == messageId ? { ...msg, status: messageStatus } :  msg ,
+          msg._id == messageId ? { ...msg, status: messageStatus } : msg,
         ),
       });
     });
 
     socket.on('messageReadUpdate', ({ messageIds, messageStatus }) => {
       const currentMessages = get().messages;
+
       set({
         messages: currentMessages.map((msg) => {
           if (messageIds && messageIds.includes(msg._id)) {
@@ -177,6 +203,10 @@ export const useChatStore = create((set, get) => ({
           return msg;
         }),
       });
+      console.log(
+        'after set status:',
+        get().messages.find((m) => messageIds.includes(m._id))?.status,
+      );
     });
   },
 
@@ -185,6 +215,8 @@ export const useChatStore = create((set, get) => ({
     socket?.off('newMessage');
     socket?.off('showTyping');
     socket?.off('stopTyping');
+    socket?.off('messageStatusUpdate');
+    socket?.off('messageReadUpdate');
     console.log('unSubscribeToMessage called');
   },
 
@@ -199,13 +231,20 @@ export const useChatStore = create((set, get) => ({
   },
   emitMessageRead: () => {
     const { selectedConversation } = get();
-    if (!selectedConversation) return;
+    console.log(selectedConversation);
+
+    if (!selectedConversation) {
+      console.log('emitMessageRead: no conversation, return');
+      return;
+    }
+
     const socket = useAuthStore.getState().socket;
 
     const user = useAuthStore.getState().user._id;
     const sender = selectedConversation.participants.find(
       (p) => p._id !== user,
     );
+    console.log(sender);
 
     socket.emit('readMessage', {
       conversationId: selectedConversation._id,

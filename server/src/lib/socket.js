@@ -48,7 +48,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('messageDelivered', async ({ messageId, senderId }) => {
-    const message = await Message.findById(
+    const message = await Message.findByIdAndUpdate(
       messageId,
       { status: 'delivered' },
       { new: true },
@@ -70,10 +70,16 @@ io.on('connection', (socket) => {
       },
       { status: 'read' },
     );
+    console.log('unread found:', messages.length);
     const messageIds = messages.map((msg) => msg._id);
-    if (messageIds.length === 0) return;
+     if (messageIds.length === 0) {
+       console.log('nothing to update, return');
+       return;
+     }
     await Message.updateMany({ _id: { $in: messageIds } }, { status: 'read' });
     const senderSocketId = onlineMap[senderId];
+    console.log('emitting to:', senderId, 'socket:', senderSocketId);
+
     if (senderSocketId) {
       io.to(senderSocketId).emit('messageReadUpdate', {
         messageIds,
