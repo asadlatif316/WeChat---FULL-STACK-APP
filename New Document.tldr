@@ -20,13 +20,13 @@
 			"com.tldraw.shape.group": 0,
 			"com.tldraw.shape.text": 4,
 			"com.tldraw.shape.bookmark": 2,
-			"com.tldraw.shape.draw": 4,
+			"com.tldraw.shape.draw": 5,
 			"com.tldraw.shape.geo": 11,
-			"com.tldraw.shape.note": 12,
+			"com.tldraw.shape.note": 13,
 			"com.tldraw.shape.line": 5,
 			"com.tldraw.shape.frame": 1,
 			"com.tldraw.shape.arrow": 8,
-			"com.tldraw.shape.highlight": 3,
+			"com.tldraw.shape.highlight": 4,
 			"com.tldraw.shape.embed": 4,
 			"com.tldraw.shape.image": 5,
 			"com.tldraw.shape.video": 4,
@@ -2020,9 +2020,9 @@
 			"typeName": "shape"
 		},
 		{
-			"x": 6635.564020219159,
-			"y": -1118.2647207445953,
-			"z": 0.05,
+			"x": 1971.7371062095435,
+			"y": 334.8238478914544,
+			"z": 0.35724645000000005,
 			"meta": {},
 			"id": "camera:page:page",
 			"typeName": "camera"
@@ -3840,8 +3840,8 @@
 			"typeName": "shape"
 		},
 		{
-			"x": -2063.0686155769818,
-			"y": -251.9289849665372,
+			"x": -2035.0767349018902,
+			"y": -263.12565181213324,
 			"rotation": 0,
 			"isLocked": false,
 			"opacity": 1,
@@ -3934,8 +3934,10 @@
 		{
 			"editingShapeId": null,
 			"croppingShapeId": null,
-			"selectedShapeIds": [],
-			"hoveredShapeId": "shape:BdqsoO9Ob2HOHoWN9qoR-",
+			"selectedShapeIds": [
+				"shape:BdqsoO9Ob2HOHoWN9qoR-"
+			],
+			"hoveredShapeId": null,
 			"erasingShapeIds": [],
 			"hintingShapeIds": [],
 			"focusedGroupId": null,
@@ -10227,7 +10229,7 @@
 			"brush": null,
 			"scribbles": [],
 			"cursor": {
-				"type": "default",
+				"type": "move",
 				"rotation": 0
 			},
 			"isFocusMode": false,
@@ -10237,8 +10239,8 @@
 			"screenBounds": {
 				"x": 0,
 				"y": 0,
-				"w": 784.6666870117188,
-				"h": 392
+				"w": 1232,
+				"h": 566
 			},
 			"insets": [
 				false,
@@ -10255,7 +10257,7 @@
 			"isFocused": true,
 			"devicePixelRatio": 1.5,
 			"isCoarsePointer": false,
-			"isHoveringCanvas": false,
+			"isHoveringCanvas": true,
 			"openMenus": [],
 			"isChangingStyle": false,
 			"isReadonly": false,

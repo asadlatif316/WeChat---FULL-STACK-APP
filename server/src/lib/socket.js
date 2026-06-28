@@ -30,6 +30,7 @@ export function getReceiverSocketId(userId) {
 
 io.on('connection', async (socket) => {
   const userId = socket.userId;
+  if (!userId) return;
   onlineMap[userId] = socket.id;
   console.log('emitting onlineUsers:', Object.keys(onlineMap));
   io.emit('getOnlineUsers', Object.keys(onlineMap));
@@ -134,8 +135,10 @@ io.on('connection', async (socket) => {
 
   socket.on('disconnect', () => {
     console.log('User disconnected', socket.user.name);
-    delete onlineMap[userId];
-    io.emit('getOnlineUsers', Object.keys(onlineMap));
+    if (onlineMap[userId] === socket.id) {
+      delete onlineMap[userId];
+      io.emit('getOnlineUsers', Object.keys(onlineMap));
+    }
   });
 });
 

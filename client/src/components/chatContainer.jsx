@@ -40,7 +40,7 @@ const ChatContainer = () => {
   return (
     <div className='flex flex-col flex-1 overflow-hidden h-full p-4 bg-white'>
       <ProfileHeader />
-      <div className='flex-1 overflow-y-auto py-8 border border-gray-400/40 bg-gray-100 rounded-lg '>
+      <div className='flex-1 overflow-y-auto py-8 border border-gray-400/40 bg-chat-bg rounded-lg '>
         {messages.length > 0 && !isMessagesLoading ? (
           <div className='max-w-3xl mx-auto space-y-6'>
             {messages.map((msg) => (
