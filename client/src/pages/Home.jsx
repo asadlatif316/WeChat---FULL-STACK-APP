@@ -12,7 +12,7 @@ import { IoSearch } from 'react-icons/io5';
 import { useEffect } from 'react';
 
 const Home = () => {
-  const { subscribeToMessage, unSubscribeToMessage } = useChatStore() 
+  const { subscribeToMessage, unSubscribeToMessage } = useChatStore();
   useEffect(() => {
     subscribeToMessage();
     return () => unSubscribeToMessage();
@@ -21,7 +21,7 @@ const Home = () => {
   const { activeTab, selectedConversation, selectedUser } = useChatStore();
   return (
     <section className='h-screen flex justify-center items-center text-card-foreground'>
-      <div className='h-[700px] border-2 border-slate-500 w-full max-w-6xl mx-auto '>
+      <div className='h-[700px] border-2 border-slate-300 shadow-xl bg-chat-bg rounded-xl w-full max-w-7xl mx-auto overflow-hidden'>
         <div className='h-full w-full flex overflow-hidden'>
           <div className='w-80 flex flex-col space-y-10 p-4'>
             <div>
