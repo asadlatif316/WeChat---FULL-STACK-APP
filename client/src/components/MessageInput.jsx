@@ -6,16 +6,14 @@ import { useState } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 
 const MessageInput = () => {
-  const {user} = useAuthStore()
-  const { selectedConversation, selectedUser,stopTyping } = useChatStore();
+  const { user } = useAuthStore();
+  const { selectedConversation, selectedUser, stopTyping } = useChatStore();
   const [text, setText] = useState('');
   const { sendMessage, showTyping } = useChatStore();
 
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user?._id)
     : selectedUser;
-console.log(person);
-
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (!text.trim()) return;
@@ -26,12 +24,11 @@ console.log(person);
   const handleChange = (e) => {
     setText(e.target.value);
     showTyping(person._id);
-    let typingTimeout
+    let typingTimeout;
     clearTimeout(typingTimeout);
     typingTimeout = setTimeout(() => {
       stopTyping(person._id);
     }, 2000);
-
   };
 
   return (
