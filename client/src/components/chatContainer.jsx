@@ -8,6 +8,7 @@ import {
 import { useAuthStore } from '@/store/useAuthStore';
 import { useEffect, useRef } from 'react';
 import { IoCheckmark, IoCheckmarkDoneOutline } from 'react-icons/io5';
+import { FaRegClock } from 'react-icons/fa';
 
 const ChatContainer = () => {
   const messageEndRef = useRef(null);
@@ -61,10 +62,12 @@ const ChatContainer = () => {
                     </p>
                     <div>
                       {msg.sender._id === user._id &&
-                        (msg.status === 'sent' ? (
+                        (msg.status === 'sending' ? (
+                          <FaRegClock className='h-4 w-4' />
+                        ) : msg.status === 'sent' ? (
                           <IoCheckmark className='h-4 w-4' />
                         ) : msg.status === 'delivered' ? (
-                          <IoCheckmarkDoneOutline className='h-4 w-4 ' />
+                          <IoCheckmarkDoneOutline className='h-4 w-4' />
                         ) : (
                           <IoCheckmarkDoneOutline
                             className='h-4 w-4'

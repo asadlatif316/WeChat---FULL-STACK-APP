@@ -97,6 +97,7 @@ export const useChatStore = create((set, get) => ({
       },
       conversationId: selectedConversation?._id || selectedUser._id,
       content: data.content,
+      status: 'sending',
       createdAt: new Date().toISOString(),
     };
     set({ messages: [...messages, optimisticMessage] });
