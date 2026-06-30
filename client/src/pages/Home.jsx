@@ -10,6 +10,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { useChatStore } from '@/store/useChatStore';
 import { IoSearch } from 'react-icons/io5';
 import { useEffect } from 'react';
+import SidebarProviderUI from '@/components/sidebarProvider';
 
 const Home = () => {
   const { subscribeToMessage, unSubscribeToMessage } = useChatStore();
@@ -21,9 +22,11 @@ const Home = () => {
   const { activeTab, selectedConversation, selectedUser } = useChatStore();
   return (
     <section className='h-screen flex justify-center items-center text-card-foreground'>
-      <div className='h-[700px] border-2 border-slate-300 shadow-xl bg-chat-bg rounded-xl w-full max-w-7xl mx-auto overflow-hidden'>
+      <div className='h-full bg-chat-bg w-full mx-auto overflow-hidden'>
         <div className='h-full w-full flex overflow-hidden'>
-          <div className='w-80 flex flex-col space-y-10 p-4'>
+          <SidebarProviderUI>
+          </SidebarProviderUI>
+          {/* <div className='w-80 flex flex-col space-y-10 p-4'>
             <div>
               <h2 className='text-2xl mb-3'>Messages</h2>
               <Button onClick={logout}>logout</Button>
@@ -43,7 +46,7 @@ const Home = () => {
             ) : (
               <NoChatPlaceholder />
             )}
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
