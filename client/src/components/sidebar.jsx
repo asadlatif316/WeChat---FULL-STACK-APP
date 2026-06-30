@@ -16,8 +16,12 @@ import { useChatStore } from '@/store/useChatStore';
 const AppSidebar = () => {
   const { activeTab, setActiveTab } = useChatStore();
   return (
-    <Sidebar collapsible='icon'>
-      <SidebarHeader className='flex items-center justify-center mb-2 border-b shadow'>
+    <Sidebar
+      collapsible='icon'
+      variant='inset'
+      className='**:data-[slot=sidebar-inner]:bg-white **:data-[slot=sidebar-inner]:rounded **:data-[slot=sidebar-inner]:shadow'
+    >
+      <SidebarHeader className='flex items-center justify-center mb-2 border-b'>
         <div className='h-12 w-12 bg-primary flex items-center justify-center rounded'>
           <LuMessageSquareShare className='h-6 w-6 ' color='white' />
         </div>
@@ -38,7 +42,7 @@ const AppSidebar = () => {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter className='items-center border-t shadow'>
+      <SidebarFooter className='items-center border-t '>
         <Avatar size='lg'>
           <AvatarFallback className='bg-orange-500 text-white'>
             You

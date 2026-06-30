@@ -38,7 +38,7 @@ const ChatContainer = () => {
     ? selectedConversation.participants.find((p) => p._id !== user?._id)
     : selectedUser;
   return (
-    <div className='flex flex-col flex-1 overflow-hidden h-full p-4 bg-white'>
+    <div className='flex flex-col flex-1 overflow-hidden h-full p-4 bg-white rounded shadow'>
       <ProfileHeader />
       <div className='flex-1 overflow-y-auto py-8 border border-gray-400/40 bg-chat-bg rounded-lg '>
         {messages.length > 0 && !isMessagesLoading ? (
