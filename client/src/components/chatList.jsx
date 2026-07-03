@@ -3,6 +3,7 @@ import { NoChatFound, UserLoadingSkeleton } from '.';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Avatar,AvatarFallback,AvatarBadge } from './ui';
+import { formatChatTime } from '@/lib/dateTimestamp';
 
 const ChatList = () => {
   const { user,onlineUsers } = useAuthStore(); 
@@ -44,10 +45,7 @@ const ChatList = () => {
                   {partner.name}
                 </h4>
                 <span className='text-gray-500 text-sm'>
-                  {chat.latestMessage?.createdAt && new Date(chat.latestMessage.createdAt).toLocaleTimeString(undefined, {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
+                  {formatChatTime(chat.latestMessage.createdAt)}
                 </span>
               </div>
               <p className='text-gray-500 text-sm'>
