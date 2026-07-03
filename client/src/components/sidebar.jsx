@@ -8,13 +8,21 @@ import {
   SidebarFooter,
   Avatar,
   AvatarFallback,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  Button,
 } from './ui';
 import { LuMessageSquareShare } from 'react-icons/lu';
 import { navItems } from '@/utils/nav';
 import { useChatStore } from '@/store/useChatStore';
+import { MdLogout } from 'react-icons/md';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const AppSidebar = () => {
   const { activeTab, setActiveTab } = useChatStore();
+  const { logout } = useAuthStore();
   return (
     <Sidebar collapsible='icon'>
       <SidebarHeader className='flex items-center justify-center mb-2 border-b shadow'>
@@ -39,11 +47,21 @@ const AppSidebar = () => {
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className='items-center border-t shadow'>
-        <Avatar size='lg'>
-          <AvatarFallback className='bg-orange-500 text-white'>
-            You
-          </AvatarFallback>
-        </Avatar>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Avatar size='lg'>
+              <AvatarFallback className='bg-orange-500 text-white'>
+                You
+              </AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className='w-25 min-w-0 items-center'>
+            <DropdownMenuItem onClick={logout}>
+              <MdLogout />
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarFooter>
     </Sidebar>
   );
