@@ -11,7 +11,7 @@ const SidebarProviderUI = ({children}) => {
         }}
       >
         <AppSidebar />
-        <SidebarInset>
+        <SidebarInset className='bg-chat-bg m-0! rounded-none!'>
           {children}
         </SidebarInset>
       </SidebarProvider>

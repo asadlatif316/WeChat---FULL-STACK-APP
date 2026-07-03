@@ -27,7 +27,7 @@ const AppSidebar = () => {
     <Sidebar
       collapsible='icon'
       variant='inset'
-      className='**:data-[slot=sidebar-inner]:bg-white **:data-[slot=sidebar-inner]:rounded **:data-[slot=sidebar-inner]:shadow'
+      className='**:data-[slot=sidebar-inner]:bg-white **:data-[slot=sidebar-inner]:rounded **:data-[slot=sidebar-inner]:shadow bg-chat-bg'
     >
       <SidebarHeader className='flex items-center justify-center mb-2 border-b'>
         <div className='h-12 w-12 bg-primary flex items-center justify-center rounded'>
