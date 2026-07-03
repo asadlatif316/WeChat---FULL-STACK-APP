@@ -24,8 +24,12 @@ const AppSidebar = () => {
   const { activeTab, setActiveTab } = useChatStore();
   const { logout } = useAuthStore();
   return (
-    <Sidebar collapsible='icon'>
-      <SidebarHeader className='flex items-center justify-center mb-2 border-b shadow'>
+    <Sidebar
+      collapsible='icon'
+      variant='inset'
+      className='**:data-[slot=sidebar-inner]:bg-white **:data-[slot=sidebar-inner]:rounded **:data-[slot=sidebar-inner]:shadow'
+    >
+      <SidebarHeader className='flex items-center justify-center mb-2 border-b'>
         <div className='h-12 w-12 bg-primary flex items-center justify-center rounded'>
           <LuMessageSquareShare className='h-6 w-6 ' color='white' />
         </div>
