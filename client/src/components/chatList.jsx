@@ -3,6 +3,7 @@ import { NoChatFound, UserLoadingSkeleton } from '.';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Avatar,AvatarFallback,AvatarBadge } from './ui';
+import { formatChatTime } from '@/lib/dateTimestamp';
 
 const ChatList = () => {
   const { user,onlineUsers } = useAuthStore(); 
@@ -27,7 +28,7 @@ const ChatList = () => {
         return (
           <div
             key={chat._id}
-            className={`flex items-center ${selectedConversation?._id === chat._id && 'bg-white border-r-4'} rounded-lg p-4 space-x-3   border-primary`}
+            className={`flex items-center ${selectedConversation?._id === chat._id && 'bg-white border-r-4'} rounded-lg p-4 space-x-3 border-primary`}
             onClick={() => setSelectedConversation(chat)}
           >
             <Avatar size='lg'>
@@ -44,15 +45,15 @@ const ChatList = () => {
                   {partner.name}
                 </h4>
                 <span className='text-gray-500 text-sm'>
-                  {chat.latestMessage?.createdAt && new Date(chat.latestMessage.createdAt).toLocaleTimeString(undefined, {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                  })}
+                  {formatChatTime(chat.latestMessage.createdAt)}
                 </span>
               </div>
-              <p className='text-gray-500 text-sm'>
-                {chat.latestMessage?.content}
-              </p>
+              <div className='flex justify-between'>
+                <p className={`text-gray-500 text-sm ${chat.latestMessage.status !== 'read' && 'font-semibold'}`}>
+                  {chat.latestMessage?.content}
+                </p>
+                  <span className='shrink-0 bg-primary px-2 py-1 text-white rounded shadow-2xl text-xs'>1</span>
+              </div>
             </div>
           </div>
         );
