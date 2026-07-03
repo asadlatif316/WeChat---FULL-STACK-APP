@@ -48,9 +48,12 @@ const ChatList = () => {
                   {formatChatTime(chat.latestMessage.createdAt)}
                 </span>
               </div>
-              <p className='text-gray-500 text-sm'>
-                {chat.latestMessage?.content}
-              </p>
+              <div className='flex justify-between'>
+                <p className={`text-gray-500 text-sm ${chat.latestMessage.status !== 'read' && 'font-semibold'}`}>
+                  {chat.latestMessage?.content}
+                </p>
+                  <span className='shrink-0 bg-primary px-2 py-1 text-white rounded shadow-2xl text-xs'>1</span>
+              </div>
             </div>
           </div>
         );
