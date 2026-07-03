@@ -26,7 +26,7 @@ const Home = () => {
         <div className='h-full w-full flex overflow-hidden'>
           <SidebarProviderUI>
             <div className='h-full w-full flex p-4'>
-              <div className='w-80 flex flex-col space-y-10 px-4'>
+              <div className='w-80 flex flex-col space-y-10 pr-4'>
                 <div>
                   <h2 className='text-2xl mb-3'>Messages</h2>
                   <div className='relative'>

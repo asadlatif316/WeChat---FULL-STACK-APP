@@ -27,7 +27,7 @@ const ChatList = () => {
         return (
           <div
             key={chat._id}
-            className={`flex items-center ${selectedConversation?._id === chat._id && 'bg-white border-r-4'} rounded-lg p-4 space-x-3   border-primary`}
+            className={`flex items-center ${selectedConversation?._id === chat._id && 'bg-white border-r-4'} rounded-lg p-4 space-x-3 border-primary`}
             onClick={() => setSelectedConversation(chat)}
           >
             <Avatar size='lg'>
