@@ -19,7 +19,13 @@ export const useChatStore = create((set, get) => ({
     set({ selectedUser, selectedConversation: null });
   },
   setSelectedConversation: (selectedConversation) => {
-    set({ selectedConversation, selectedUser: null });
+    set((state) => ({
+      selectedConversation,
+      selectedUser: null,
+      chats: state.chats.map((c) =>
+        c._id === selectedConversation._id ? { ...c, unread: 0 } : c,
+      ),
+    }));
   },
 
   getChatPartners: async () => {
@@ -124,8 +130,6 @@ export const useChatStore = create((set, get) => ({
   },
 
   updatedConversationList: (conversation, incomingMessage = null) => {
-
-
     const { chats, selectedConversation } = get();
     const myId = useAuthStore.getState().user._id;
 
@@ -140,7 +144,7 @@ export const useChatStore = create((set, get) => ({
       unread = 0;
     }
 
-    const updatedConversation = {...conversation, unread};
+    const updatedConversation = { ...conversation, unread };
 
     if (isChatExist) {
       const filteredConversation = chats.filter(
@@ -164,7 +168,7 @@ export const useChatStore = create((set, get) => ({
     });
 
     socket.on('newMessage', ({ message, conversation }) => {
-      updatedConversationList(conversation,message);
+      updatedConversationList(conversation, message);
       const { selectedConversation } = get(); // ← fresh, not from top of subscribe
       const myId = useAuthStore.getState().user._id;
       if (message.sender._id === myId) return;
