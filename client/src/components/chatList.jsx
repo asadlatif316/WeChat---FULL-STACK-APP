@@ -44,15 +44,23 @@ const ChatList = () => {
                 <h4 className='capitalize font-semibold text-foreground'>
                   {partner.name}
                 </h4>
-                <span className='text-gray-500 text-sm'>
-                  {formatChatTime(chat.latestMessage.createdAt)}
-                </span>
+                {chat.latestMessage?.createdAt && (
+                  <span className='text-gray-500 text-sm'>
+                    {formatChatTime(chat.latestMessage.createdAt)}
+                  </span>
+                )}
               </div>
               <div className='flex justify-between'>
-                <p className={`text-gray-500 text-sm ${chat.latestMessage.status !== 'read' && 'font-semibold'}`}>
+                <p
+                  className={`text-gray-500 text-sm ${chat.latestMessage?.status !== 'read' && 'font-semibold text-black'}`}
+                >
                   {chat.latestMessage?.content}
                 </p>
-                  <span className='shrink-0 bg-primary px-2 py-1 text-white rounded shadow-2xl text-xs'>1</span>
+                {chat.unread > 0 && (
+                  <span className='shrink-0 bg-primary px-2 py-1 text-white rounded shadow-2xl text-xs'>
+                    {chat.unread}
+                  </span>
+                )}
               </div>
             </div>
           </div>
