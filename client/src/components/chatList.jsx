@@ -20,6 +20,7 @@ const ChatList = () => {
   }, [getChatPartners]);
   if (isUserLoading) return <UserLoadingSkeleton />;
   if (chats.length === 0) return <NoChatFound />;
+console.log(chats);
 
   return (
     <>
@@ -52,7 +53,7 @@ const ChatList = () => {
               </div>
               <div className='flex justify-between'>
                 <p
-                  className={`text-gray-500 text-sm ${chat.latestMessage?.status !== 'read' && 'font-semibold text-black'}`}
+                  className={`text-gray-500 text-sm ${chat.latestMessage && chat.latestMessage.sender !== user._id && chat.unread > 0 && 'font-semibold text-black'}`}
                 >
                   {chat.latestMessage?.content}
                 </p>
