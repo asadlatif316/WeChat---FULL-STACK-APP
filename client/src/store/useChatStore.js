@@ -161,7 +161,6 @@ export const useChatStore = create((set, get) => ({
     const socket = useAuthStore.getState().socket;
     socket.on('showTyping', (senderId) => {
       set({ isTyping: true });
-      console.log(isTyping);
     });
     socket.on('stopTyping', (senderId) => {
       set({ isTyping: false });

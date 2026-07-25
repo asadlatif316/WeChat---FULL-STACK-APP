@@ -2,11 +2,11 @@ import { useChatStore } from '@/store/useChatStore';
 import { NoChatFound, UserLoadingSkeleton } from '.';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
-import { Avatar,AvatarFallback,AvatarBadge } from './ui';
+import { Avatar, AvatarFallback, AvatarBadge } from './ui';
 import { formatChatTime } from '@/lib/dateTimestamp';
 
 const ChatList = () => {
-  const { user,onlineUsers } = useAuthStore(); 
+  const { user, onlineUsers } = useAuthStore();
 
   const {
     chats,
@@ -20,7 +20,7 @@ const ChatList = () => {
   }, [getChatPartners]);
   if (isUserLoading) return <UserLoadingSkeleton />;
   if (chats.length === 0) return <NoChatFound />;
-console.log(chats);
+  console.log(chats);
 
   return (
     <>
