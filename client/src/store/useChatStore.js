@@ -19,7 +19,13 @@ export const useChatStore = create((set, get) => ({
     set({ selectedUser, selectedConversation: null });
   },
   setSelectedConversation: (selectedConversation) => {
-    set({ selectedConversation, selectedUser: null });
+    set((state) => ({
+      selectedConversation,
+      selectedUser: null,
+      chats: state.chats.map((c) =>
+        c._id === selectedConversation._id ? { ...c, unread: 0 } : c,
+      ),
+    }));
   },
 
   getChatPartners: async () => {
@@ -123,17 +129,30 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
-  updatedConversationList: (conversation) => {
-    const chats = get().chats;
+  updatedConversationList: (conversation, incomingMessage = null) => {
+    const { chats, selectedConversation } = get();
+    const myId = useAuthStore.getState().user._id;
+
+    const isChatOpen = selectedConversation?._id === conversation._id;
+    const isFromMe = incomingMessage?.sender?._id === myId;
     const isChatExist = chats.find((c) => c._id === conversation._id);
+
+    let unread = conversation.unread ?? 0;
+    if (incomingMessage && !isFromMe) {
+      unread = isChatOpen ? 0 : (isChatExist?.unread ?? 0) + 1;
+    } else if (isChatOpen) {
+      unread = 0;
+    }
+
+    const updatedConversation = { ...conversation, unread };
 
     if (isChatExist) {
       const filteredConversation = chats.filter(
         (c) => c._id !== conversation._id,
       );
-      set({ chats: [conversation, ...filteredConversation] });
+      set({ chats: [updatedConversation, ...filteredConversation] });
     } else {
-      set({ chats: [conversation, ...chats] });
+      set({ chats: [updatedConversation, ...chats] });
     }
   },
 
@@ -142,15 +161,13 @@ export const useChatStore = create((set, get) => ({
     const socket = useAuthStore.getState().socket;
     socket.on('showTyping', (senderId) => {
       set({ isTyping: true });
-      console.log(isTyping);
-      
     });
     socket.on('stopTyping', (senderId) => {
       set({ isTyping: false });
     });
 
     socket.on('newMessage', ({ message, conversation }) => {
-      updatedConversationList(conversation);
+      updatedConversationList(conversation, message);
       const { selectedConversation } = get(); // ← fresh, not from top of subscribe
       const myId = useAuthStore.getState().user._id;
       if (message.sender._id === myId) return;
