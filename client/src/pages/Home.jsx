@@ -9,9 +9,13 @@ import { useChatStore } from '@/store/useChatStore';
 import { IoSearch } from 'react-icons/io5';
 import { useEffect } from 'react';
 import SidebarProviderUI from '@/components/sidebarProvider';
+import { useAuthStore } from '@/store/useAuthStore';
 
 const Home = () => {
   const { subscribeToMessage, unSubscribeToMessage } = useChatStore();
+  const { user } = useAuthStore()
+  console.log(user);
+  
   useEffect(() => {
     subscribeToMessage();
     return () => unSubscribeToMessage();

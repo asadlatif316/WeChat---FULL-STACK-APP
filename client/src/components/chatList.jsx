@@ -20,10 +20,12 @@ const ChatList = () => {
   }, [getChatPartners]);
   if (isUserLoading) return <UserLoadingSkeleton />;
   if (chats.length === 0) return <NoChatFound />;
+  
   return (
     <>
       {chats.map((chat) => {
         const partner = chat.participants.find((p) => p._id !== user._id);
+        
         return (
           <div
             key={chat._id}
