@@ -47,7 +47,7 @@ const login = async (req, res) => {
     sameSite: 'strict',
     secure: process.env.NODE_ENV === 'development' ? false : true
   });
-  res.status(StatusCodes.OK).json({userId: user._id,name:user.name,email:user.email});
+  res.status(StatusCodes.OK).json({_id: user._id,name:user.name,email:user.email});
 };
 
 const refreshToken = async (req,res) => {

@@ -1,5 +1,5 @@
 export { default as FormRow } from './formRow';
-export { default as ActiveTabSwitch } from './activeTabs';
+export { default as ActiveTabSwitch } from './activeChatTabs';
 export { default as ChatContainer } from './chatContainer';
 export { default as ChatList } from './chatList';
 export { default as ContactList } from './contactList';
@@ -11,4 +11,3 @@ export { default as NoChatHistoryPlaceHolder } from './noChatHistoryPlaceHolder'
 export { default as MessageLoadingSkeleton } from './messageLoadingSkeleton';
 export { default as MessageInput } from './MessageInput';
 export { default as PageLoader } from './pageLoader';
-
