@@ -7,18 +7,30 @@ import { useAuthStore } from '@/store/useAuthStore';
 
 const MessageInput = () => {
   const { user } = useAuthStore();
-  const { selectedConversation, selectedUser, stopTyping } = useChatStore();
+  const {
+    selectedConversation,
+    setSelectedConversation,
+    setActiveTab,
+    selectedUser,
+    serSelectedUser,
+    stopTyping,
+  } = useChatStore();
   const [text, setText] = useState('');
-  const { sendMessage, showTyping } = useChatStore();
+  const { sendMessage, showTyping, chats } = useChatStore();
 
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user?._id)
     : selectedUser;
-  const handleSendMessage = (e) => {
+  const handleSendMessage =async (e) => {
     e.preventDefault();
     if (!text.trim()) return;
-    sendMessage({ content: text.trim() });
-    setText('');
+    const conversation = await sendMessage({ content: text.trim() });
+  setText('');
+
+  if (conversation) {
+    setSelectedConversation(conversation);
+    setActiveTab('chats');
+  }
   };
 
   const handleChange = (e) => {
