@@ -97,6 +97,7 @@ const Scroller = ({ messages, receiver }) => {
             })}
           </MessageScrollerContent>
         </MessageScrollerViewport>
+        <MessageScrollerButton/>
       </MessageScroller>
     </MessageScrollerProvider>
   );
