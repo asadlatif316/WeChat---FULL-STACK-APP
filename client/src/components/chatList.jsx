@@ -55,7 +55,7 @@ const ChatList = () => {
                 >
                   {chat.latestMessage?.content}
                 </p>
-                {chat.unread > 0 && (
+                {chat.latestMessage.sender !== user._id && chat.unread > 0 && (
                   <span className='shrink-0 bg-primary px-2 py-1 text-white rounded shadow-2xl text-xs'>
                     {chat.unread}
                   </span>
