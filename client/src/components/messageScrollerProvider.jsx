@@ -25,12 +25,19 @@ import { FaRegClock } from 'react-icons/fa';
 
 const Scroller = ({ messages, receiver }) => {
   const { user } = useAuthStore();
+  console.log(messages);
+  
   return (
-    <MessageScrollerProvider>
+    <MessageScrollerProvider
+      autoScroll
+      scrollPreviousItemPeek={64}
+      defaultScrollPosition='last-anchor'
+    >
       <MessageScroller>
         <MessageScrollerViewport>
           <MessageScrollerContent className='flex flex-col gap-6 px-4 py-8'>
-            {messages.map((msg) => {
+            {messages.map((msg, i) => {
+              const isLast = i === messages.length - 1;
               const isMe = msg.sender._id === user._id;
               const person = isMe ? user : receiver; // whichever user sent this message
 
@@ -38,7 +45,7 @@ const Scroller = ({ messages, receiver }) => {
                 <MessageScrollerItem
                   key={msg._id}
                   messageId={msg._id}
-                  scrollAnchor={isMe}
+                  scrollAnchor={isLast}
                 >
                   <Message
                     align={isMe ? 'end' : 'start'}
@@ -76,9 +83,15 @@ const Scroller = ({ messages, receiver }) => {
                             (msg.status === 'sending' ? (
                               <FaRegClock className='h-4 w-4' />
                             ) : msg.status === 'sent' ? (
-                              <IoCheckmark className='h-4 w-4' />
+                              <p className='flex gap-x-1'>
+                                <IoCheckmark className='h-4 w-4' />
+                                <span className='capitalize'>{msg.status}</span>
+                              </p>
                             ) : msg.status === 'delivered' ? (
-                              <IoCheckmarkDoneOutline className='h-4 w-4' />
+                              <p className='flex gap-x-1'>
+                                <IoCheckmarkDoneOutline className='h-4 w-4' />
+                                <span className='capitalize'>{msg.status}</span>
+                              </p>
                             ) : (
                               <p className='flex gap-x-1'>
                                 <IoCheckmarkDoneOutline
@@ -97,7 +110,7 @@ const Scroller = ({ messages, receiver }) => {
             })}
           </MessageScrollerContent>
         </MessageScrollerViewport>
-        <MessageScrollerButton/>
+        <MessageScrollerButton />
       </MessageScroller>
     </MessageScrollerProvider>
   );

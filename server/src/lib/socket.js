@@ -111,9 +111,10 @@ io.on('connection', async (socket) => {
     const messages = await Message.find(
       {
         conversationId,
+        sender: senderId,
         status: { $ne: 'read' },
       },
-      { status: 'read' },
+      { _id: 1 },
     );
     console.log('unread found:', messages.length);
     const messageIds = messages.map((msg) => msg._id);

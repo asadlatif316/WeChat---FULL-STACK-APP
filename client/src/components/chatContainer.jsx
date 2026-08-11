@@ -42,8 +42,6 @@ const ChatContainer = () => {
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user?._id)
     : selectedUser;
-  console.log(person);
-  
   return (
     <div className='flex flex-col flex-1 overflow-hidden h-full p-4 bg-white rounded shadow'>
       <ProfileHeader />
