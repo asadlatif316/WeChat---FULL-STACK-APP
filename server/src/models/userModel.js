@@ -1,11 +1,27 @@
 import mongoose from 'mongoose'
 
-const UserSchema = mongoose.Schema({
-    name: String,
-    password: String,
-    email: String,
-    avatar: String,
-    avatarPublicId: String
-}, { timeStamp: true })
+const UserSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    profilePicture: {
+      type: String,
+      default: '',
+    },
+  },
+  { timeStamp: true },
+);
 
 export default mongoose.model('User',UserSchema)
