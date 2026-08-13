@@ -1,6 +1,6 @@
 import User from '../models/userModel.js';
 import { StatusCodes } from 'http-status-codes';
-
+import cloudinary from '../lib/cloudinary.js'
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -21,7 +21,23 @@ const getUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  res.json('update user');
+  const { user } = req.body
+  const userId = req.user.userId
+
+  if (user.profilePicture) {
+    const uploadResponse = await cloudinary.uploader.upload(user.profilePicture) 
+    user.profilePicture = uploadResponse.secure_url
+  }
+
+  const updates = {
+    name: user.name,
+    email: user.email,
+    profilePicture: user.profilePicture,
+  };
+
+  const updatedUser = await User.findByIdAndUpdate(userId,updates,{new: true})
+
+  res.json({msg: 'update user successfully'});
 };
 
 export { getUser, updateUser, getAllUsers };
