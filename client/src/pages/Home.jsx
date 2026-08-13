@@ -29,7 +29,7 @@ const Home = () => {
             <div className='h-full w-full flex p-4'>
               <div className='w-80 flex flex-col space-y-10 pr-4'>
                 <div>
-                  <h2 className='text-2xl mb-3'>Messages</h2>
+                  <h2 className='text-2xl mb-3'>{ activeTab === 'chats' ? 'Chats' : activeTab === 'users' ? 'Contacts' : 'Groups'}</h2>
                   <div className='relative'>
                     <IoSearch className='absolute left-2 top-2' />
                     <Input placeholder='search chat' className='py-4 pl-7' />
