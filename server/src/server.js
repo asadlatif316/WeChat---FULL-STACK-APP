@@ -19,6 +19,7 @@ import errorHandlerMiddleware from './middlewares/errorHandlerMiddleware.js';
 import protectUser from './middlewares/authMiddleware.js';
 import protectLimit from './middlewares/arcJetMiddlware.js';
 import { app, server } from './lib/socket.js';
+import { models } from 'mongoose';
 
 //middlewares
 app.use(
@@ -52,6 +53,11 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, '../../client', 'dist', 'index.html'));
   });
 }
+
+app.get('/api/v1/health', (req, res) => {
+  res.status(200).json({ status: 'online' });
+});
+
 
 const port = process.env.PORT || 4200;
 
