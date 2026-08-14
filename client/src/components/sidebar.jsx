@@ -60,9 +60,9 @@ const AppSidebar = () => {
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className='w-25 min-w-0 items-center'>
-            <DropdownMenuItem onClick={logout}>
+            <DropdownMenuItem onClick={() => setActiveTab('myProfile')}>
               <MdLogout />
-              Logout
+              Profile
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

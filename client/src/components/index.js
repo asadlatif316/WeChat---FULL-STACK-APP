@@ -11,3 +11,4 @@ export { default as NoChatHistoryPlaceHolder } from './noChatHistoryPlaceHolder'
 export { default as MessageLoadingSkeleton } from './messageLoadingSkeleton';
 export { default as MessageInput } from './MessageInput';
 export { default as PageLoader } from './pageLoader';
+export { default as MyProfile } from './myProfile';

@@ -2,6 +2,7 @@ import {
   ChatContainer,
   ChatList,
   ContactList,
+  MyProfile,
   NoChatPlaceholder,
 } from '@/components';
 import { Input } from '@/components/ui';
@@ -13,9 +14,9 @@ import { useAuthStore } from '@/store/useAuthStore';
 
 const Home = () => {
   const { subscribeToMessage, unSubscribeToMessage } = useChatStore();
-  const { user } = useAuthStore()
+  const { user } = useAuthStore();
   console.log(user);
-  
+
   useEffect(() => {
     subscribeToMessage();
     return () => unSubscribeToMessage();
@@ -28,15 +29,29 @@ const Home = () => {
           <SidebarProviderUI>
             <div className='h-full w-full flex p-4'>
               <div className='w-80 flex flex-col space-y-10 pr-4'>
-                <div>
-                  <h2 className='text-2xl mb-3'>{ activeTab === 'chats' ? 'Chats' : activeTab === 'users' ? 'Contacts' : 'Groups'}</h2>
-                  <div className='relative'>
-                    <IoSearch className='absolute left-2 top-2' />
-                    <Input placeholder='search chat' className='py-4 pl-7' />
+                {activeTab !== 'myProfile' && (
+                  <div>
+                    <h2 className='text-2xl mb-3'>
+                      {activeTab === 'chats'
+                        ? 'Chats'
+                        : activeTab === 'users'
+                          ? 'Contacts'
+                          : 'Groups'}
+                    </h2>
+                    <div className='relative'>
+                      <IoSearch className='absolute left-2 top-2' />
+                      <Input placeholder='search chat' className='py-4 pl-7' />
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className='flex-1 overflow-y-auto space-y-3'>
-                  {activeTab === 'chats' ? <ChatList /> : <ContactList />}
+                  {activeTab === 'chats' ? (
+                    <ChatList />
+                  ) : activeTab === 'user' ? (
+                    <ContactList />
+                  ) : (
+                    activeTab === 'myProfile' && <MyProfile />
+                  )}
                 </div>
               </div>
               <div className='flex-1 flex flex-col backdrop-blur-sm'>
