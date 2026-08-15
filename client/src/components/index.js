@@ -12,3 +12,4 @@ export { default as MessageLoadingSkeleton } from './messageLoadingSkeleton';
 export { default as MessageInput } from './MessageInput';
 export { default as PageLoader } from './pageLoader';
 export { default as MyProfile } from './myProfile';
+export { default as EditProfile } from './editProfile';

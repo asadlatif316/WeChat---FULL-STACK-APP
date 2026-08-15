@@ -52,7 +52,8 @@ const myProfile = () => {
                 item.id === 'logout'
                   ? 'hover:bg-destructive/20'
                   : 'hover:bg-white'
-              } transition-all duration-300 mb-2  `}
+                } transition-all duration-300 mb-2  cursor-pointer`}
+              onClick={item?.onClick}
             >
               {item.icon && <ItemMedia>{item.icon}</ItemMedia>}
               <ItemContent>

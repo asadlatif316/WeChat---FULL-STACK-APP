@@ -2,6 +2,7 @@ import {
   ChatContainer,
   ChatList,
   ContactList,
+  EditProfile,
   MyProfile,
   NoChatPlaceholder,
 } from '@/components';
@@ -29,7 +30,7 @@ const Home = () => {
           <SidebarProviderUI>
             <div className='h-full w-full flex p-4'>
               <div className='w-80 flex flex-col space-y-10 pr-4'>
-                {activeTab !== 'myProfile' && (
+                {activeTab !== 'myProfile' || activeTab !== 'editProfile' (
                   <div>
                     <h2 className='text-2xl mb-3'>
                       {activeTab === 'chats'
@@ -47,10 +48,12 @@ const Home = () => {
                 <div className='flex-1 overflow-y-auto space-y-3'>
                   {activeTab === 'chats' ? (
                     <ChatList />
-                  ) : activeTab === 'user' ? (
+                  ) : activeTab === 'users' ? (
                     <ContactList />
+                  ) : activeTab === 'myProfile' ? (
+                    <MyProfile />
                   ) : (
-                    activeTab === 'myProfile' && <MyProfile />
+                    activeTab === 'editProfile' && <EditProfile />
                   )}
                 </div>
               </div>
