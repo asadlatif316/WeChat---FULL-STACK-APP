@@ -97,7 +97,7 @@ const EditProfile = () => {
             label='About'
             name='about'
             className='capitalize p-5'
-            defaultValue={'Hello'}
+            defaultValue={user.about}
           />
           <FormRow
             label='Name'

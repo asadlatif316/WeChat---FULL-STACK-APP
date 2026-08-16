@@ -23,16 +23,16 @@ const myProfile = () => {
       <div>
         <h2 className='capitalize font-medium text-2xl'>{user.name}</h2>
         <div className='relative flex items-center flex-col p-8'>
-          {/* {user.about && ( */}
-          <div className='w-full flex justify-center relative'>
-            <Bubble className='w-full' variant='outline'>
-              <BubbleContent className=' rounded-full'>
-                my name is ASad
-              </BubbleContent>
-            </Bubble>
-            <div className='absolute -bottom-2 z-20 w-4 h-4 bg-white rounded-full'></div>
-          </div>
-          {/* )} */}
+          {user.about && (
+            <div className='w-full flex justify-center relative'>
+              <Bubble variant='outline'>
+                <BubbleContent className='px-6 rounded-full'>
+                  {user.about}
+                </BubbleContent>
+              </Bubble>
+              <div className='absolute z-10 -bottom-2 left-1/2 -translate-x-6 w-5 h-5 bg-white rounded-full'></div>
+            </div>
+          )}
 
           <Avatar className='w-40 h-40'>
             {user.profilePicture ? (
@@ -52,7 +52,7 @@ const myProfile = () => {
                 item.id === 'logout'
                   ? 'hover:bg-destructive/20'
                   : 'hover:bg-white'
-                } transition-all duration-300 mb-2  cursor-pointer`}
+              } transition-all duration-300 mb-2  cursor-pointer`}
               onClick={item?.onClick}
             >
               {item.icon && <ItemMedia>{item.icon}</ItemMedia>}
