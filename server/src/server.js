@@ -7,7 +7,6 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import cors from 'cors';
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 //other imports
 import authRouter from './routes/authRoutes.js';
@@ -27,7 +26,7 @@ app.use(
     credentials: true,
   }),
 );
-app.use(express.json());
+app.use(express.json({ limit: '5mb' }));
 app.use(cookieParser());
 
 //routes

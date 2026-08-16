@@ -1,6 +1,6 @@
 import User from '../models/userModel.js';
 import { StatusCodes } from 'http-status-codes';
-import cloudinary from '../lib/cloudinary.js'
+import cloudinary from '../lib/cloudinary.js';
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -16,29 +16,31 @@ const getAllUsers = async (req, res, next) => {
 };
 
 const getUser = async (req, res) => {
-  const user = await User.findOne({_id: req.user.userId}).select('-password')
-  res.status(StatusCodes.OK).json({user});
+  const user = await User.findOne({ _id: req.user.userId }).select('-password');
+  res.status(StatusCodes.OK).json({ user });
 };
 
 const updateUser = async (req, res) => {
-  const { user } = req.body
-  const userId = req.user.userId
+  const { name, about, profilePicture } = req.body;
+  const userId = req.user.userId;
 
-  if (user.profilePicture) {
-    const uploadResponse = await cloudinary.uploader.upload(user.profilePicture) 
-    user.profilePicture = uploadResponse.secure_url
+  const updates = {};
+  if (name) updates.name = name;
+  if (about !== undefined) updates.about = about;
+
+  if (profilePicture) {
+    const uploadResponse = await cloudinary.uploader.upload(profilePicture);
+    updates.profilePicture = uploadResponse.secure_url;
   }
 
-  const updates = {
-    name: user.name,
-    email: user.email,
-    profilePicture: user.profilePicture,
-    about: user.about
-  };
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    updates,
+    { new: true },
+    { runValidators: true },
+  );
 
-  const updatedUser = await User.findByIdAndUpdate(userId,updates,{new: true})
-
-  res.json({msg: 'update user successfully'});
+  res.json({ msg: 'update user successfully', user: updatedUser });
 };
 
 export { getUser, updateUser, getAllUsers };

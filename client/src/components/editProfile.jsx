@@ -8,14 +8,17 @@ import { FormRow } from '.';
 import { useRef, useState } from 'react';
 
 const EditProfile = () => {
-  const { user } = useAuthStore();
+  const { user, updateProfile, isUpdating } = useAuthStore();
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('Image must be under 2MB');
+      return;
+    }
     const reader = new FileReader();
     reader.readAsDataURL(file);
 
@@ -25,13 +28,14 @@ const EditProfile = () => {
     };
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     if (selectedImage) {
       formData.set('profilePicture', selectedImage);
     }
     const payload = Object.fromEntries(formData);
+    await updateProfile(payload);
   };
   if (!user) return null;
   return (
@@ -96,8 +100,8 @@ const EditProfile = () => {
             className='capitalize p-5'
             defaultValue={user.name}
           />
-          <Button size='lg' className='p-5 font-bold'>
-            Save
+          <Button size='lg' className='p-5 font-bold' disabled={isUpdating}>
+            {isUpdating ? 'Updating' : 'Save'}
           </Button>
         </form>
       </div>
