@@ -6,9 +6,11 @@ import { FiCamera } from 'react-icons/fi';
 import { Input } from './ui';
 import { FormRow } from '.';
 import { useRef, useState } from 'react';
+import { useChatStore } from '@/store/useChatStore';
 
 const EditProfile = () => {
   const { user, updateProfile, isUpdating } = useAuthStore();
+  const { setActiveTab } = useChatStore()
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -42,7 +44,10 @@ const EditProfile = () => {
     <div>
       <div>
         <Item>
-          <ItemMedia>
+          <ItemMedia
+            className='cursor-pointer'
+            onClick={() => setActiveTab('myProfile')}
+          >
             <IoArrowBack className='w-5 h-5' />
           </ItemMedia>
           <ItemContent>
