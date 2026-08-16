@@ -15,9 +15,6 @@ import { useAuthStore } from '@/store/useAuthStore';
 
 const Home = () => {
   const { subscribeToMessage, unSubscribeToMessage } = useChatStore();
-  const { user } = useAuthStore();
-  console.log(user);
-
   useEffect(() => {
     subscribeToMessage();
     return () => unSubscribeToMessage();
@@ -30,7 +27,7 @@ const Home = () => {
           <SidebarProviderUI>
             <div className='h-full w-full flex p-4'>
               <div className='w-80 flex flex-col space-y-10 pr-4'>
-                {activeTab !== 'myProfile' || activeTab !== 'editProfile' (
+                {activeTab !== 'myProfile' && activeTab !== 'editProfile' && (
                   <div>
                     <h2 className='text-2xl mb-3'>
                       {activeTab === 'chats'
