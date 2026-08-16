@@ -7,6 +7,7 @@ import {
   SidebarContent,
   SidebarFooter,
   Avatar,
+  AvatarImage,
   AvatarFallback,
   DropdownMenu,
   DropdownMenuContent,
@@ -18,11 +19,12 @@ import { LuMessageSquareShare } from 'react-icons/lu';
 import { navItems } from '@/utils/nav';
 import { useChatStore } from '@/store/useChatStore';
 import { MdLogout } from 'react-icons/md';
+import { CgProfile } from 'react-icons/cg';
 import { useAuthStore } from '@/store/useAuthStore';
 
 const AppSidebar = () => {
   const { activeTab, setActiveTab } = useChatStore();
-  const { logout } = useAuthStore();
+  const { user } = useAuthStore();
   return (
     <Sidebar
       collapsible='icon'
@@ -52,16 +54,26 @@ const AppSidebar = () => {
       </SidebarContent>
       <SidebarFooter className='items-center border-t shadow'>
         <DropdownMenu>
-          <DropdownMenuTrigger>
+          <DropdownMenuTrigger className='cursor-pointer'>
             <Avatar size='lg'>
-              <AvatarFallback className='bg-orange-500 text-white'>
-                You
-              </AvatarFallback>
+              {user.profilePicture ? (
+                <AvatarImage
+                  src={user.profilePicture}
+                  className='object-cover'
+                />
+              ) : (
+                <AvatarFallback className='text-4xl'>
+                  {user.name.charAt(0).toUpperCase()}
+                </AvatarFallback>
+              )}
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent className='w-25 min-w-0 items-center'>
-            <DropdownMenuItem onClick={() => setActiveTab('myProfile')}>
-              <MdLogout />
+            <DropdownMenuItem
+              onClick={() => setActiveTab('myProfile')}
+              className=' cursor-pointer'
+            >
+              <CgProfile />
               Profile
             </DropdownMenuItem>
           </DropdownMenuContent>

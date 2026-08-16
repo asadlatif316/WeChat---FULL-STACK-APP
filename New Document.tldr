@@ -21,7 +21,7 @@
 			"com.tldraw.shape.text": 4,
 			"com.tldraw.shape.bookmark": 2,
 			"com.tldraw.shape.draw": 5,
-			"com.tldraw.shape.geo": 11,
+			"com.tldraw.shape.geo": 12,
 			"com.tldraw.shape.note": 13,
 			"com.tldraw.shape.line": 5,
 			"com.tldraw.shape.frame": 1,
@@ -65,7 +65,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b4wc9ZOsV",
@@ -286,7 +288,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b0XSCbxZV",
@@ -323,7 +327,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aLO0LfsV",
@@ -360,7 +366,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b0YwvlWPV",
@@ -428,7 +436,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aPq6xRkV",
@@ -558,7 +568,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aQdMLcBV",
@@ -1604,7 +1616,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "asNth2vV",
@@ -1809,7 +1823,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b4iT9eVFV",
@@ -2020,9 +2036,9 @@
 			"typeName": "shape"
 		},
 		{
-			"x": 2392.8775436186324,
-			"y": 483.7765843806527,
-			"z": 0.3700124972129083,
+			"x": 9308.897150101971,
+			"y": -1237.3767195754212,
+			"z": 0.05,
 			"meta": {},
 			"id": "camera:page:page",
 			"typeName": "camera"
@@ -2671,7 +2687,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aMLlzual",
@@ -2767,7 +2785,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "at2Gd9VV",
@@ -2972,7 +2992,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aWO0m4MV",
@@ -3071,7 +3093,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aO6fIqxV",
@@ -3260,7 +3284,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "a9hjr8pV",
@@ -3647,7 +3673,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b4kT6ajGV",
@@ -3894,7 +3922,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aRJGum3V",
@@ -4008,7 +4038,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aoHlAflV",
@@ -4045,7 +4077,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aVJRuQyV",
@@ -4082,7 +4116,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aa3jP4BV",
@@ -4224,7 +4260,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b3KCAjSpV",
@@ -4515,7 +4553,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b53YpiPmV",
@@ -4614,7 +4654,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aU0OkRgV",
@@ -4651,7 +4693,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "adLEwTJV",
@@ -4977,7 +5021,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b0Z9zLEFG",
@@ -5056,7 +5102,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "awNdGOqV",
@@ -5093,7 +5141,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "a3kfYHCV",
@@ -5161,7 +5211,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aNxyz2vl",
@@ -5598,7 +5650,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "a6nDOvDV",
@@ -5635,7 +5689,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "arz2XcBG",
@@ -5672,7 +5728,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "agwy6T4V",
@@ -5962,7 +6020,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aFC2JOpV",
@@ -6761,7 +6821,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "anAzN1zO",
@@ -7660,7 +7722,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b4hacCVaV",
@@ -8007,7 +8071,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aXqMIb3V",
@@ -8137,7 +8203,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b3J9VWg1V",
@@ -8205,7 +8273,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b4tfBF5pV",
@@ -8363,7 +8433,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "a2zlECFG",
@@ -8493,7 +8565,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aqdSUNIl",
@@ -8682,7 +8756,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aSlSZUhl",
@@ -8823,7 +8899,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b4lz8ezAd",
@@ -9012,7 +9090,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aCHW8VnV",
@@ -9363,7 +9443,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "ae6zEKJl",
@@ -9431,7 +9513,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aToIZY3V",
@@ -9649,7 +9733,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "apWvFL1V",
@@ -9714,7 +9800,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "alVoHzJl",
@@ -9900,7 +9988,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aJxbauYV",
@@ -9937,7 +10027,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b4fgThdiV",
@@ -9974,7 +10066,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "aYUZfIKl",
@@ -10229,7 +10323,7 @@
 			"brush": null,
 			"scribbles": [],
 			"cursor": {
-				"type": "move",
+				"type": "default",
 				"rotation": 0
 			},
 			"isFocusMode": false,
@@ -10239,8 +10333,8 @@
 			"screenBounds": {
 				"x": 0,
 				"y": 0,
-				"w": 932,
-				"h": 386
+				"w": 1052,
+				"h": 352
 			},
 			"insets": [
 				false,
@@ -10257,7 +10351,7 @@
 			"isFocused": true,
 			"devicePixelRatio": 1.5,
 			"isCoarsePointer": false,
-			"isHoveringCanvas": true,
+			"isHoveringCanvas": null,
 			"openMenus": [],
 			"isChangingStyle": false,
 			"isReadonly": false,
@@ -10631,7 +10725,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "auplVipV",
@@ -11220,7 +11316,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "axo0Hz7l",
@@ -11505,7 +11603,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "b4mYiUygG",
@@ -11821,7 +11921,9 @@
 							"type": "paragraph"
 						}
 					]
-				}
+				},
+				"flipX": false,
+				"flipY": false
 			},
 			"parentId": "page:page",
 			"index": "afkGneAV",
