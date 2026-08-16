@@ -10,6 +10,10 @@ import {
   ItemDescription,
   ItemMedia,
   ItemTitle,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
 } from './ui';
 import { getProfileItems } from '@/utils/profileData';
 import { useChatStore } from '@/store/useChatStore';
@@ -34,15 +38,30 @@ const myProfile = () => {
             </div>
           )}
 
-          <Avatar className='w-40 h-40'>
-            {user.profilePicture ? (
-              <AvatarImage src={user.profilePicture} />
-            ) : (
+          {user.profilePicture ? (
+            <Dialog>
+              <DialogTrigger asChild>
+                <Avatar className='w-40 h-40 cursor-pointer'>
+                  <AvatarImage src={user.profilePicture} />
+                </Avatar>
+              </DialogTrigger>
+
+              <DialogContent className='p-0 border-0 bg-transparent sm:max-w-fit'>
+                <DialogTitle className='sr-only'>Profile picture</DialogTitle>
+                <img
+                  src={user.profilePicture}
+                  alt={user.name}
+                  className='max-h-[85vh] max-w-[85vw] rounded-lg object-contain'
+                />
+              </DialogContent>
+            </Dialog>
+          ) : (
+            <Avatar className='w-40 h-40'>
               <AvatarFallback className='text-4xl'>
-                {user.name.charAt(0).toUpperCase()}
+                {user.name?.charAt(0).toUpperCase()}
               </AvatarFallback>
-            )}
-          </Avatar>
+            </Avatar>
+          )}
         </div>
         <div>
           {ProfileItems.map((item) => (

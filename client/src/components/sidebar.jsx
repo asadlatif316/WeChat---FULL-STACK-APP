@@ -62,7 +62,7 @@ const AppSidebar = () => {
                   className='object-cover'
                 />
               ) : (
-                <AvatarFallback className='text-4xl'>
+                <AvatarFallback>
                   {user.name.charAt(0).toUpperCase()}
                 </AvatarFallback>
               )}
