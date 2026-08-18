@@ -2,7 +2,7 @@ import { useChatStore } from '@/store/useChatStore';
 import { NoChatFound, UserLoadingSkeleton } from '.';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
-import { Avatar, AvatarFallback, AvatarBadge } from './ui';
+import { Avatar, AvatarFallback, AvatarBadge, AvatarImage } from './ui';
 import { formatChatTime } from '@/lib/dateTimestamp';
 
 const ChatList = () => {
@@ -25,7 +25,7 @@ const ChatList = () => {
     <>
       {chats.map((chat) => {
         const partner = chat.participants.find((p) => p._id !== user._id);
-        
+        console.log(partner)
         return (
           <div
             key={chat._id}
@@ -33,14 +33,15 @@ const ChatList = () => {
             onClick={() => setSelectedConversation(chat)}
           >
             <Avatar size='lg'>
-              <AvatarFallback className='capitalize'>
-                {partner.name.charAt()}
-              </AvatarFallback>
-              <AvatarBadge
-                className={`${onlineUsers.includes(partner._id) ? 'bg-primary' : 'bg-gray-600'}`}
+              <AvatarImage
+                src={partner.profilePicture}
+                className='object-cover'
               />
+              <AvatarFallback className='capitalize'>
+                {partner.name.charAt(0)}
+              </AvatarFallback>
             </Avatar>
-            <div className='flex-1'>
+            <div className='flex-1 min-w-0'>
               <div className='flex items-center justify-between'>
                 <h4 className='capitalize font-semibold text-foreground'>
                   {partner.name}
@@ -51,9 +52,9 @@ const ChatList = () => {
                   </span>
                 )}
               </div>
-              <div className='flex justify-between'>
+              <div className='flex min-w-0 justify-between'>
                 <p
-                  className={`text-gray-500 text-sm ${chat.latestMessage && chat.latestMessage.sender !== user._id && chat.unread > 0 && 'font-semibold text-black'}`}
+                  className={`text-gray-500 text-sm truncate ${chat.latestMessage && chat.latestMessage.sender !== user._id && chat.unread > 0 && 'font-semibold text-black'}`}
                 >
                   {chat.latestMessage?.content}
                 </p>

@@ -5,6 +5,7 @@ import {
   EditProfile,
   MyProfile,
   NoChatPlaceholder,
+  PartnerProfile,
 } from '@/components';
 import { Input } from '@/components/ui';
 import { useChatStore } from '@/store/useChatStore';
@@ -14,7 +15,8 @@ import SidebarProviderUI from '@/components/sidebarProvider';
 import { useAuthStore } from '@/store/useAuthStore';
 
 const Home = () => {
-  const { subscribeToMessage, unSubscribeToMessage } = useChatStore();
+  const { subscribeToMessage, unSubscribeToMessage, showProfile } =
+    useChatStore();
   useEffect(() => {
     subscribeToMessage();
     return () => unSubscribeToMessage();
@@ -54,13 +56,16 @@ const Home = () => {
                   )}
                 </div>
               </div>
-              <div className='flex-1 flex flex-col backdrop-blur-sm'>
+              <div
+                className={`flex-1 flex-col min-w-0 backdrop-blur-sm ${showProfile ? 'hidden lg:flex' : 'flex'}`}
+              >
                 {selectedConversation || selectedUser ? (
                   <ChatContainer />
                 ) : (
                   <NoChatPlaceholder />
                 )}
               </div>
+              {showProfile && <PartnerProfile />}
             </div>
           </SidebarProviderUI>
         </div>
