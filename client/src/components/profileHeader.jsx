@@ -1,7 +1,15 @@
 import { useAuthStore } from '@/store/useAuthStore';
 import { useChatStore } from '@/store/useChatStore';
-import { Avatar,AvatarFallback } from './ui';
-import { useEffect } from 'react';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+  Button
+} from './ui';
+import { useEffect,useState } from 'react';
 
 const ProfileHeader = () => {
   const { selectedConversation, setSelectedConversation, selectedUser,isTyping } = useChatStore();
@@ -10,6 +18,14 @@ const ProfileHeader = () => {
     ? selectedConversation.participants.find((p) => p._id !== user._id)
     : selectedUser;
   selectedUser
+  const [showHint, setShowHint] = useState(false);
+
+  useEffect(() => {
+    if (!selectedConversation) return;
+    setShowHint(true);
+    const t = setTimeout(() => setShowHint(false), 3500);
+    return () => clearTimeout(t);
+  }, [selectedConversation?._id]);
 
   useEffect(() => {
     const handleESCKey = (event) => {
@@ -25,17 +41,20 @@ const ProfileHeader = () => {
 
   return (
     <div className='flex items-center space-x-4 pb-4'>
-      <Avatar className='h-12 w-12'>
+      <Avatar size='lg'>
+        <AvatarImage src={person.profilePicture} className='object-cover' />
         <AvatarFallback className='capitalize'>
-          {person.name.charAt()}
+          {person.name.charAt(0)}
         </AvatarFallback>
       </Avatar>
       <div className=''>
         <h3 className='capitalize font-semibold text-foreground'>
           {person.name}
         </h3>
-        {isTyping ? (
-          <p className='text-primary text-xs'>Typing</p>
+        {showHint ? (
+          <p className='text-xs text-gray-500'>Click here for more info</p>
+        ) : isTyping ? (
+          <p className='text-primary text-xs'>Typing...</p>
         ) : (
           <p className='text-primary text-xs'>
             {onlineUsers.includes(person._id) ? 'online' : 'offline'}
