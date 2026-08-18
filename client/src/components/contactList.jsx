@@ -55,10 +55,15 @@ const ContactList = () => {
                 }
               />
             </Avatar>
-            <div className='flex-1'>
+            <div className='flex-1 min-w-0'>
               <h4 className='capitalize font-semibold text-foreground'>
                 {contact.name}
               </h4>
+              {contact.about && (
+                <p className='text-gray-500 text-sm line-clamp-1'>
+                  {contact.about}
+                </p>
+              )}
             </div>
           </div>
         );
