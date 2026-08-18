@@ -15,7 +15,7 @@ import { IoMdClose } from 'react-icons/io';
 import { Separator } from './ui/separator';
 
 const PartnerProfile = () => {
-  const { selectedConversation, selectedUser } = useChatStore();
+  const { selectedConversation, selectedUser, setShowProfile } = useChatStore();
   const { user } = useAuthStore();
 
   const person = selectedConversation
@@ -23,9 +23,12 @@ const PartnerProfile = () => {
     : selectedUser;
   if (!person) return;
   return (
-    <div className='w-80 h-full flex-1 items-center pl-4'>
+    <div className='w-96 shrink-0 overflow-y-auto border-l h-full items-center pl-4'>
       <Item>
-        <ItemMedia>
+        <ItemMedia
+          onClick={() => setShowProfile(false)}
+          className='cursor-pointer'
+        >
           <IoMdClose className='h-6 w-6' />
         </ItemMedia>
         <ItemContent>
@@ -43,15 +46,15 @@ const PartnerProfile = () => {
         <p className='text-gray-600'>{person.email}</p>
         {person.about && (
           <Item>
-            <ItemContent>
-              <ItemTitle className='text-base text-gray-600'>
-                About
-              </ItemTitle>
-              <ItemDescription className='text-base truncate text-black'>{person.about}</ItemDescription>
+            <ItemContent className='min-w-0'>
+              <ItemTitle className='text-base text-gray-600'>About</ItemTitle>
+              <ItemDescription className='text-base truncate text-black'>
+                {person.about}
+              </ItemDescription>
             </ItemContent>
           </Item>
         )}
-        <Separator/>
+        <Separator />
       </div>
     </div>
   );
