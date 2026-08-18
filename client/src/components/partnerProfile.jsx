@@ -10,6 +10,10 @@ import {
   AvatarBadge,
   Avatar,
   ItemMedia,
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
 } from './ui';
 import { IoMdClose } from 'react-icons/io';
 import { Separator } from './ui/separator';
@@ -36,12 +40,31 @@ const PartnerProfile = () => {
         </ItemContent>
       </Item>
       <div className='flex flex-col space-y-3 items-center'>
-        <Avatar className='h-40 w-40'>
-          <AvatarImage src={person.profilePicture} className='object-cover' />
-          <AvatarFallback className='text-4xl'>
-            {person.name.charAt(0).toUpperCase()}
-          </AvatarFallback>
-        </Avatar>
+        {person.profilePicture ? (
+          <Dialog>
+            <DialogTrigger asChild>
+              <Avatar className='w-40 h-40 cursor-pointer'>
+                <AvatarImage src={person.profilePicture} />
+              </Avatar>
+            </DialogTrigger>
+
+            <DialogContent className='p-0 border-0 bg-transparent sm:max-w-fit'>
+              <DialogTitle className='sr-only'>Profile picture</DialogTitle>
+              <img
+                src={person.profilePicture}
+                alt={person.name}
+                className='max-h-[85vh] max-w-[85vw] rounded-lg object-contain'
+              />
+            </DialogContent>
+          </Dialog>
+        ) : (
+          <Avatar className='h-40 w-40'>
+            <AvatarFallback className='text-4xl'>
+              {person.name.charAt(0).toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
+        )}
+
         <h3 className='text-2xl'>{person.name}</h3>
         <p className='text-gray-600'>{person.email}</p>
         {person.about && (
