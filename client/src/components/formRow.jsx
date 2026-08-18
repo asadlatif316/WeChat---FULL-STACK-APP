@@ -1,6 +1,6 @@
 import { Input } from "./ui";
 
-const formRow = ({ label, name, value, onChange, placeholder, type }) => {
+const formRow = ({ label, name, value, onChange, placeholder, type,...props }) => {
   return (
     <div>
       <div className='flex flex-col gap-y-2'>
@@ -15,6 +15,7 @@ const formRow = ({ label, name, value, onChange, placeholder, type }) => {
           className='p-5'
           value={value}
           onChange={onChange}
+          {...props}
         />
       </div>
     </div>
