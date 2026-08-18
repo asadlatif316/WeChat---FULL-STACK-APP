@@ -12,7 +12,7 @@ import {
 import { useEffect,useState } from 'react';
 
 const ProfileHeader = () => {
-  const { selectedConversation, setSelectedConversation, selectedUser,isTyping } = useChatStore();
+  const { selectedConversation, setSelectedConversation, selectedUser,isTyping,setShowProfile } = useChatStore();
   const { user,onlineUsers } = useAuthStore();
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user._id)
@@ -40,7 +40,7 @@ const ProfileHeader = () => {
   }, [setSelectedConversation]);
 
   return (
-    <div className='flex items-center space-x-4 pb-4'>
+    <div className='flex items-center space-x-4 pb-4 cursor-pointer' onClick={()=>setShowProfile(true)}>
       <Avatar size='lg'>
         <AvatarImage src={person.profilePicture} className='object-cover' />
         <AvatarFallback className='capitalize'>

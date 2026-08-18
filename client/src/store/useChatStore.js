@@ -13,7 +13,9 @@ export const useChatStore = create((set, get) => ({
   isUserLoading: null,
   isMessagesLoading: null,
   isTyping: false,
+  showProfile: false,
 
+  setShowProfile:(value) => set({showProfile:value}),
   setActiveTab: (tab) => set({ activeTab: tab }),
   setSelectedUser: (selectedUser) => {
     set({ selectedUser, selectedConversation: null });

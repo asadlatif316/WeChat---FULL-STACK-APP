@@ -14,7 +14,7 @@ import SidebarProviderUI from '@/components/sidebarProvider';
 import { useAuthStore } from '@/store/useAuthStore';
 
 const Home = () => {
-  const { subscribeToMessage, unSubscribeToMessage } = useChatStore();
+  const { subscribeToMessage, unSubscribeToMessage,showProfile } = useChatStore();
   useEffect(() => {
     subscribeToMessage();
     return () => unSubscribeToMessage();
@@ -61,6 +61,11 @@ const Home = () => {
                   <NoChatPlaceholder />
                 )}
               </div>
+              {showProfile && (
+                <div className='w-80 shrink-0 border-l'>
+                  Profile
+                </div>
+              )}
             </div>
           </SidebarProviderUI>
         </div>
