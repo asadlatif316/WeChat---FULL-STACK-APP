@@ -40,7 +40,7 @@ const ChatList = () => {
                 className={`${onlineUsers.includes(partner._id) ? 'bg-primary' : 'bg-gray-600'}`}
               />
             </Avatar>
-            <div className='flex-1'>
+            <div className='flex-1 min-w-0'>
               <div className='flex items-center justify-between'>
                 <h4 className='capitalize font-semibold text-foreground'>
                   {partner.name}
@@ -51,9 +51,9 @@ const ChatList = () => {
                   </span>
                 )}
               </div>
-              <div className='flex justify-between'>
+              <div className='flex min-w-0 justify-between'>
                 <p
-                  className={`text-gray-500 text-sm ${chat.latestMessage && chat.latestMessage.sender !== user._id && chat.unread > 0 && 'font-semibold text-black'}`}
+                  className={`text-gray-500 text-sm truncate ${chat.latestMessage && chat.latestMessage.sender !== user._id && chat.unread > 0 && 'font-semibold text-black'}`}
                 >
                   {chat.latestMessage?.content}
                 </p>
