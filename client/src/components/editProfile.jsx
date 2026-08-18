@@ -96,13 +96,13 @@ const EditProfile = () => {
           <FormRow
             label='About'
             name='about'
-            className='capitalize p-5'
+            className='p-5'
             defaultValue={user.about}
           />
           <FormRow
             label='Name'
             name='name'
-            className='capitalize p-5'
+            className='p-5'
             defaultValue={user.name}
           />
           <Button size='lg' className='p-5 font-bold' disabled={isUpdating}>
