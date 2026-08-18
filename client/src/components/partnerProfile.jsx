@@ -23,7 +23,7 @@ const PartnerProfile = () => {
     : selectedUser;
   if (!person) return;
   return (
-    <div className='w-96 shrink-0 overflow-y-auto border-l h-full items-center pl-4'>
+    <div className='flex-1 lg:flex-none lg:w-96 shrink-0 overflow-y-auto border-l h-full items-center pl-4'>
       <Item>
         <ItemMedia
           onClick={() => setShowProfile(false)}
