@@ -5,6 +5,7 @@ import {
   EditProfile,
   MyProfile,
   NoChatPlaceholder,
+  PartnerProfile,
 } from '@/components';
 import { Input } from '@/components/ui';
 import { useChatStore } from '@/store/useChatStore';
@@ -62,9 +63,7 @@ const Home = () => {
                 )}
               </div>
               {showProfile && (
-                <div className='w-80 shrink-0 border-l'>
-                  Profile
-                </div>
+                <PartnerProfile/>
               )}
             </div>
           </SidebarProviderUI>

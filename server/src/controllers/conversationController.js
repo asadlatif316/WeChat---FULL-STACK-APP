@@ -9,7 +9,7 @@ const findChatPartners = async (req, res) => {
   })
     .populate({
       path: 'participants',
-      select: 'name email avatar profilePicture',
+      select: 'name email avatar profilePicture about',
     })
     .populate({
       path: 'latestMessage',

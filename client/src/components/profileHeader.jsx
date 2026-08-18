@@ -17,7 +17,6 @@ const ProfileHeader = () => {
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user._id)
     : selectedUser;
-  selectedUser
   const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
