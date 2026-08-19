@@ -18,6 +18,7 @@ import {
   BubbleReactions,
   Avatar,
   AvatarFallback,
+  AvatarImage,
 } from './ui/index';
 
 import { IoCheckmark, IoCheckmarkDoneOutline } from 'react-icons/io5';
@@ -25,8 +26,6 @@ import { FaRegClock } from 'react-icons/fa';
 
 const Scroller = ({ messages, receiver }) => {
   const { user } = useAuthStore();
-  console.log(messages);
-  
   return (
     <MessageScrollerProvider
       autoScroll
@@ -39,7 +38,7 @@ const Scroller = ({ messages, receiver }) => {
             {messages.map((msg, i) => {
               const isLast = i === messages.length - 1;
               const isMe = msg.sender._id === user._id;
-              const person = isMe ? user : receiver; // whichever user sent this message
+              const person = isMe ? user : receiver;
 
               return (
                 <MessageScrollerItem
@@ -53,6 +52,7 @@ const Scroller = ({ messages, receiver }) => {
                   >
                     <MessageAvatar>
                       <Avatar>
+                        <AvatarImage src={ person.profilePicture} />
                         <AvatarFallback className='uppercase'>
                           {person.name?.charAt(0)}
                         </AvatarFallback>

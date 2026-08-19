@@ -37,9 +37,9 @@ const sendMessage = async (req, res) => {
     },
     { new: true },
   )
-    .populate('participants', 'name email avatar')
+    .populate('participants', 'name email profilePicture')
     .populate('latestMessage');
-  await newMessage.populate('sender', 'name email avatar');
+  await newMessage.populate('sender', 'name email profilePicture');
   const receiverSocketId = getReceiverSocketId(receiverId);
   console.log('sender:', sender);
   console.log('receiverId:', receiverId);
@@ -67,7 +67,7 @@ const getMessageById = async (req, res) => {
   const messages = await Messages.find({ conversationId })
     .populate({
       path: 'sender',
-      select: 'name email avatar',
+      select: 'name email profilePicture',
     })
     .sort({ createdAt: 1 });
 

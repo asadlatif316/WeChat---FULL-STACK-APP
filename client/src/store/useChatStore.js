@@ -15,7 +15,7 @@ export const useChatStore = create((set, get) => ({
   isTyping: false,
   showProfile: false,
 
-  setShowProfile:(value) => set({showProfile:value}),
+  setShowProfile: (value) => set({ showProfile: value }),
   setActiveTab: (tab) => set({ activeTab: tab }),
   setSelectedUser: (selectedUser) => {
     set({ selectedUser, selectedConversation: null });
@@ -161,7 +161,6 @@ export const useChatStore = create((set, get) => ({
   subscribeToMessage: () => {
     const { updatedConversationList } = get();
     const socket = useAuthStore.getState().socket;
-    
 
     socket.on('showTyping', (senderId) => {
       set({ isTyping: true });
@@ -233,14 +232,27 @@ export const useChatStore = create((set, get) => ({
       );
     });
 
-    socket.on('profileUpdated', ({user}) => {
-      const {chats} = get()
+    socket.on('profileUpdated', ({ user }) => {
+      const { chats, selectedConversation } = get();
       set({
-        chats: chats.map((c) =>
-          ({...c,participants:c.participants.map((p) => (p._id === user._id ? user : p))}),
-        ),
+        chats: chats.map((c) => ({
+          ...c,
+          participants: c.participants.map((p) =>
+            p._id === user._id ? user : p,
+          ),
+        })),
       });
-    })
+      if (selectedConversation) {
+        set({
+          selectedConversation: {
+            ...selectedConversation,
+            participants: selectedConversation.participants.map((p) =>
+              p._id === user._id ? user : p,
+            ),
+          },
+        });
+      }
+    });
   },
 
   unSubscribeToMessage: () => {
