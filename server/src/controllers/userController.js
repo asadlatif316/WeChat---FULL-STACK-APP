@@ -1,6 +1,7 @@
 import User from '../models/userModel.js';
 import { StatusCodes } from 'http-status-codes';
 import cloudinary from '../lib/cloudinary.js';
+import { io } from '../lib/socket.js';
 
 const getAllUsers = async (req, res, next) => {
   try {
@@ -33,13 +34,13 @@ const updateUser = async (req, res) => {
     updates.profilePicture = uploadResponse.secure_url;
   }
 
-  const updatedUser = await User.findByIdAndUpdate(
-    userId,
-    updates,
-    { new: true },
-    { runValidators: true },
-  );
+  const updatedUser = await User.findByIdAndUpdate(userId, updates, {
+    new: true,
+    runValidators: true,
+  }).select('-password');;
+console.log(updatedUser);
 
+  io.emit('profileUpdated',{user:updatedUser})
   res.json({ msg: 'update user successfully', user: updatedUser });
 };
 

@@ -159,8 +159,10 @@ export const useChatStore = create((set, get) => ({
   },
 
   subscribeToMessage: () => {
-    const { selectedConversation, updatedConversationList } = get();
+    const { updatedConversationList } = get();
     const socket = useAuthStore.getState().socket;
+    
+
     socket.on('showTyping', (senderId) => {
       set({ isTyping: true });
     });
@@ -230,6 +232,15 @@ export const useChatStore = create((set, get) => ({
         get().messages.find((m) => messageIds.includes(m._id))?.status,
       );
     });
+
+    socket.on('profileUpdated', ({user}) => {
+      const {chats} = get()
+      set({
+        chats: chats.map((c) =>
+          ({...c,participants:c.participants.map((p) => (p._id === user._id ? user : p))}),
+        ),
+      });
+    })
   },
 
   unSubscribeToMessage: () => {
@@ -253,8 +264,6 @@ export const useChatStore = create((set, get) => ({
   },
   emitMessageRead: () => {
     const { selectedConversation } = get();
-    console.log(selectedConversation);
-
     if (!selectedConversation) {
       console.log('emitMessageRead: no conversation, return');
       return;
