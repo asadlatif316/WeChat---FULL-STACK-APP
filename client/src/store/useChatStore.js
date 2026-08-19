@@ -226,14 +226,10 @@ export const useChatStore = create((set, get) => ({
           return msg;
         }),
       });
-      console.log(
-        'after set status:',
-        get().messages.find((m) => messageIds.includes(m._id))?.status,
-      );
     });
 
     socket.on('profileUpdated', ({ user }) => {
-      const { chats, selectedConversation } = get();
+      const { chats, selectedConversation, allContacts } = get();
       set({
         chats: chats.map((c) => ({
           ...c,
@@ -252,6 +248,9 @@ export const useChatStore = create((set, get) => ({
           },
         });
       }
+      set({
+        allContacts: allContacts.map((c) => (c._id === user._id ? user : c)),
+      });
     });
   },
 
