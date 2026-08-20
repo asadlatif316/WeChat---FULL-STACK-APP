@@ -1,19 +1,17 @@
 import { useAuthStore } from '@/store/useAuthStore';
 import { useChatStore } from '@/store/useChatStore';
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-  Button
-} from './ui';
-import { useEffect,useState } from 'react';
+import { Avatar, AvatarFallback, AvatarImage } from './ui';
+import { useEffect, useState } from 'react';
 
 const ProfileHeader = () => {
-  const { selectedConversation, setSelectedConversation, selectedUser,isTyping,setShowProfile } = useChatStore();
-  const { user,onlineUsers } = useAuthStore();
+  const {
+    selectedConversation,
+    setSelectedConversation,
+    selectedUser,
+    isTyping,
+    setShowProfile,
+  } = useChatStore();
+  const { user, onlineUsers } = useAuthStore();
   const person = selectedConversation
     ? selectedConversation.participants.find((p) => p._id !== user._id)
     : selectedUser;
@@ -30,7 +28,7 @@ const ProfileHeader = () => {
     const handleESCKey = (event) => {
       if (event.key === 'Escape') {
         setSelectedConversation(null);
-      };
+      }
     };
 
     window.addEventListener('keydown', handleESCKey);
@@ -39,7 +37,10 @@ const ProfileHeader = () => {
   }, [setSelectedConversation]);
 
   return (
-    <div className='flex items-center space-x-4 pb-4 cursor-pointer' onClick={()=>setShowProfile(true)}>
+    <div
+      className='flex items-center space-x-4 pb-4 cursor-pointer'
+      onClick={() => setShowProfile(true)}
+    >
       <Avatar size='lg'>
         <AvatarImage src={person.profilePicture} className='object-cover' />
         <AvatarFallback className='capitalize'>

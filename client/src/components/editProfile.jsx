@@ -10,7 +10,7 @@ import { useChatStore } from '@/store/useChatStore';
 
 const EditProfile = () => {
   const { user, updateProfile, isUpdating } = useAuthStore();
-  const { setActiveTab } = useChatStore()
+  const { setActiveTab } = useChatStore();
   const [selectedImage, setSelectedImage] = useState(null);
   const fileInputRef = useRef(null);
 

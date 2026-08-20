@@ -1,6 +1,14 @@
-import { Input } from "./ui";
+import { Input } from './ui';
 
-const formRow = ({ label, name, value, onChange, placeholder, type,...props }) => {
+const formRow = ({
+  label,
+  name,
+  value,
+  onChange,
+  placeholder,
+  type,
+  ...props
+}) => {
   return (
     <div>
       <div className='flex flex-col gap-y-2'>

@@ -163,10 +163,23 @@ export const useChatStore = create((set, get) => ({
     const socket = useAuthStore.getState().socket;
 
     socket.on('showTyping', (senderId) => {
-      set({ isTyping: true });
+      const { selectedConversation, selectedUser } = get();
+
+      const isCurrentChat = selectedConversation
+        ? selectedConversation.participants.some((p) => p._id === senderId)
+        : selectedUser?._id === senderId;
+
+      if (isCurrentChat) set({ isTyping: true });
     });
+
     socket.on('stopTyping', (senderId) => {
-      set({ isTyping: false });
+      const { selectedConversation, selectedUser } = get();
+
+      const isCurrentChat = selectedConversation
+        ? selectedConversation.participants.some((p) => p._id === senderId)
+        : selectedUser?._id === senderId;
+
+      if (isCurrentChat) set({ isTyping: false });
     });
 
     socket.on('newMessage', ({ message, conversation }) => {
@@ -208,10 +221,6 @@ export const useChatStore = create((set, get) => ({
               : msg,
           ),
         });
-        console.log(
-          'AFTER STATUS SET:',
-          get().messages.find((m) => ids.includes(m._id))?.status,
-        );
       },
     );
 
@@ -220,7 +229,7 @@ export const useChatStore = create((set, get) => ({
 
       set({
         messages: currentMessages.map((msg) => {
-          if (messageIds && messageIds.includes(msg._id)) {
+          if (messageIds && messageIds.includes(String(msg._id))) {
             return { ...msg, status: messageStatus };
           }
           return msg;
@@ -261,7 +270,7 @@ export const useChatStore = create((set, get) => ({
     socket?.off('stopTyping');
     socket?.off('messageStatusUpdate');
     socket?.off('messageReadUpdate');
-    console.log('unSubscribeToMessage called');
+    socket.off('profileUpdated');
   },
 
   showTyping: (receiverId) => {
