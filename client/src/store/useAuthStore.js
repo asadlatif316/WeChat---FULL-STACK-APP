@@ -12,6 +12,7 @@ export const useAuthStore = create((set, get) => ({
   isSigningUp: false,
   isLoggingIn: false,
   isCheckingAuth: true,
+  isUpdating: false,
   socket: null,
   onlineUsers: [],
   checkAuth: async () => {
@@ -71,6 +72,19 @@ export const useAuthStore = create((set, get) => ({
       toast.error(error.response.data.msg);
     } finally {
       set({ isLoggingIn: false });
+    }
+  },
+
+  updateProfile: async (data) => {
+    set({ isUpdating: true });
+    try {
+      const res = await customFetch.post('/user/update-user', data);
+      set({ user: res.data.user });
+      toast.success('update successfully');
+    } catch (error) {
+      toast.error(error.response.data.msg);
+    } finally {
+      set({ isUpdating: false });
     }
   },
 

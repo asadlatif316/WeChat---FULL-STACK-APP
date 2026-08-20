@@ -56,7 +56,7 @@ io.on('connection', async (socket) => {
     for (const msg of pending) {
       const sId = msg.sender._id.toString();
       if (!bySender[sId]) bySender[sId] = [];
-      bySender[sId].push(msg._id);
+      bySender[sId].push(msg._id.toString());
     }
 
     for (const senderId in bySender) {
@@ -135,7 +135,7 @@ io.on('connection', async (socket) => {
   });
 
   socket.on('disconnect', () => {
-    console.log('User disconnected', socket.user.name);
+    console.log('User disconnected', socket.user?.name);
     if (onlineMap[userId] === socket.id) {
       delete onlineMap[userId];
       io.emit('getOnlineUsers', Object.keys(onlineMap));
