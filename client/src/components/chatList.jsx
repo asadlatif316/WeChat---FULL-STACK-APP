@@ -2,9 +2,22 @@ import { useChatStore } from '@/store/useChatStore';
 import { NoChatFound, UserLoadingSkeleton } from '.';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/store/useAuthStore';
-import { Avatar, AvatarFallback, AvatarBadge, AvatarImage } from './ui';
+import { Avatar, AvatarFallback, AvatarImage } from './ui';
 import { formatChatTime } from '@/lib/dateTimestamp';
+import { IoImageOutline } from 'react-icons/io5';
 
+const renderPreview = (msg) => {
+  if (!msg) return null;
+  if (msg.image) {
+    return (
+      <span className='flex items-center gap-1 min-w-0'>
+        <IoImageOutline className='h-4 w-4 shrink-0' />
+        <span className='truncate'>{msg.content || 'Image'}</span>
+      </span>
+    );
+  }
+  return <span className='truncate'>{msg.content}</span>;
+};
 const ChatList = () => {
   const { user, onlineUsers } = useAuthStore();
 
@@ -20,6 +33,7 @@ const ChatList = () => {
   }, [getChatPartners]);
   if (isUserLoading) return <UserLoadingSkeleton />;
   if (chats.length === 0) return <NoChatFound />;
+  console.log(chats);
   
   return (
     <>
@@ -53,9 +67,13 @@ const ChatList = () => {
               </div>
               <div className='flex min-w-0 justify-between'>
                 <p
-                  className={`text-gray-500 text-sm truncate ${chat.latestMessage && chat.latestMessage.sender !== user._id && chat.unread > 0 && 'font-semibold text-black'}`}
+                  className={`text-gray-500 text-sm truncate min-w-0 ${
+                    chat.latestMessage?.sender !== user._id &&
+                    chat.unread > 0 &&
+                    'font-semibold text-black'
+                  }`}
                 >
-                  {chat.latestMessage?.content}
+                  {renderPreview(chat.latestMessage)}
                 </p>
                 {chat.latestMessage.sender !== user._id && chat.unread > 0 && (
                   <span className='shrink-0 bg-primary px-2 py-1 text-white rounded shadow-2xl text-xs'>

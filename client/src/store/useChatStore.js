@@ -93,8 +93,6 @@ export const useChatStore = create((set, get) => ({
     const { selectedUser, messages, chats, selectedConversation } = get();
     const { user } = useAuthStore.getState();
     let conversationId;
-    console.log('called');
-    
 
     //optimistic message
     const tempId = `temp-${Date.now()}`;
