@@ -25,9 +25,11 @@ const MessageInput = () => {
     : selectedUser;
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    if (!text.trim()) return;
-    const conversation = await sendMessage({ content: text.trim() });
+    if (!text.trim() && !imagePreview) return;
+    const conversation = await sendMessage({ content: text.trim(), image:imagePreview });
     setText('');
+    setImagePreview('')
+    if(fileInputRef.current) fileInputRef.current.value = ''
 
     if (conversation) {
       setSelectedConversation(conversation);
@@ -62,8 +64,8 @@ const MessageInput = () => {
   return (
     <div className=' mt-4'>
       {imagePreview && (
-        <div className='max-w-3xl mx-auto mb-2 flex item-center'>
-          <div className='relative'>
+        
+          <div className='relative w-20 h-20 mb-2'>
             <img
               src={imagePreview}
               className='w-20 h-20 object-cover rounded-md border'
@@ -75,7 +77,6 @@ const MessageInput = () => {
               <IoMdClose />
             </Button>
           </div>
-        </div>
       )}
       <form onSubmit={handleSendMessage} className='relative'>
         <Input
