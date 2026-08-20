@@ -20,6 +20,8 @@ import protectLimit from './middlewares/arcJetMiddlware.js';
 import { app, server } from './lib/socket.js';
 import { models } from 'mongoose';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 //middlewares
 app.use(
   cors({
