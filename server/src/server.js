@@ -38,6 +38,10 @@ app.use('/api/v1/user', userRouter);
 app.use('/api/v1/conversations', conversationRouter);
 app.use('/api/v1/message', messageRouter);
 
+app.get('/api/v1/health', (req, res) => {
+  res.status(200).json({ status: 'online' });
+});
+
 // //to ready for development
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve(__dirname, '../../client/dist')));
@@ -54,10 +58,6 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, '../../client', 'dist', 'index.html'));
   });
 }
-
-app.get('/api/v1/health', (req, res) => {
-  res.status(200).json({ status: 'online' });
-});
 
 
 const port = process.env.PORT || 4200;
