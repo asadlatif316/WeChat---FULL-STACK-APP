@@ -9,7 +9,8 @@ const noChatHistoryPlaceHolder = ({ user }) => {
       </div>
       <div>
         <h3 className='font-semibold text-lg text-muted-foreground mb-2'>
-          Select a conversation with <span className='capitalize'>{user.name}</span>
+          Select a conversation with{' '}
+          <span className='capitalize'>{user.name}</span>
         </h3>
         <p className='max-w-md '>
           Choose a contact from the sidebar to start chatting or continue a

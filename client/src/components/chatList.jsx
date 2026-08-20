@@ -19,7 +19,7 @@ const renderPreview = (msg) => {
   return <span className='truncate'>{msg.content}</span>;
 };
 const ChatList = () => {
-  const { user, onlineUsers } = useAuthStore();
+  const { user } = useAuthStore();
 
   const {
     chats,
@@ -33,8 +33,6 @@ const ChatList = () => {
   }, [getChatPartners]);
   if (isUserLoading) return <UserLoadingSkeleton />;
   if (chats.length === 0) return <NoChatFound />;
-  console.log(chats);
-  
   return (
     <>
       {chats.map((chat) => {

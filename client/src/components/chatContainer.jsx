@@ -7,12 +7,8 @@ import {
 } from '.';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useEffect, useRef } from 'react';
-import { IoCheckmark, IoCheckmarkDoneOutline } from 'react-icons/io5';
-import { FaRegClock } from 'react-icons/fa';
 
 import Scroller from './messageScrollerProvider';
-
-
 
 const ChatContainer = () => {
   const messageEndRef = useRef(null);
@@ -25,7 +21,7 @@ const ChatContainer = () => {
     emitMessageRead,
   } = useChatStore();
   const { user } = useAuthStore();
-  
+
   useEffect(() => {
     if (selectedConversation?._id || selectedUser?._id) {
       getMessagesByUserId();

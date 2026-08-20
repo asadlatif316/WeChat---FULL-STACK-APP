@@ -26,10 +26,13 @@ const MessageInput = () => {
   const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!text.trim() && !imagePreview) return;
-    const conversation = await sendMessage({ content: text.trim(), image:imagePreview });
+    const conversation = await sendMessage({
+      content: text.trim(),
+      image: imagePreview,
+    });
     setText('');
-    setImagePreview('')
-    if(fileInputRef.current) fileInputRef.current.value = ''
+    setImagePreview('');
+    if (fileInputRef.current) fileInputRef.current.value = '';
 
     if (conversation) {
       setSelectedConversation(conversation);
@@ -47,36 +50,37 @@ const MessageInput = () => {
     }, 2000);
   };
 
-  const handleImageChange = (e) => {const file = e.target.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) {
-    toast.error('Image must be under 2MB');
-    return;
-  }
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error('Image must be under 2MB');
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
 
-  reader.onload = async () => {
-    const base64Image = reader.result;
-    setImagePreview(base64Image);
-  };};
+    reader.onload = async () => {
+      const base64Image = reader.result;
+      setImagePreview(base64Image);
+    };
+  };
 
   return (
     <div className=' mt-4'>
       {imagePreview && (
-        
-          <div className='relative w-20 h-20 mb-2'>
-            <img
-              src={imagePreview}
-              className='w-20 h-20 object-cover rounded-md border'
-            />
-            <Button
-              className='absolute -top-1.5 -right-1.5 bg-gray-700 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs shadow'
-              onClick={() => setImagePreview(null)}
-            >
-              <IoMdClose />
-            </Button>
-          </div>
+        <div className='relative w-20 h-20 mb-2'>
+          <img
+            src={imagePreview}
+            className='w-20 h-20 object-cover rounded-md border'
+          />
+          <Button
+            className='absolute -top-1.5 -right-1.5 bg-gray-700 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs shadow'
+            onClick={() => setImagePreview(null)}
+          >
+            <IoMdClose />
+          </Button>
+        </div>
       )}
       <form onSubmit={handleSendMessage} className='relative'>
         <Input

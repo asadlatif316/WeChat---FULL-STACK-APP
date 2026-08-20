@@ -4,22 +4,22 @@ import UserLoadingSkeleton from './userLoadingSkeleton';
 import { Avatar, AvatarFallback, AvatarBadge, AvatarImage } from './ui';
 import { useAuthStore } from '@/store/useAuthStore';
 const ContactList = () => {
-  const {onlineUsers} = useAuthStore()
+  const { onlineUsers } = useAuthStore();
   const {
     allContacts,
     isUserLoading,
     getContacts,
     setSelectedUser,
     selectedUser,
-    chats, setSelectedConversation,
-    setActiveTab
+    chats,
+    setSelectedConversation,
+    setActiveTab,
   } = useChatStore();
   useEffect(() => {
     getContacts();
   }, [getContacts]);
   if (isUserLoading) return <UserLoadingSkeleton />;
-  console.log(allContacts);
-  
+
   return (
     <>
       {allContacts.map((contact) => {
